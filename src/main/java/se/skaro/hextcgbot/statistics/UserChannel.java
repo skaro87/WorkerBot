@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.statistics;
+package se.skaro.hextcgbot.statistics;
 
 /**
  * The Class UserChannel. Represents a users channel, with settings and statistics. Stats to be used.

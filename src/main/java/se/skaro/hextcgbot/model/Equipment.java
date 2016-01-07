@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.model;
+package se.skaro.hextcgbot.model;
 
 import java.io.Serializable;
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.model;
+package se.skaro.hextcgbot.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -8,9 +8,22 @@ import javax.persistence.*;
  */
 @Entity
 public final class User implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+
+	/** The name. */
+	@Id
+	private String name;
+
+	/** The in channel. */
+	private int inChannel;
+
+	/** The whispers. */
+	private int whispers;
+
+	/** The ign. */
+	private String ign;
 
 	/**
 	 * Instantiates a new user.
@@ -21,10 +34,14 @@ public final class User implements Serializable {
 	/**
 	 * Instantiates a new user.
 	 *
-	 * @param name the name
-	 * @param inChannel the in channel
-	 * @param whispers the whispers
-	 * @param ign the ign
+	 * @param name
+	 *            the name
+	 * @param inChannel
+	 *            the in channel
+	 * @param whispers
+	 *            the whispers
+	 * @param ign
+	 *            the ign
 	 */
 	public User(String name, int inChannel, int whispers, String ign) {
 		super();
@@ -33,19 +50,6 @@ public final class User implements Serializable {
 		this.ign = ign;
 		this.whispers = whispers;
 	}
-
-	/** The name. */
-	@Id
-	private String name;
-	
-	/** The in channel. */
-	private int inChannel;
-	
-	/** The whispers. */
-	private int whispers;
-	
-	/** The ign. */
-	private String ign;
 
 	/**
 	 * Gets the name.
@@ -64,16 +68,16 @@ public final class User implements Serializable {
 	public int isInChannel() {
 		return inChannel;
 	}
-	
+
 	/**
 	 * Whisper settings.
 	 *
 	 * @return the int
 	 */
-	public int whisperSettings(){
+	public int whisperSettings() {
 		return whispers;
 	}
-	
+
 	/**
 	 * Gets the ign.
 	 *

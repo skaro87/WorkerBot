@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.repository.jpa;
+package se.skaro.hextcgbot.repository.jpa;
 
 import java.util.List;
 
@@ -8,24 +8,25 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import hex.skaro.hextcgbot.model.Card;
-import hex.skaro.hextcgbot.model.Equipment;
-import hex.skaro.hextcgbot.model.ItemPrice;
-import hex.skaro.hextcgbot.model.User;
-import hex.skaro.hextcgbot.statistics.ChannelStats;
-import hex.skaro.hextcgbot.statistics.UserChannel;
+import se.skaro.hextcgbot.model.Card;
+import se.skaro.hextcgbot.model.Equipment;
+import se.skaro.hextcgbot.model.ItemPrice;
+import se.skaro.hextcgbot.model.User;
+import se.skaro.hextcgbot.statistics.ChannelStats;
+import se.skaro.hextcgbot.statistics.UserChannel;
 
 /**
- * The Class JPADBHandler. Handles all the data searches/updates for the bot. (This class should be updated to not be this cluttered!)
+ * The Class JPADBHandler. Handles all the data searches/updates for the bot.
+ * (This class should be updated to not be this cluttered!)
  */
 public class JPADBHandler {
 
 	/** The Constant PERSISTENCE_UNIT_NAME. */
 	private static final String PERSISTENCE_UNIT_NAME = "HEXbot";
-	
+
 	/** The factory. */
 	private static EntityManagerFactory factory;
-	
+
 	/** The em. */
 	private static EntityManager em;
 
@@ -39,7 +40,8 @@ public class JPADBHandler {
 	/**
 	 * Gets the card data.
 	 *
-	 * @param card the card
+	 * @param card
+	 *            the card
 	 * @return the card data
 	 */
 	@SuppressWarnings("unchecked")
@@ -97,7 +99,8 @@ public class JPADBHandler {
 	/**
 	 * Gets the equipment data.
 	 *
-	 * @param card the card
+	 * @param card
+	 *            the card
 	 * @return the equipment data
 	 */
 	@SuppressWarnings("unchecked")
@@ -134,7 +137,8 @@ public class JPADBHandler {
 	/**
 	 * Gets the price data.
 	 *
-	 * @param card the card
+	 * @param card
+	 *            the card
 	 * @return the price data
 	 */
 	@SuppressWarnings("unchecked")
@@ -225,7 +229,8 @@ public class JPADBHandler {
 	/**
 	 * Gets the user ign.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return the user ign
 	 */
 	@SuppressWarnings("unchecked")
@@ -237,7 +242,7 @@ public class JPADBHandler {
 			q.setParameter("user", user);
 			List<User> data = q.getResultList();
 			if (data.size() > 0 && data.get(0).getIGN() != null) {
-				return "IGN for user "+user+" is "+data.get(0).getIGN();
+				return "IGN for user " + user + " is " + data.get(0).getIGN();
 
 			} else {
 				return "Could not find IGN for user " + user;
@@ -252,10 +257,14 @@ public class JPADBHandler {
 	/**
 	 * Update user data.
 	 *
-	 * @param name the name
-	 * @param inChannel the in channel
-	 * @param whispers the whispers
-	 * @param ign the ign
+	 * @param name
+	 *            the name
+	 * @param inChannel
+	 *            the in channel
+	 * @param whispers
+	 *            the whispers
+	 * @param ign
+	 *            the ign
 	 */
 	public static void updateUserData(String name, int inChannel, int whispers, String ign) {
 
@@ -274,8 +283,10 @@ public class JPADBHandler {
 	/**
 	 * Update user where bot is in channel.
 	 *
-	 * @param user the user
-	 * @param i the i
+	 * @param user
+	 *            the user
+	 * @param i
+	 *            the i
 	 */
 	@SuppressWarnings("unchecked")
 	public static void updateUserWhereBotIsInChannel(String user, int i) {
@@ -311,8 +322,10 @@ public class JPADBHandler {
 	/**
 	 * Sets the whispers.
 	 *
-	 * @param user the user
-	 * @param whispers the whispers
+	 * @param user
+	 *            the user
+	 * @param whispers
+	 *            the whispers
 	 */
 	@SuppressWarnings("unchecked")
 	public static void setWhispers(String user, int whispers) {
@@ -349,8 +362,10 @@ public class JPADBHandler {
 	/**
 	 * Sets the user ign.
 	 *
-	 * @param ign the ign
-	 * @param twitchName the twitch name
+	 * @param ign
+	 *            the ign
+	 * @param twitchName
+	 *            the twitch name
 	 * @return the string
 	 */
 	@SuppressWarnings("unchecked")
@@ -368,7 +383,7 @@ public class JPADBHandler {
 				em.merge(
 						new User(data.get(0).getName(), data.get(0).isInChannel(), data.get(0).whisperSettings(), ign));
 				t.commit();
-				return "IGN "+ign+" set for user "+twitchName;
+				return "IGN " + ign + " set for user " + twitchName;
 
 			}
 
@@ -377,12 +392,12 @@ public class JPADBHandler {
 				t.begin();
 				em.merge(new User(twitchName, 0, 1, ign));
 				t.commit();
-				return "IGN "+ign+" set for user "+twitchName;
+				return "IGN " + ign + " set for user " + twitchName;
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Could not set IGN for user "+twitchName;
+			return "Could not set IGN for user " + twitchName;
 		} finally {
 			em.close();
 		}
@@ -396,17 +411,17 @@ public class JPADBHandler {
 	 */
 	@SuppressWarnings("unchecked")
 	public static String getAllUsers() {
-		
+
 		try {
 			em = factory.createEntityManager();
 			Query q = em.createQuery("SELECT p FROM User p");
 			List<User> data = q.getResultList();
-			
-				return "WorkerBot currently have "+data.size() + " active users";
-			
+
+			return "WorkerBot currently have " + data.size() + " active users";
+
 		} catch (Exception e) {
 			return "Could not find number of users";
 		}
-		
+
 	}
 }

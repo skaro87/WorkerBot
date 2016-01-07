@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.application;
+package se.skaro.hextcgbot.application;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,7 +14,7 @@ import com.google.gson.JsonParser;
  * The Class StreamGetter.
  */
 public class StreamGetter {
-	
+
 	/** The url */
 	private final String urlString = "https://api.twitch.tv/kraken/streams?game=HEX:+Shards+of+Fate";
 
@@ -31,12 +31,12 @@ public class StreamGetter {
 			JsonElement jelement = new JsonParser().parse(jsonString);
 			JsonObject jobject = jelement.getAsJsonObject();
 			JsonArray jarray = jobject.getAsJsonArray("streams");
-			
+
 			ArrayList<String> streams = new ArrayList<String>();
 
 			for (int i = 0; i < jarray.size(); i++) {
 				streams.add(getInfo(jarray.get(i).getAsJsonObject()));
-				if (i > 4){
+				if (i > 4) {
 					break;
 				}
 			}
@@ -49,11 +49,11 @@ public class StreamGetter {
 
 	}
 
-
 	/**
 	 * Gets the info.
 	 *
-	 * @param stream the stream
+	 * @param stream
+	 *            the stream
 	 * @return the info
 	 */
 	private static String getInfo(JsonObject stream) {
@@ -64,16 +64,18 @@ public class StreamGetter {
 			status = status.substring(0, 37) + "...";
 		}
 
-		return (channel.get("display_name")+ ": " + channel.get("url")).replace("\"", "");
+		return (channel.get("display_name") + ": " + channel.get("url")).replace("\"", "");
 
 	}
 
 	/**
 	 * Reads url, same as in deck getter. Duplicate code!
 	 *
-	 * @param urlString the url string
+	 * @param urlString
+	 *            the url string
 	 * @return the string
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	private static String readUrl(String urlString) throws Exception {
 		BufferedReader reader = null;

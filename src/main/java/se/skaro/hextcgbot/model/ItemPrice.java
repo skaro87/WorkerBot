@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.model;
+package se.skaro.hextcgbot.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -39,6 +39,23 @@ public final class ItemPrice implements Serializable {
 		this.minPriceGold = line9;
 		this.maxPriceGold = line10;
 	}
+	
+	public String getListedPrice(float platRatio) {
+
+		if (Float.valueOf(weightedAveragePlatinum) == 0) {
+			return "[" + name + ": " + weightedAverageGold + "g] ";
+
+		} else if (Float.valueOf(weightedAverageGold) == 0) {
+			return "[" + name + ": " + weightedAveragePlatinum + "p] ";
+		}
+
+		if (Float.valueOf(weightedAveragePlatinum) * platRatio >= Float.valueOf(weightedAverageGold)) {
+			return "[" + name + ": " + weightedAverageGold + "g, " + weightedAveragePlatinum + "p] ";
+		}
+
+		return "[" + name + ": " + weightedAveragePlatinum + "p, " + weightedAverageGold + "g] ";
+	}
+
 
 	public ItemPrice() {
 	}
@@ -95,22 +112,6 @@ public final class ItemPrice implements Serializable {
 				+ ", weightedAverageGold=" + weightedAverageGold + ", numberOfAuctionsGold=" + numberOfAuctionsGold
 				+ ", averageGold=" + averageGold + ", minPriceGold=" + minPriceGold + ", maxPriceGold=" + maxPriceGold
 				+ "]";
-	}
-
-	public String getListedPrice(float platRatio) {
-
-		if (Float.valueOf(weightedAveragePlatinum) == 0) {
-			return "[" + name + ": " + weightedAverageGold + "g] ";
-
-		} else if (Float.valueOf(weightedAverageGold) == 0) {
-			return "[" + name + ": " + weightedAveragePlatinum + "p] ";
-		}
-
-		if (Float.valueOf(weightedAveragePlatinum) * platRatio >= Float.valueOf(weightedAverageGold)) {
-			return "[" + name + ": " + weightedAverageGold + "g, " + weightedAveragePlatinum + "p] ";
-		}
-
-		return "[" + name + ": " + weightedAveragePlatinum + "p, " + weightedAverageGold + "g] ";
 	}
 
 }

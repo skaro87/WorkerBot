@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.application;
+package se.skaro.hextcgbot.application;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,9 +10,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import hex.skaro.hextcgbot.model.DeckInfo;
+import se.skaro.hextcgbot.model.DeckInfo;
 
-/** 
+/**
  * The Class DeckGetter. Gets deck info from hex:meta
  */
 public class DeckGetter {
@@ -20,7 +20,8 @@ public class DeckGetter {
 	/**
 	 * Gets the decks.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return the decks
 	 */
 	public String getDecks(String user) {
@@ -30,14 +31,15 @@ public class DeckGetter {
 
 		try {
 
-			String output = readUrl("http://hexmeta.com/deck?_search=true&rows=50&page=1&sord=desc&constructed=1&player=" + user);
+			String output = readUrl(
+					"http://hexmeta.com/deck?_search=true&rows=50&page=1&sord=desc&constructed=1&player=" + user);
 
 			// add constructed=1
-			
+
 			JsonElement jelement = new JsonParser().parse(output);
 			JsonObject jobject = jelement.getAsJsonObject();
 			JsonArray jarray = jobject.getAsJsonArray("data");
-			
+
 			System.out.println(jarray.size());
 
 			int size = jarray.size();
@@ -65,28 +67,29 @@ public class DeckGetter {
 				}
 
 				for (JsonObject o : userData) {
-					
+
 					try {
-					
-					String id = o.get("id").toString().replace("\"", "");
-					
-					JsonObject championJson = o.getAsJsonObject("champion");
-					String champion = championJson.get("name").toString().replace("\"", "");
 
-					JsonObject tournamentJson = o.getAsJsonObject("tournament");
+						String id = o.get("id").toString().replace("\"", "");
 
-					String date = tournamentJson.get("start").toString().split(" ")[0].replace("\"", "");
-					String type = parseTournamentType(tournamentJson.get("type").toString().replace("\"", ""));
+						JsonObject championJson = o.getAsJsonObject("champion");
+						String champion = championJson.get("name").toString().replace("\"", "");
 
-					JsonObject shardsJson = o.getAsJsonObject("colors");
-					String shards = getShards(shardsJson);
+						JsonObject tournamentJson = o.getAsJsonObject("tournament");
 
-					decks.add(new DeckInfo(date, champion ,type, shards, id));
-					
-					if (decks.size() > 2) break;
-					
+						String date = tournamentJson.get("start").toString().split(" ")[0].replace("\"", "");
+						String type = parseTournamentType(tournamentJson.get("type").toString().replace("\"", ""));
+
+						JsonObject shardsJson = o.getAsJsonObject("colors");
+						String shards = getShards(shardsJson);
+
+						decks.add(new DeckInfo(date, champion, type, shards, id));
+
+						if (decks.size() > 2)
+							break;
+
 					} catch (Exception e) {
-						
+
 					}
 
 				}
@@ -96,11 +99,10 @@ public class DeckGetter {
 			e.printStackTrace();
 			return "No decks found";
 		}
-		sb.append("Latest decks played by "+user+":");
-		for (DeckInfo deck : decks){
-			sb.append(" "+deck.linkAndName()+" ");
+		sb.append("Latest decks played by " + user + ":");
+		for (DeckInfo deck : decks) {
+			sb.append(" " + deck.linkAndName() + " ");
 		}
-		
 
 		return sb.toString();
 
@@ -109,7 +111,8 @@ public class DeckGetter {
 	/**
 	 * Gets the shards.
 	 *
-	 * @param shardsJson the shards json
+	 * @param shardsJson
+	 *            the shards json
 	 * @return the shards
 	 */
 	private String getShards(JsonObject shardsJson) {
@@ -139,21 +142,22 @@ public class DeckGetter {
 
 		return sb.toString();
 	}
-	
+
 	/**
 	 * Parses the tournament type.
 	 *
-	 * @param type the type
+	 * @param type
+	 *            the type
 	 * @return the string
 	 */
-	private String parseTournamentType(String type){
-		if (type.equals("live-daily-constructed")){
+	private String parseTournamentType(String type) {
+		if (type.equals("live-daily-constructed")) {
 			return "Daily";
 		}
-		if (type.equals("Invitational Qualifier")){
+		if (type.equals("Invitational Qualifier")) {
 			return "IQ";
 		}
-		if (type.equals("Invitational Qualifier Top 8")){
+		if (type.equals("Invitational Qualifier Top 8")) {
 			return "IQ TOP 8";
 		}
 		return type;
@@ -162,9 +166,11 @@ public class DeckGetter {
 	/**
 	 * Reads url.
 	 *
-	 * @param urlString the url string
+	 * @param urlString
+	 *            the url string
 	 * @return the string
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	private static String readUrl(String urlString) throws Exception {
 		BufferedReader reader = null;

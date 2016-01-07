@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.twitchbot;
+package se.skaro.hextcgbot.twitchbot;
 
 import java.io.IOException;
 

@@ -38,7 +38,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>{hex.skaro.hextcgbot.application.main}</mainClass>
+							<mainClass>{se.skaro.hextcgbot.application.main}</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

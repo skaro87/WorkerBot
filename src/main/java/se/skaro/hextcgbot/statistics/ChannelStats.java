@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.statistics;
+package se.skaro.hextcgbot.statistics;
 
 import java.util.HashMap;
 

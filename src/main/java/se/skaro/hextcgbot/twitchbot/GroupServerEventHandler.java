@@ -1,4 +1,4 @@
-package hex.skaro.hextcgbot.twitchbot;
+package se.skaro.hextcgbot.twitchbot;
 
 import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
