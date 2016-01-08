@@ -69,7 +69,7 @@ public class CommandListener extends ListenerAdapter {
 				commandHelp(event);
 			} else if (event.getMessage().equalsIgnoreCase("!bug")) {
 				commandBug(event);
-			} else if (event.getMessage().startsWith("!ign ")) {
+			} else if (event.getMessage().startsWith("!ign")) {
 				commandIGN(event);
 			} else if (event.getMessage().startsWith("!setign ")) {
 				commandSetIGN(event);
@@ -117,7 +117,12 @@ public class CommandListener extends ListenerAdapter {
 	 */
 	public void commandIGN(MessageEvent event) {
 		try {
-			if (event.getMessage().startsWith("!ign @") && event.getMessage().replace("!ign @", "").length() > 3) {
+			
+			if (event.getMessage().equals("!ign")){
+				event.respondChannel(JPADBHandler.getUserIGN(event.getUser().getNick()));
+			}
+			
+			else if (event.getMessage().startsWith("!ign @") && event.getMessage().replace("!ign @", "").length() > 3) {
 				MessageSender.sendMessage(event, JPADBHandler.getUserIGN(event.getMessage().replace("!ign @", "")));
 			}
 
