@@ -13,7 +13,7 @@ public final class ItemPrice implements Serializable {
 
 	@Id
 	private String name;
-	private String weightedAveragePlatinum;
+	private String weightedAveragePlatinum; 
 	private String numberOfAuctionsPlatinum;
 	private String averagePlatinum;
 	private String minPricePlatinum;
