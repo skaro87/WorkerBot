@@ -69,7 +69,7 @@ public class CommandListener extends ListenerAdapter {
 				commandHelp(event);
 			} else if (event.getMessage().equalsIgnoreCase("!bug")) {
 				commandBug(event);
-			} else if (event.getMessage().startsWith("!ign ")) {
+			} else if (event.getMessage().startsWith("!ign")) {
 				commandIGN(event);
 			} else if (event.getMessage().startsWith("!setign ")) {
 				commandSetIGN(event);
@@ -117,7 +117,11 @@ public class CommandListener extends ListenerAdapter {
 	 */
 	public void commandIGN(MessageEvent event) {
 		try {
-			if (event.getMessage().startsWith("!ign @") && event.getMessage().replace("!ign @", "").length() > 3) {
+			if (event.getMessage().equalsIgnoreCase("!ign")){
+				event.respondChannel(JPADBHandler.getUserIGN(event.getUser().getNick()));
+			}
+			
+			else if (event.getMessage().startsWith("!ign @") && event.getMessage().replace("!ign @", "").length() > 3) {
 				MessageSender.sendMessage(event, JPADBHandler.getUserIGN(event.getMessage().replace("!ign @", "")));
 			}
 
@@ -126,7 +130,7 @@ public class CommandListener extends ListenerAdapter {
 			}
 
 			else {
-				MessageSender.sendMessage(event, "You need at least 4 characters to do a search");
+				MessageSender.sendMessage(event, "Invalid search");
 			}
 		} catch (Exception e) {
 			MessageSender.sendMessage(event, e.getMessage());
