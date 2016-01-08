@@ -92,20 +92,6 @@ public class TwitchBot extends PircBotX {
 	}
 	
 	/**
-	 * Schedule a job for execution
-	 * @param job the job
-	 * @param trigger the trigger for the job
-	 */
-	public void addTask(JobDetail job, Trigger trigger) {
-        try {
-            this.scheduler.scheduleJob(job, trigger);
-        }
-        catch (SchedulerException e) {
-            e.printStackTrace();
-        }
-    }
-	
-	/**
 	 * <div>Enable or disable twitch capabilities,
 	 * this must be set before the bot is started for it to take effect
 	 * </div>
@@ -124,20 +110,12 @@ public class TwitchBot extends PircBotX {
 		return useTwitchCapabilities;
 	}
 	
-	protected void setGroupServer(GroupServer gs){
-		groupServer = gs;
-	}
-	
 	/**
 	 * The group server is used to send whispers
 	 * @return the group server
 	 */
 	public GroupServer getGroupServer() {
 		return groupServer;
-	}
-	
-	public Logger getLogger() {
-		return logger;
 	}
 	
 	private static Configuration getConfig(String username, String authcode, String... defaultChannels){

@@ -1,15 +1,15 @@
 package se.skaro.hextcgbot.statistics;
 
 import java.util.HashMap;
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class ChannelStats. Holds statistics (future) and settings (now) for channels
  */
 public class ChannelStats {
 	
+	//TODO: Change to a generic Map
+	
 	/** The channels. */
-	private static HashMap<String, UserChannel> channels = new HashMap<String, UserChannel>();
+	private static HashMap<String, UserChannel> channels = new HashMap<>();
 	
 	/**
 	 * Gets the stats.

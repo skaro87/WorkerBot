@@ -23,10 +23,13 @@ public class Main {
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
+		
+		// TODO: Move stuff from here!
 
 		JPADBHandler.startup();
 
-		Set<String> channels = new HashSet<String>();
+		//This is good, do more of this!!!
+		Set<String> channels = new HashSet<>(); 
 
 		channels.add("#" + StringResources.getUsername());
 

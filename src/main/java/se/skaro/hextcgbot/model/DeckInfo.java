@@ -2,11 +2,11 @@ package se.skaro.hextcgbot.model;
 
 public final class DeckInfo {
 	
-	private String date;
-	private String champion;
-	private String tournament;
-	private String shards;
-	private String id;
+	private final String date;
+	private final String champion;
+	private final String tournament;
+	private final String shards;
+	private final String id;
 
 	public DeckInfo(String date, String champion, String tournament, String shards, String id) {
 		super();

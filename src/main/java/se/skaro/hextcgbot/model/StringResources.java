@@ -4,15 +4,17 @@ package se.skaro.hextcgbot.model;
  * String resources that is being used like credentials
  */
 public final class StringResources {
+	
+	//TODO: REMOVE THIS!!!!
 
 	/** The Constant oauth. */
-	private static final String oauth = "oauth:phkot061fhl34s32mo6q76es7xxhhv";
+	private static final String OAUTH = "oauth:phkot061fhl34s32mo6q76es7xxhhv";
 
 	/** The Constant username. */
-	private static final String username = "workerbot";
+	private static final String USERNAME = "workerbot";
 
 	/** The Constant clientId. */
-	private static final String clientId = "2svam4sbfxtdjipwsax266s9qz0907";
+	private static final String CLIENT_ID = "2svam4sbfxtdjipwsax266s9qz0907";
 
 	/**
 	 * Gets the oauth.
@@ -20,7 +22,7 @@ public final class StringResources {
 	 * @return the oauth
 	 */
 	public static String getOauth() {
-		return oauth;
+		return OAUTH;
 	}
 
 	/**
@@ -29,7 +31,7 @@ public final class StringResources {
 	 * @return the username
 	 */
 	public static String getUsername() {
-		return username;
+		return USERNAME;
 	}
 
 	/**
@@ -38,7 +40,7 @@ public final class StringResources {
 	 * @return the client id
 	 */
 	public static String getClientId() {
-		return clientId;
+		return CLIENT_ID;
 	}
 
 	/**

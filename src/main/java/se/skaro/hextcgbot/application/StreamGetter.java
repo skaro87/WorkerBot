@@ -16,7 +16,7 @@ import com.google.gson.JsonParser;
 public class StreamGetter {
 
 	/** The url */
-	private final String urlString = "https://api.twitch.tv/kraken/streams?game=HEX:+Shards+of+Fate";
+	private static final String URL_PATH = "https://api.twitch.tv/kraken/streams?game=HEX:+Shards+of+Fate";
 
 	/**
 	 * Gets the all streams.
@@ -26,13 +26,14 @@ public class StreamGetter {
 	public ArrayList<String> getAllStreams() {
 
 		try {
-			String jsonString = readUrl(urlString);
+			String jsonString = readUrl(URL_PATH);
 
 			JsonElement jelement = new JsonParser().parse(jsonString);
 			JsonObject jobject = jelement.getAsJsonObject();
 			JsonArray jarray = jobject.getAsJsonArray("streams");
 
-			ArrayList<String> streams = new ArrayList<String>();
+			// TODO: Change to LinkedList
+			ArrayList<String> streams = new ArrayList<>();
 
 			for (int i = 0; i < jarray.size(); i++) {
 				streams.add(getInfo(jarray.get(i).getAsJsonObject()));
@@ -52,20 +53,12 @@ public class StreamGetter {
 	/**
 	 * Gets the info.
 	 *
-	 * @param stream
-	 *            the stream
+	 * @param stream the stream
 	 * @return the info
 	 */
 	private static String getInfo(JsonObject stream) {
 		JsonObject channel = stream.get("channel").getAsJsonObject();
-		String status = channel.get("status").toString();
-
-		if (status.length() > 40) {
-			status = status.substring(0, 37) + "...";
-		}
-
 		return (channel.get("display_name") + ": " + channel.get("url")).replace("\"", "");
-
 	}
 
 	/**
@@ -77,6 +70,8 @@ public class StreamGetter {
 	 * @throws Exception
 	 *             the exception
 	 */
+
+	// TODO: Take this from DeckGetter and move to a new class! Remove this
 	private static String readUrl(String urlString) throws Exception {
 		BufferedReader reader = null;
 		try {

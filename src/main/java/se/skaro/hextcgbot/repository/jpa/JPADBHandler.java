@@ -196,6 +196,7 @@ public class JPADBHandler {
 			List<ItemPrice> data = q.getResultList();
 
 			if (data.size() == 0) {
+				//TODO: Logic here, like get boosterprice and return ratio.
 			}
 
 			return (Float.valueOf(data.get(0).getWeightedAverageGold())
@@ -221,8 +222,7 @@ public class JPADBHandler {
 
 		em = factory.createEntityManager();
 		Query q = em.createQuery("SELECT p FROM User p WHERE UPPER(p.inChannel) = ('1')");
-		List<User> data = q.getResultList();
-		return data;
+		return q.getResultList();
 
 	}
 

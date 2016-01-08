@@ -18,8 +18,6 @@ import se.skaro.hextcgbot.repository.jpa.JPADBHandler;
  * object created with that class is registered with a component using the
  * component's <code>addCommandListener<code> method. When the command event
  * occurs, that object's appropriate method is invoked.
- *
- * @see CommandEvent
  */
 public class CommandListener extends ListenerAdapter {
 
@@ -103,6 +101,8 @@ public class CommandListener extends ListenerAdapter {
 	 */
 	private void commandSetIGN(MessageEvent event) {
 		if (event.getMessage().replace("!setign ", "").length() > 3) {
+			
+			//TODO: Do a nullcheck on event.getUser().getNick(); to the if ^
 			MessageSender.sendMessage(event,
 					JPADBHandler.setUserIGN(event.getMessage().replace("!setign ", ""), event.getUser().getNick()));
 		}
@@ -117,11 +117,11 @@ public class CommandListener extends ListenerAdapter {
 	 */
 	public void commandIGN(MessageEvent event) {
 		try {
-			
-			if (event.getMessage().equals("!ign")){
+
+			if (event.getMessage().equals("!ign")) {
 				event.respondChannel(JPADBHandler.getUserIGN(event.getUser().getNick()));
 			}
-			
+
 			else if (event.getMessage().startsWith("!ign @") && event.getMessage().replace("!ign @", "").length() > 3) {
 				MessageSender.sendMessage(event, JPADBHandler.getUserIGN(event.getMessage().replace("!ign @", "")));
 			}
@@ -157,6 +157,8 @@ public class CommandListener extends ListenerAdapter {
 	 * @param event
 	 *            the event
 	 */
+	
+	//TODO: Change this to list all commands instead of a String.
 	private void commandHelp(MessageEvent event) {
 		event.respondChannel(StringResources.getHelpText());
 
@@ -314,9 +316,19 @@ public class CommandListener extends ListenerAdapter {
 			else { // morre than 2 results
 				StringBuilder sb = new StringBuilder();
 				sb.append("Found equipments for multiple cards: ");
+
+				/*
+				 * equipments.stream().filter(e ->
+				 * !sb.toString().contains(e.getAffectedCardName())).forEach(e
+				 * -> { sb.append("[" + e.getAffectedCardName() + "] "); });
+				 */
+
+				// TODO: Change to Stream
 				for (Equipment e : equipments) {
 					if (!sb.toString().contains(e.getAffectedCardName())) {
-						sb.append("[" + e.getAffectedCardName() + "] ");
+						
+						//TODO: Change to sb.append for each part of the String
+						sb.append("[" + e.getAffectedCardName() + "] "); 
 					}
 				}
 				MessageSender.sendMessage(event, sb.toString());
