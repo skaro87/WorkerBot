@@ -7,6 +7,7 @@ import javax.persistence.*;
  * The Class User.
  */
 @Entity
+@Table (name="USER")
 public final class User implements Serializable {
 
 	/** The Constant serialVersionUID. */

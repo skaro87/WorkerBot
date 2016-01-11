@@ -28,9 +28,11 @@ public class CommandListener extends ListenerAdapter {
         try {
             String message = event.getMessage();
             String lowercaseMessage = message.toLowerCase();
+            
             for (BotCommands botCommand : BotCommands.values()) {
-                if (botCommand.getSyntax().startsWith(message) || (!botCommand.isCommandCaseSensitive() && botCommand.getSyntax().toLowerCase().startsWith(lowercaseMessage))) {
-                    botCommand.getCommand().call(botCommand.getSyntax(), event);
+                if (botCommand.getSyntax().startsWith(message) || (!botCommand.isCommandCaseSensitive() && lowercaseMessage.startsWith(botCommand.getSyntax().toLowerCase()))) {
+                    botCommand.getCommand().call(botCommand.getSyntax(), event);                   
+                    return; //TODO: Think about if we need this.
                 }
             }
         } catch (Exception e) {

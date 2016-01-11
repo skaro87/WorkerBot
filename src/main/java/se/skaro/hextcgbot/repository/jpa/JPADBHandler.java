@@ -22,7 +22,7 @@ import se.skaro.hextcgbot.statistics.UserChannel;
 public class JPADBHandler {
 
 	/** The Constant PERSISTENCE_UNIT_NAME. */
-	private static final String PERSISTENCE_UNIT_NAME = "HEXbot";
+	private static final String PERSISTENCE_UNIT_NAME = "WorkerBot";
 
 	/** The factory. */
 	private static EntityManagerFactory factory;

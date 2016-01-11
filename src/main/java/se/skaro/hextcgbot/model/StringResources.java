@@ -8,10 +8,10 @@ public final class StringResources {
 	//TODO: REMOVE THIS!!!!
 
 	/** The Constant oauth. */
-	private static final String OAUTH = "oauth:phkot061fhl34s32mo6q76es7xxhhv";
+	private static final String OAUTH = "oauth:vfnmaaat5jkyhhfhlji0ahbc5n5lhu";
 
 	/** The Constant username. */
-	private static final String USERNAME = "workerbot";
+	private static final String USERNAME = "hex_tcg_bot";
 
 	/** The Constant clientId. */
 	private static final String CLIENT_ID = "2svam4sbfxtdjipwsax266s9qz0907";
