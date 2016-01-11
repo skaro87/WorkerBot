@@ -1,27 +1,26 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
-//TODO: Set proper command descriptions.
 public enum BotCommands {
     JOIN("!join", false, new JoinCommand(), "Use this command to make WorkerBot join your channel."),
     LEAVE("!leave", false, new LeaveCommand(), "Use this command to make WorkerBot leave your channel."),
-    PRICE("!price", false, new PriceCommand(), "Use command !price [card] to check card's price."),
-    CARD("!card", false, new CardCommand(), "Card command"),
-    EQUIPMENT("!equipment", false, new EquipmentCommand(), "Equipment command"),
-    RATIO("!ratio", false, new RatioCommand(), "Ratio command"),
-    GOLD_TO_PLAT("!goldToPlat", false, new GoldToPlatCommand(), "Gold to platinum command"),
-    PLAT_TO_GOLD("!platToGold", false, new PlatToGoldCommand(), "Gold to platinum command"),
-    ABOUT("!about", false, new AboutCommand(), "About command"),
-    INFO("!info", false, new AboutCommand(), "Info command"),
-    DONATE("!donate", false, new DonateCommand(), "Donate command"),
-    DECKS("!decks", false, new DecksCommand(), "Decks command"),
-    STREAMS("!streams", false, new StreamsCommand(), "Streams command"),
-    CHANNELS("!channels", false, new ChannelsCommand(), "Channels command"),
-    WHISPERS("!whispers", false, new WhispersCommand(), "Whispers command"),
-    HELP("!help", false, new HelpCommand(), "Help command"),
-    BUG("!bug", false, new BugCommand(), "Bug command"),
-    IGN("!ign", false, new IGNCommand(), "IGN command"),
-    SET_IGN("!setIGN", false, new SetIGNCommand(), "Set IGN command"),
-    USERS("!users", false, new UsersCommand(), "Users command");
+    PRICE("!price", false, new PriceCommand(), "Use command !price 'card' to check a card's price."),
+    CARD("!card", false, new CardCommand(), "Find the text of a card by typing !card 'cardname'"),
+    EQUIPMENT("!equipment", false, new EquipmentCommand(), "Find the text for Equipments by typing !equipment 'cardname'"),
+    RATIO("!ratio", false, new RatioCommand(), "Check the current Platinum to Gold ratio"),
+    GOLD_TO_PLAT("!gtp", false, new GoldToPlatCommand(), "Type !gtp 'ammount' to get the ammount of gold in platinum"),
+    PLAT_TO_GOLD("!ptg", false, new PlatToGoldCommand(), "Type !ptg 'ammount' to get the ammount of platinum in gold"),
+    ABOUT("!about", false, new AboutCommand(), "Information about WorkerBot"),
+    INFO("!info", false, new AboutCommand(), "Information about WorkerBot"),
+    DONATE("!donate", false, new DonateCommand(), "Information about where to donate to help pay for server fees"),
+    DECKS("!decks", false, new DecksCommand(), "Find the latest 3 decks from a user from HEX:meta by typing !decks 'username'"),
+    STREAMS("!streams", false, new StreamsCommand(), "Finds the top 5 current HEX: Shards of Fate streams"),
+    CHANNELS("!channels", false, new ChannelsCommand(), "Returns how many channels WorkerBot is currently active in"),
+    WHISPERS("!whispers", false, new WhispersCommand(), "Use this to turn whisper mode on and off by typing !whispers 'on/off'"),
+    HELP("!help", false, new HelpCommand(), "Find usefull information about a command by typing !help 'commandname'"),
+    BUG("!bug", false, new BugCommand(), "Want to post a bug report. Type !bug to get a link to the bug report form"),
+    IGN("!ign", false, new IGNCommand(), "Find the IGN for a user by typing !ign 'username' (accepts @ before username) or get your username with just !ign"),
+    SET_IGN("!setIGN", false, new SetIGNCommand(), "Set your IGN by typing !setign 'your IGN'. Min 3 and max 100 characters, usernames containing inappropriate and/or long names will be shortened."),
+    USERS("!users", false, new UsersCommand(), "Returns how many users WorkerBot currently in the user database");
 
     private final String syntax;
     private final boolean isCommandCaseSensitive;

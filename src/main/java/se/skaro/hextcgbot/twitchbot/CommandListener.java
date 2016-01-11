@@ -32,7 +32,8 @@ public class CommandListener extends ListenerAdapter {
             for (BotCommands botCommand : BotCommands.values()) {
                 if (botCommand.getSyntax().startsWith(message) || (!botCommand.isCommandCaseSensitive() && lowercaseMessage.startsWith(botCommand.getSyntax().toLowerCase()))) {
                     botCommand.getCommand().call(botCommand.getSyntax(), event);                   
-                    return; //TODO: Think about if we need this.
+                    //TODO: Think about if we need this.
+                    return; 
                 }
             }
         } catch (Exception e) {

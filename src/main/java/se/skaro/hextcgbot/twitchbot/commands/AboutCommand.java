@@ -10,7 +10,7 @@ public class AboutCommand extends AbstractCommand {
     private static final String ABOUT_TEXT_MESSAGE = "Version 1.0 " +
             "| For more information go to twitch.tv/workerbot " +
             "| Thanks Celendine, Dinotopia, Veetorp and Doc-X for the data " +
-            "| Created by Skaro using PircBotX";
+            "| Coded in Java by Skaro and Risterral ";
 
     @Override
     public void call(String commandSyntax, MessageEvent event) {

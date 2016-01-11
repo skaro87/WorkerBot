@@ -20,7 +20,7 @@ public class HelpCommand extends AbstractCommand {
             event.respondChannel(helpMessage.toString());
         } else {
             for (BotCommands botCommand : BotCommands.values()) {
-                if (botCommand.getSyntax().equalsIgnoreCase(message)) {
+                if (botCommand.getSyntax().equalsIgnoreCase("!"+message) || botCommand.getSyntax().equalsIgnoreCase(message)) {
                     event.respondChannel(botCommand.getDescription());
                     return;
                 }

@@ -19,7 +19,7 @@ public class WhispersCommand extends AbstractCommand {
                 JPADBHandler.setWhispers(userNick.toLowerCase(), 0);
                 event.respondChannel("Whisper mode OFF for channel " + userNick);
             } else {
-                //TODO: Send message about invalid argument.
+            	event.respondChannel("Invalid command "+event.getMessage() + ". Use !whispers 'on/off' to change whisper settings");
             }
         }
     }
