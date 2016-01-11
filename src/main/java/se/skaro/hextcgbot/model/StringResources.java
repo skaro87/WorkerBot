@@ -48,6 +48,7 @@ public final class StringResources {
 	 *
 	 * @return the welcome message
 	 */
+	@Deprecated
 	public static String getWelcomeMessage() {
 		return "Hello! Thank you for using me. For more information about me visit twitch.tv/workerbot";
 	}
@@ -57,6 +58,7 @@ public final class StringResources {
 	 *
 	 * @return the goodbye message
 	 */
+	@Deprecated
 	public static String getGoodbyeMessage() {
 		return "Goodbye. Feel free to add me to your chat again at any time!";
 	}
@@ -66,6 +68,7 @@ public final class StringResources {
 	 *
 	 * @return the help text
 	 */
+	@Deprecated
 	public static String getHelpText() {
 		return "Current commands are: !card/equipment/price [name], !decks [username], !streams, !ratio, !goldtoplat/plattogold [value], !join/leave, !whispers[on/off], !ign [twitch username], !setign [your IGN], !info and !donate.";
 	}
