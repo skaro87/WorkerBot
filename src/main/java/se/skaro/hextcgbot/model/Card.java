@@ -6,6 +6,7 @@ package se.skaro.hextcgbot.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * The persistent class for the CARD database table.
  * 
@@ -13,14 +14,10 @@ import javax.persistence.*;
 @Entity
 @Table (name="CARD")
 @NamedQuery(name = "Card.findAll", query = "SELECT c FROM Card c")
-public final class Card implements Serializable {
+public final class Card extends AbstractEntity implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
-	/** The name. */
-	@Id
-	private String name;
 
 	/** The formated name. */
 	private String formatedName;
@@ -176,15 +173,6 @@ public final class Card implements Serializable {
 		sb.append(". " + text);
 
 		return sb.toString().replaceAll("\n", " ");
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
 	}
 
 	/**

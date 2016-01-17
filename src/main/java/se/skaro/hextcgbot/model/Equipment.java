@@ -9,11 +9,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table (name="EQUIPMENT")
-public final class Equipment implements Serializable {
+public final class Equipment extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	private String name;
 
 	private String affectedCardName;
 	private String shard;
@@ -47,10 +44,6 @@ public final class Equipment implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public String getAffectedCardName() {

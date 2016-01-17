@@ -9,11 +9,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table (name="ITEMPRICE")
-public final class ItemPrice implements Serializable {
+public final class ItemPrice extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String name;
 	private String weightedAveragePlatinum; 
 	private String numberOfAuctionsPlatinum;
 	private String averagePlatinum;
@@ -25,21 +23,6 @@ public final class ItemPrice implements Serializable {
 	private String minPriceGold;
 	private String maxPriceGold;
 
-	public ItemPrice(String name, String line, String line2, String line3, String line4, String line5, String line6,
-			String line7, String line8, String line9, String line10) {
-		super();
-		this.name = name;
-		this.weightedAveragePlatinum = line;
-		this.numberOfAuctionsPlatinum = line2;
-		this.averagePlatinum = line3;
-		this.minPricePlatinum = line4;
-		this.maxPricePlatinum = line5;
-		this.weightedAverageGold = line6;
-		this.numberOfAuctionsGold = line7;
-		this.averageGold = line8;
-		this.minPriceGold = line9;
-		this.maxPriceGold = line10;
-	}
 	
 	public String getListedPrice(float platRatio) {
 
@@ -59,10 +42,6 @@ public final class ItemPrice implements Serializable {
 
 
 	public ItemPrice() {
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public String getWeightedAveragePlatinum() {
