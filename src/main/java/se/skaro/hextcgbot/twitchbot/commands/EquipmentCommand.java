@@ -3,7 +3,7 @@ package se.skaro.hextcgbot.twitchbot.commands;
 import org.pircbotx.hooks.events.MessageEvent;
 import se.skaro.hextcgbot.events.MessageSender;
 import se.skaro.hextcgbot.model.Equipment;
-import se.skaro.hextcgbot.repository.jpa.JPADBHandler;
+import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class EquipmentCommand extends AbstractCommand {
     public void call(String commandSyntax, MessageEvent event) {
         String equipmentName = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
         if (equipmentName.length() > 3) {
-            List<Equipment> equipments = JPADBHandler.getEquipmentData(equipmentName);
+            List<Equipment> equipments = JpaRepository.findEquipmentByAffectedCardName(equipmentName);
             if (equipments.isEmpty()) {
                 MessageSender.sendMessage(event, "No equipment found for card " + equipmentName);
                 return;

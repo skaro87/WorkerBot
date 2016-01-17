@@ -24,20 +24,20 @@ public final class ItemPrice extends AbstractEntity implements Serializable {
 	private String maxPriceGold;
 
 	
-	public String getListedPrice(float platRatio) {
+	public String getListedPrice(Double ratio) {
 
-		if (Float.valueOf(weightedAveragePlatinum) == 0) {
-			return "[" + name + ": " + weightedAverageGold + "g] ";
+		if (Double.valueOf(weightedAveragePlatinum) == 0) {
+			return name + " [" + weightedAverageGold + "g] ";
 
-		} else if (Float.valueOf(weightedAverageGold) == 0) {
-			return "[" + name + ": " + weightedAveragePlatinum + "p] ";
+		} else if (Double.valueOf(weightedAverageGold) == 0) {
+			return name + " [" + weightedAveragePlatinum + "p]";
 		}
 
-		if (Float.valueOf(weightedAveragePlatinum) * platRatio >= Float.valueOf(weightedAverageGold)) {
-			return "[" + name + ": " + weightedAverageGold + "g, " + weightedAveragePlatinum + "p] ";
+		if (Float.valueOf(weightedAveragePlatinum) * ratio >= Double.valueOf(weightedAverageGold)) {
+			return name + " [" + weightedAverageGold + "g, " + weightedAveragePlatinum + "p]";
 		}
 
-		return "[" + name + ": " + weightedAveragePlatinum + "p, " + weightedAverageGold + "g] ";
+		return name + " [" + weightedAveragePlatinum + "p, " + weightedAverageGold + "g]";
 	}
 
 

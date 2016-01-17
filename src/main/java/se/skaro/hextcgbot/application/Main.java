@@ -2,7 +2,7 @@ package se.skaro.hextcgbot.application;
 
 import se.skaro.hextcgbot.model.StringResources;
 import se.skaro.hextcgbot.model.User;
-import se.skaro.hextcgbot.repository.jpa.JPADBHandler;
+import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.statistics.UserChannel;
 import se.skaro.hextcgbot.twitchbot.CommandListener;
@@ -27,16 +27,21 @@ public class Main {
 		
 		// TODO: Move stuff from here!
 
-		JPADBHandler.startup();
+		Main workerbot = new Main();
+		JpaRepository.startup();
+		workerbot.startBot();
 
-		//This is good, do more of this!!!
+	}
+	
+	private void startBot(){
+		
 		Set<String> channels = new HashSet<>(); 
 
 		channels.add("#" + StringResources.getUsername());
 
 		ChannelStats.getStats().put("#" + StringResources.getUsername(), new UserChannel(0));
 
-		for (User u : JPADBHandler.getAllUserWhereBotIsInChannel()) {
+		for (User u : JpaRepository.findUsersToAutoJoin()) {
 			channels.add("#" + u.getName().toLowerCase());
 			ChannelStats.getStats().put("#" + u.getName().toLowerCase(), new UserChannel(u.whisperSettings()));
 		}
@@ -47,8 +52,8 @@ public class Main {
 		for (String s : channels) {
 			channelArray[i++] = s;
 		}
-*/
 		
+		*/
 		
 		try {
 			TwitchBot bot = new TwitchBot(StringResources.getUsername(), StringResources.getOauth(), "#" + StringResources.getUsername());
@@ -59,7 +64,6 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
