@@ -25,6 +25,10 @@ public class PriceCommand extends AbstractCommand {
     		sb.append(item.getListedPrice(ratio));
     		seperator = ", ";
     	}
+    	
+    	if (sb.length() < 1){
+    		sb.append("No price found for '"+name+"'");
+    	}
     	MessageSender.sendMessage(event, sb.toString());
     	
     }
