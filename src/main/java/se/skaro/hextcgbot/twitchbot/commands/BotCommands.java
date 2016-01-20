@@ -20,7 +20,8 @@ public enum BotCommands {
     BUG("!bug", false, new BugCommand(), "Want to post a bug report. Type !bug to get a link to the bug report form"),
     IGN("!ign", false, new IGNCommand(), "Find the IGN for a user by typing !ign 'username' (accepts @ before username) or get your username with just !ign"),
     SET_IGN("!setIGN", false, new SetIGNCommand(), "Set your IGN by typing !setign 'your IGN'. Min 3 and max 100 characters, usernames containing inappropriate and/or long names will be shortened."),
-    IMG("!img", false, new ImageCommand(), "Used with the image browser plugin to show images of cards");
+    IMG("!img", false, new ImageCommand(), "Used with the image browser plugin to show images of cards"),
+    SHARDSHOPPER("!shardshopper", false, new ShardShopperCommand(), "Information about ShardShopper");
 
     private final String syntax;
     private final boolean isCommandCaseSensitive;

@@ -29,7 +29,7 @@ public class CommandListener extends ListenerAdapter {
 			}
 		} catch (Exception e) {
 			// TODO: Add logging error here.
-			event.respond("Unexpected error has occurred. "+e.getClass().getName());
+			event.respond("Unexpected error has occurred. Try again later.");
 		}
 
 	}

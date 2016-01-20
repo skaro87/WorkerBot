@@ -24,8 +24,6 @@ public class Main {
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
-		
-		// TODO: Move stuff from here!
 
 		Main workerbot = new Main();
 		JpaRepository.startup();
@@ -45,7 +43,8 @@ public class Main {
 			channels.add("#" + u.getName().toLowerCase());
 			ChannelStats.getStats().put("#" + u.getName().toLowerCase(), new UserChannel(u.whisperSettings()));
 		}
-/*
+
+		
 		String[] channelArray = new String[channels.size()];
 
 		int i = 0;
@@ -53,7 +52,7 @@ public class Main {
 			channelArray[i++] = s;
 		}
 		
-		*/
+		
 		
 		try {
 			TwitchBot bot = new TwitchBot(StringResources.getUsername(), StringResources.getOauth(), "#" + StringResources.getUsername());
