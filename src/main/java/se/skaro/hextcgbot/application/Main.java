@@ -1,6 +1,5 @@
 package se.skaro.hextcgbot.application;
 
-import se.skaro.hextcgbot.model.StringResources;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.statistics.ChannelStats;
@@ -23,6 +22,12 @@ public class Main {
 	 * @param args
 	 *            the arguments
 	 */
+	
+	
+	private static final String OAUTH = "oauth:vfnmaaat5jkyhhfhlji0ahbc5n5lhu";
+	private static final String USERNAME = "hex_tcg_bot";
+	private static final String CLIENT_ID = "2svam4sbfxtdjipwsax266s9qz0907";
+	
 	public static void main(String[] args) {
 
 		Main workerbot = new Main();
@@ -35,27 +40,27 @@ public class Main {
 		
 		Set<String> channels = new HashSet<>(); 
 
-		channels.add("#" + StringResources.getUsername());
+		channels.add("#" + USERNAME);
 
-		ChannelStats.getStats().put("#" + StringResources.getUsername(), new UserChannel(0));
+		ChannelStats.getStats().put("#" + USERNAME, new UserChannel(0));
 
 		for (User u : JpaRepository.findUsersToAutoJoin()) {
 			channels.add("#" + u.getName().toLowerCase());
 			ChannelStats.getStats().put("#" + u.getName().toLowerCase(), new UserChannel(u.whisperSettings()));
 		}
 
-		
+		/*
 		String[] channelArray = new String[channels.size()];
 
 		int i = 0;
 		for (String s : channels) {
 			channelArray[i++] = s;
 		}
-		
+		*/
 		
 		
 		try {
-			TwitchBot bot = new TwitchBot(StringResources.getUsername(), StringResources.getOauth(), "#" + StringResources.getUsername());
+			TwitchBot bot = new TwitchBot(USERNAME, OAUTH, "#" +USERNAME);
 			bot.setUseTwitchCapabilities(true);
 			bot.addListener(new DefaultListener());
 			bot.addListener(new CommandListener());

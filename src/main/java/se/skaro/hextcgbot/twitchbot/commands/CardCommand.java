@@ -16,7 +16,7 @@ public class CardCommand extends AbstractCommand {
 		String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
 		List<Card> result = JpaRepository.findCardByFormatedName(name);
 		if (result.isEmpty()) {
-			MessageSender.sendMessage(event, "No cards with name '" + name + "' found");
+			MessageSender.sendMessage(event, "No card with name '" + name + "' found");
 		}
 		// one result found. No need to create a StringBuilder and start the for-loop
 		else if (result.size() == 1) {
