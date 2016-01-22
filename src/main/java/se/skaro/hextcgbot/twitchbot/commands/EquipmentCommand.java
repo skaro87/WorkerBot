@@ -14,7 +14,7 @@ import java.util.List;
 public class EquipmentCommand extends AbstractCommand {
     @Override
     public void call(String commandSyntax, MessageEvent event) {
-        String equipmentName = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+        String equipmentName = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
         if (equipmentName.length() > 3) {
             List<Equipment> equipments = JpaRepository.findEquipmentByAffectedCardName(equipmentName);
             if (equipments.isEmpty()) {

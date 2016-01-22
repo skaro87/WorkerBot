@@ -23,7 +23,7 @@ public class ImageCommand extends AbstractCommand {
 
 		user = event.getUser().getNick();
 		if (user != null) {
-			String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)).replace("'", "");
+			String name = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event)).replace("'", "");
 
 			if (name.equalsIgnoreCase("setup")) {
 				TwitchBot bot = event.getBot();

@@ -16,7 +16,7 @@ public class GemCommand extends AbstractCommand {
 	public void call(String commandSyntax, MessageEvent event) {
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String input = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+			String input = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
 			if (input.length() > 3) {
 				List<Gem> result = JpaRepository.findGemByName(input);
 				if (result.isEmpty()) {

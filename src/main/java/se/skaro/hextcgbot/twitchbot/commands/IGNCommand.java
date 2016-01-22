@@ -15,7 +15,7 @@ public class IGNCommand extends AbstractCommand {
 	public void call(String commandSyntax, MessageEvent event) {
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)).replaceFirst("^@", "").replaceFirst(" ", "");
+			String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event)).replaceFirst("^@", "").replaceFirst(" ", "");
 
 			if (message.length() > 3) {
 				List<User> result = JpaRepository

@@ -15,7 +15,7 @@ public class SetIGNCommand extends AbstractCommand {
     public void call(String commandSyntax, MessageEvent event) {
         String userNick = getUserNick(event);
         if (userNick != null) {
-            String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+            String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
             System.out.println(message);
             if (!message.isEmpty()) {
             	

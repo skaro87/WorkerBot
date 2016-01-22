@@ -8,7 +8,7 @@ import org.pircbotx.hooks.events.MessageEvent;
 public class HelpCommand extends AbstractCommand {
     @Override
     public void call(String commandSyntax, MessageEvent event) {
-        String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+        String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
         if (message.isEmpty()) {
             StringBuilder helpMessage = new StringBuilder();
             helpMessage.append("Current commands are: ");

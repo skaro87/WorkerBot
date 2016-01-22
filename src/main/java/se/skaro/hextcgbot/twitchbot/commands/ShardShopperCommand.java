@@ -9,7 +9,7 @@ public class ShardShopperCommand extends AbstractCommand {
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
 		
-		String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+		String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
 		
 		if (message.equals("")){
 			event.respondChannel(SHARDSHOPPER_MESSAGE);

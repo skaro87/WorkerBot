@@ -7,6 +7,7 @@ import se.skaro.hextcgbot.statistics.UserChannel;
 import se.skaro.hextcgbot.twitchbot.CommandListener;
 import se.skaro.hextcgbot.twitchbot.DefaultListener;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
+import se.skaro.hextcgbot.twitchbot.commands.AbstractCommand;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,9 +25,8 @@ public class Main {
 	 */
 	
 	
-	private static final String OAUTH = "oauth:vfnmaaat5jkyhhfhlji0ahbc5n5lhu";
-	private static final String USERNAME = "hex_tcg_bot";
-	private static final String CLIENT_ID = "2svam4sbfxtdjipwsax266s9qz0907";
+	private static final String OAUTH = "OAUTH her";
+	private static final String USERNAME = "username here";
 	
 	public static void main(String[] args) {
 

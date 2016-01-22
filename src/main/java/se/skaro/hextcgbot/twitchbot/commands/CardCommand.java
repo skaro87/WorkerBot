@@ -13,7 +13,7 @@ import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 public class CardCommand extends AbstractCommand {
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
-		String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+		String name = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
 		if (name.length() > 3) {
 			List<Card> result = JpaRepository.findCardByFormatedName(name);
 			if (result.isEmpty()) {

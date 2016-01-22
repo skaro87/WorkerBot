@@ -16,7 +16,7 @@ public class KeywordCommand extends AbstractCommand {
 	public void call(String commandSyntax, MessageEvent event) {
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+			String name = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
 			if (name.length() > 3) {
 				List<Keyword> result = JpaRepository.findKeywordByName(name);
 				if (result.isEmpty()) {

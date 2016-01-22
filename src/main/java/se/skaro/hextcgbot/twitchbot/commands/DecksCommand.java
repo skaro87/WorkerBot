@@ -10,6 +10,6 @@ import se.skaro.hextcgbot.events.MessageSender;
 public class DecksCommand extends AbstractCommand {
     @Override
     public void call(String commandSyntax, MessageEvent event) {
-        MessageSender.sendMessage(event, new DeckGetter().getDecks(fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event))));
+        MessageSender.sendMessage(event, new DeckGetter().getDecks(fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event))));
     }
 }

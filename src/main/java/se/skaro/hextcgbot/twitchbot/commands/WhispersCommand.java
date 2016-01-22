@@ -13,7 +13,7 @@ public class WhispersCommand extends AbstractCommand {
     public void call(String commandSyntax, MessageEvent event) {
         String userNick = getUserNick(event);
         if (userNick != null && event.getBot().getUserChannelDao().containsChannel(getChannelName(userNick))) {
-            String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+            String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
             
             User user = JpaRepository.findUserByName(userNick).get(0);
             

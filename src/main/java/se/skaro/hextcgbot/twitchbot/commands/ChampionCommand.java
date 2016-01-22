@@ -20,7 +20,7 @@ public class ChampionCommand extends AbstractCommand {
 
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+			String name = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
 			if (name.length() > 3) {
 				List<Champion> result = JpaRepository.findChampionByName(name);
 				if (result.isEmpty()) {
