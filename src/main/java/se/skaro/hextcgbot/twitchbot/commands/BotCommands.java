@@ -21,7 +21,10 @@ public enum BotCommands {
     IGN("!ign", false, new IGNCommand(), "Find the IGN for a user by typing !ign 'username' (accepts @ before username) or get your username with just !ign"),
     SET_IGN("!setIGN", false, new SetIGNCommand(), "Set your IGN by typing !setign 'your IGN'. Min 3 and max 100 characters, usernames containing inappropriate and/or long names will be shortened."),
     IMG("!img", false, new ImageCommand(), "Used with the image browser plugin to show images of cards"),
-    SHARDSHOPPER("!shardshopper", false, new ShardShopperCommand(), "Information about ShardShopper");
+    SHARDSHOPPER("!shardshopper", false, new ShardShopperCommand(), "Information about ShardShopper"),
+    CHAMPION("!legend", false, new ChampionCommand(), "Find the text of a legend by typing !legend 'name'"),
+    GEM("!gem", false, new GemCommand(), "Find the text of a gem by typing !gem 'name/part of text'"),
+    KEYWORD("!keyword", false, new KeywordCommand(), "Find the text of a keyword by typing !keyword 'keyword'");
 
     private final String syntax;
     private final boolean isCommandCaseSensitive;
