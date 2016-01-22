@@ -1,8 +1,8 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
 public enum BotCommands {
-    JOIN("!join", false, new JoinCommand(), "Use this command to make WorkerBot join your channel."),
-    LEAVE("!leave", false, new LeaveCommand(), "Use this command to make WorkerBot leave your channel."),
+  //  JOIN("!join", false, new JoinCommand(), "Use this command to make WorkerBot join your channel."),
+	LEAVE("!leave", false, new LeaveCommand(), "Use this command to make WorkerBot leave your channel."),
     PRICE("!price", false, new PriceCommand(), "Use command !price 'card' to check a card's price."),
     CARD("!card", false, new CardCommand(), "Find the text of a card by typing !card 'cardname'"),
     EQUIPMENT("!equipment", false, new EquipmentCommand(), "Find the text for Equipments by typing !equipment 'cardname'"),
@@ -22,7 +22,7 @@ public enum BotCommands {
     SET_IGN("!setIGN", false, new SetIGNCommand(), "Set your IGN by typing !setign 'your IGN'. Min 3 and max 100 characters, usernames containing inappropriate and/or long names will be shortened."),
     IMG("!img", false, new ImageCommand(), "Used with the image browser plugin to show images of cards"),
     SHARDSHOPPER("!shardshopper", false, new ShardShopperCommand(), "Information about ShardShopper"),
-    CHAMPION("!legend", false, new ChampionCommand(), "Find the text of a legend by typing !legend 'name'"),
+    CHAMPION("!legend", false, new LegendCommand(), "Find the text of a legend by typing !legend 'name'"),
     GEM("!gem", false, new GemCommand(), "Find the text of a gem by typing !gem 'name/part of text'"),
     KEYWORD("!keyword", false, new KeywordCommand(), "Find the text of a keyword by typing !keyword 'keyword'");
 

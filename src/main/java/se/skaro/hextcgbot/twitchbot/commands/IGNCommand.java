@@ -17,11 +17,10 @@ public class IGNCommand extends AbstractCommand {
 		if (userNick != null) {
 			String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event)).replaceFirst("^@", "").replaceFirst(" ", "");
 
-			if (message.length() > 3) {
+			if (message.length() > 7) {
 				List<User> result = JpaRepository
 						.findUserByNameWithWildcards(message);
-
-				//TODO: Check for usernames and return exact match if it exists
+				
 				for (User user : result) {
 					MessageSender.sendMessage(event, "IGN for user " + user.getName() + " is " + user.getIGN());
 				}

@@ -4,7 +4,7 @@ import org.pircbotx.hooks.events.MessageEvent;
 
 public class ShardShopperCommand extends AbstractCommand {
 	
-	private static String SHARDSHOPPER_MESSAGE = "ShardShopper comming soon!";
+	private static String SHARDSHOPPER_MESSAGE = "ShardShopper coming soon!";
 
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {

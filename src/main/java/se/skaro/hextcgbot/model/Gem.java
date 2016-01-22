@@ -25,9 +25,7 @@ public class Gem extends AbstractEntity{
 	}
 	@Override
 	public String toString() {
-		return name +". Socketable " + socket + ": " + text;
+		return socket +" "+name +": " + text;
 	}
-	
-	
 
 }

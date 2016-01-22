@@ -55,7 +55,7 @@ import javax.persistence.Table;
 
 		@Override
 		public String toString() {
-			return name + ", set " + set + ", " + health + " health. " + race
+			return name + ", " + set + ", " + health + " health. " + race
 					+ " " + championClass + ". " + charge;
 		}
 		

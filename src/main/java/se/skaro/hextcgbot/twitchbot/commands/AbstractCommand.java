@@ -31,6 +31,6 @@ public abstract class AbstractCommand {
     }
 
     protected static String fixWhiteSpacesAndSymbols(String message) {
-        return message.trim().replaceAll("\\s+", " ").replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "");
+        return message.trim().replaceAll("\\s+", " ").replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "");
     }
 }

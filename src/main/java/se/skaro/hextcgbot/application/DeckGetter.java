@@ -40,8 +40,6 @@ public class DeckGetter {
 			JsonObject jobject = jelement.getAsJsonObject();
 			JsonArray jarray = jobject.getAsJsonArray("data");
 
-			System.out.println(jarray.size());
-
 			int size = jarray.size();
 
 			if (size == 0) {

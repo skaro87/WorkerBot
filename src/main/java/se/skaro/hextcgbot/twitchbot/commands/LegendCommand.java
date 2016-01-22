@@ -14,7 +14,7 @@ import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 /**
  * Sends back the info about a card.
  */
-public class ChampionCommand extends AbstractCommand {
+public class LegendCommand extends AbstractCommand {
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
 

@@ -25,8 +25,8 @@ public class Main {
 	 */
 	
 	
-	private static final String OAUTH = "oauth:vfnmaaat5jkyhhfhlji0ahbc5n5lhu";
-	private static final String USERNAME = "hex_tcg_bot";
+	private static final String OAUTH = "oauth:5dhci670u6zbnm4v94yem8bahcxgys";
+	private static final String USERNAME = "workerbotbeta";
 	
 	public static void main(String[] args) {
 
@@ -58,9 +58,9 @@ public class Main {
 		}
 		*/
 		
-		
+		//"#celendine", "#dinotropia",
 		try {
-			TwitchBot bot = new TwitchBot(USERNAME, OAUTH, "#" +USERNAME);
+			TwitchBot bot = new TwitchBot(USERNAME, OAUTH, "#" +USERNAME, "#celendine", "#dinotropia", "#skaro87");
 			bot.setUseTwitchCapabilities(true);
 			bot.addListener(new DefaultListener());
 			bot.addListener(new CommandListener());

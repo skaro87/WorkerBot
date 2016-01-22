@@ -47,6 +47,8 @@ public class KeywordCommand extends AbstractCommand {
 					MessageSender.sendMessage(event, sb.toString());
 				}
 
+			} else {
+				MessageSender.sendMessage(event, "You need at least 4 characters to do a search");
 			}
 		}
 	}
