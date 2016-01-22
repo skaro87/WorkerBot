@@ -30,7 +30,7 @@ public abstract class AbstractCommand {
         return event.getMessage().replaceFirst("(?i)" + Pattern.quote(commandSyntax), "");
     }
 
-    public static String fixWhiteSpacesAndSymbols(String message) {
-        return message.trim().replaceAll("\\s+", " ").replaceAll("[^A-Za-z0-9 ]", "");
+    protected static String fixWhiteSpacesAndSymbols(String message) {
+        return message.trim().replaceAll("\\s+", " ").replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "");
     }
 }

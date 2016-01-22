@@ -25,8 +25,8 @@ public class Main {
 	 */
 	
 	
-	private static final String OAUTH = "OAUTH her";
-	private static final String USERNAME = "username here";
+	private static final String OAUTH = "oauth:vfnmaaat5jkyhhfhlji0ahbc5n5lhu";
+	private static final String USERNAME = "hex_tcg_bot";
 	
 	public static void main(String[] args) {
 
