@@ -1,15 +1,15 @@
 package se.skaro.hextcgbot.application;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import se.skaro.hextcgbot.model.StringResources;
 import se.skaro.hextcgbot.model.User;
-import se.skaro.hextcgbot.repository.jpa.JPADBHandler;
+import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.statistics.UserChannel;
+import se.skaro.hextcgbot.twitchbot.CommandListener;
 import se.skaro.hextcgbot.twitchbot.DefaultListener;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The Class Main.
@@ -22,30 +22,42 @@ public class Main {
 	 * @param args
 	 *            the arguments
 	 */
+	
+	private static final String PROPERTY_FILE_NAME = "workerbot";
+	
 	public static void main(String[] args) {
 
-		JPADBHandler.startup();
+		PropertyGetter.getProperties(PROPERTY_FILE_NAME);
+		Main workerbot = new Main();
+		JpaRepository.startup();
+		workerbot.startBot();
 
-		Set<String> channels = new HashSet<String>();
+	}
+	
+	private void startBot(){
+		
+		Set<String> channels = new HashSet<>(); 
 
-		channels.add("#" + StringResources.getUsername());
+		channels.add("#" + PropertyGetter.getUSERNAME());
 
-		ChannelStats.getStats().put("#" + StringResources.getUsername(), new UserChannel(0));
+		ChannelStats.getStats().put("#" + PropertyGetter.getUSERNAME(), new UserChannel(0));
 
-		for (User u : JPADBHandler.getAllUserWhereBotIsInChannel()) {
+		for (User u : JpaRepository.findUsersToAutoJoin()) {
 			channels.add("#" + u.getName().toLowerCase());
 			ChannelStats.getStats().put("#" + u.getName().toLowerCase(), new UserChannel(u.whisperSettings()));
 		}
-
+		/*
 		String[] channelArray = new String[channels.size()];
 
 		int i = 0;
 		for (String s : channels) {
 			channelArray[i++] = s;
 		}
-
+		*/
+		
+		//"#celendine", "#dinotropia",
 		try {
-			TwitchBot bot = new TwitchBot(StringResources.getUsername(), StringResources.getOauth(), channelArray);
+			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH(), "#" +PropertyGetter.getUSERNAME(), "#skaro87");
 			bot.setUseTwitchCapabilities(true);
 			bot.addListener(new DefaultListener());
 			bot.addListener(new CommandListener());
@@ -53,7 +65,6 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

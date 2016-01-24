@@ -6,20 +6,18 @@ package se.skaro.hextcgbot.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * The persistent class for the CARD database table.
  * 
  */
 @Entity
+@Table (name="CARD")
 @NamedQuery(name = "Card.findAll", query = "SELECT c FROM Card c")
-public final class Card implements Serializable {
+public final class Card extends AbstractEntity implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
-	/** The name. */
-	@Id
-	private String name;
 
 	/** The formated name. */
 	private String formatedName;
@@ -94,85 +92,6 @@ public final class Card implements Serializable {
 	 * Instantiates a new card.
 	 */
 	public Card() {
-	}
-
-	/**
-	 * Instantiates a new card.
-	 *
-	 * @param name
-	 *            the name
-	 * @param formatedName
-	 *            the formated name
-	 * @param set
-	 *            the set
-	 * @param shard
-	 *            the shard
-	 * @param rarity
-	 *            the rarity
-	 * @param type
-	 *            the type
-	 * @param quick
-	 *            the quick
-	 * @param trait1
-	 *            the trait1
-	 * @param trait2
-	 *            the trait2
-	 * @param trait3
-	 *            the trait3
-	 * @param faction
-	 *            the faction
-	 * @param cost
-	 *            the cost
-	 * @param blood
-	 *            the blood
-	 * @param diamond
-	 *            the diamond
-	 * @param ruby
-	 *            the ruby
-	 * @param sapphire
-	 *            the sapphire
-	 * @param wild
-	 *            the wild
-	 * @param attack
-	 *            the attack
-	 * @param defense
-	 *            the defense
-	 * @param text
-	 *            the text
-	 * @param unique
-	 *            the unique
-	 * @param major
-	 *            the major
-	 * @param minor
-	 *            the minor
-	 */
-	public Card(String name, String formatedName, String set, String shard, String rarity, String type, String quick,
-			String trait1, String trait2, String trait3, String faction, String cost, int blood, int diamond, int ruby,
-			int sapphire, int wild, String attack, String defense, String text, String unique, int major, int minor) {
-		super();
-		this.name = name;
-		this.formatedName = formatedName;
-		this.set = set;
-		this.shard = shard;
-		this.rarity = rarity;
-		this.type = type;
-		this.quick = quick;
-		this.trait1 = trait1;
-		this.trait2 = trait2;
-		this.trait3 = trait3;
-		this.faction = faction;
-		this.cost = cost;
-		this.blood = blood;
-		this.diamond = diamond;
-		this.ruby = ruby;
-		this.sapphire = sapphire;
-		this.wild = wild;
-		this.attack = attack;
-		this.defense = defense;
-		this.text = text;
-		this.unique = unique;
-		this.major = major;
-		this.minor = minor;
 	}
 
 	/**
@@ -254,15 +173,6 @@ public final class Card implements Serializable {
 		sb.append(". " + text);
 
 		return sb.toString().replaceAll("\n", " ");
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
 	}
 
 	/**

@@ -7,14 +7,11 @@ import javax.persistence.*;
  * The Class User.
  */
 @Entity
-public final class User implements Serializable {
+@Table (name="USER")
+public final class User extends AbstractEntity implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
-	/** The name. */
-	@Id
-	private String name;
 
 	/** The in channel. */
 	private int inChannel;
@@ -50,16 +47,7 @@ public final class User implements Serializable {
 		this.ign = ign;
 		this.whispers = whispers;
 	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
+	
 	/**
 	 * Checks if is in channel.
 	 *

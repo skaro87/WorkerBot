@@ -76,9 +76,7 @@ public class GroupServer extends ListenerAdapter implements Runnable
 	{
 		try {
 			bot.startBot();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (IrcException e) {
+		} catch (IOException | IrcException e) {
 			e.printStackTrace();
 		}
 	}

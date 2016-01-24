@@ -40,8 +40,6 @@ public class DeckGetter {
 			JsonObject jobject = jelement.getAsJsonObject();
 			JsonArray jarray = jobject.getAsJsonArray("data");
 
-			System.out.println(jarray.size());
-
 			int size = jarray.size();
 
 			if (size == 0) {
@@ -49,7 +47,7 @@ public class DeckGetter {
 			}
 
 			else {
-				ArrayList<JsonObject> userData = new ArrayList<JsonObject>();
+				ArrayList<JsonObject> userData = new ArrayList<>();
 
 				for (int j = 0; j < jarray.size(); j++) {
 					jobject = jarray.get(j).getAsJsonObject();
@@ -70,6 +68,9 @@ public class DeckGetter {
 
 					try {
 
+						// TODO: Change parsing method. FasterXML Jackson, add
+						// to pom, remove current json-lib
+
 						String id = o.get("id").toString().replace("\"", "");
 
 						JsonObject championJson = o.getAsJsonObject("champion");
@@ -88,8 +89,9 @@ public class DeckGetter {
 						if (decks.size() > 2)
 							break;
 
-					} catch (Exception e) {
-
+					} catch (Exception ignnored) {
+						// json includes null value
+						// TODO: Logger, log.info
 					}
 
 				}
@@ -172,12 +174,14 @@ public class DeckGetter {
 	 * @throws Exception
 	 *             the exception
 	 */
+
+	// TODO: Move this to a new class that handles url requests.
 	private static String readUrl(String urlString) throws Exception {
 		BufferedReader reader = null;
 		try {
 			URL url = new URL(urlString);
 			reader = new BufferedReader(new InputStreamReader(url.openStream()));
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			int read;
 			char[] chars = new char[1024];
 			while ((read = reader.read(chars)) != -1)

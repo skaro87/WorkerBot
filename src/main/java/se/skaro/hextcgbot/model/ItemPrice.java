@@ -8,12 +8,11 @@ import javax.persistence.*;
  * 
  */
 @Entity
-public final class ItemPrice implements Serializable {
+@Table (name="ITEMPRICE")
+public final class ItemPrice extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String name;
-	private String weightedAveragePlatinum;
+	private String weightedAveragePlatinum; 
 	private String numberOfAuctionsPlatinum;
 	private String averagePlatinum;
 	private String minPricePlatinum;
@@ -24,44 +23,25 @@ public final class ItemPrice implements Serializable {
 	private String minPriceGold;
 	private String maxPriceGold;
 
-	public ItemPrice(String name, String line, String line2, String line3, String line4, String line5, String line6,
-			String line7, String line8, String line9, String line10) {
-		super();
-		this.name = name;
-		this.weightedAveragePlatinum = line;
-		this.numberOfAuctionsPlatinum = line2;
-		this.averagePlatinum = line3;
-		this.minPricePlatinum = line4;
-		this.maxPricePlatinum = line5;
-		this.weightedAverageGold = line6;
-		this.numberOfAuctionsGold = line7;
-		this.averageGold = line8;
-		this.minPriceGold = line9;
-		this.maxPriceGold = line10;
-	}
 	
-	public String getListedPrice(float platRatio) {
+	public String getListedPrice(Double ratio) {
 
-		if (Float.valueOf(weightedAveragePlatinum) == 0) {
-			return "[" + name + ": " + weightedAverageGold + "g] ";
+		if (Double.valueOf(weightedAveragePlatinum) == 0) {
+			return name + " [" + weightedAverageGold + "g] ";
 
-		} else if (Float.valueOf(weightedAverageGold) == 0) {
-			return "[" + name + ": " + weightedAveragePlatinum + "p] ";
+		} else if (Double.valueOf(weightedAverageGold) == 0) {
+			return name + " [" + weightedAveragePlatinum + "p]";
 		}
 
-		if (Float.valueOf(weightedAveragePlatinum) * platRatio >= Float.valueOf(weightedAverageGold)) {
-			return "[" + name + ": " + weightedAverageGold + "g, " + weightedAveragePlatinum + "p] ";
+		if (Float.valueOf(weightedAveragePlatinum) * ratio >= Double.valueOf(weightedAverageGold)) {
+			return name + " [" + weightedAverageGold + "g, " + weightedAveragePlatinum + "p]";
 		}
 
-		return "[" + name + ": " + weightedAveragePlatinum + "p, " + weightedAverageGold + "g] ";
+		return name + " [" + weightedAveragePlatinum + "p, " + weightedAverageGold + "g]";
 	}
 
 
 	public ItemPrice() {
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public String getWeightedAveragePlatinum() {
