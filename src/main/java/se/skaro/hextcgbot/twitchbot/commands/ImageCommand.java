@@ -24,7 +24,7 @@ public class ImageCommand extends AbstractCommand {
 
 	private String user = "";
 	private static String LINK_TO_IMAGE_URL_HOST = "http://hex.digital-poets.net";
-	private static String IMG_PLUGIN_URL = "http://hex.digital-poets.net/staticImage/USER";
+	private static String IMG_PLUGIN_URL = "http://hex.digital-poets.net/staticImage/USER?cooldown=&in=&out=";
 
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
@@ -89,7 +89,6 @@ public class ImageCommand extends AbstractCommand {
 	private void sendURLCall(Card card, MessageEvent event) {
 
 		String urlCall = IMG_PLUGIN_URL.replace("USER", user);
-		System.out.println(urlCall);
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost post = new HttpPost(urlCall);
 

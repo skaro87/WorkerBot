@@ -1,7 +1,7 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
 public enum BotCommands {
-  //  JOIN("!join", false, new JoinCommand(), "Use this command to make WorkerBot join your channel."),
+    JOIN("!join", false, new JoinCommand(), "Use this command to make WorkerBot join your channel."),
 	LEAVE("!leave", false, new LeaveCommand(), "Use this command to make WorkerBot leave your channel."),
     PRICE("!price", false, new PriceCommand(), "Use command !price 'card' to check a card's price."),
     CARD("!card", false, new CardCommand(), "Find the text of a card by typing !card 'cardname'"),

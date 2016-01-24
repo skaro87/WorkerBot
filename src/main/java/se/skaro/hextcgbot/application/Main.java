@@ -7,7 +7,6 @@ import se.skaro.hextcgbot.statistics.UserChannel;
 import se.skaro.hextcgbot.twitchbot.CommandListener;
 import se.skaro.hextcgbot.twitchbot.DefaultListener;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
-import se.skaro.hextcgbot.twitchbot.commands.AbstractCommand;
 
 import java.util.HashSet;
 import java.util.Set;
