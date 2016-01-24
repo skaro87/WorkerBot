@@ -24,7 +24,7 @@ public class Main {
 	 *            the arguments
 	 */
 	
-	private static final String PROPERTY_FILE_NAME = "workerbotbeta";
+	private static final String PROPERTY_FILE_NAME = "workerbot";
 	
 	public static void main(String[] args) {
 
