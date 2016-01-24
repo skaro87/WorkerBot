@@ -1,11 +1,17 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.pircbotx.hooks.events.MessageEvent;
 
 import se.skaro.hextcgbot.events.MessageSender;
@@ -15,8 +21,10 @@ import se.skaro.hextcgbot.twitchbot.TwitchBot;
 
 public class ImageCommand extends AbstractCommand {
 
-	String user = "";
-	private static String LINK_TO_IMAGE_PATH = "http://hex.digital-poets.net/cards/";
+	private String user = "";
+	private static String LINK_TO_IMAGE_URL_HOST = "http://hex.digital-poets.net";
+	private static String IMG_PLUGIN_URL = "http://hex.digital-poets.net/staticImage/USER";
+	private static String IMG_PLUGIN_PASS = "pass...";
 
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
@@ -28,10 +36,10 @@ public class ImageCommand extends AbstractCommand {
 			if (name.length() > 3) {
 
 				if (name.equalsIgnoreCase("setup")) {
-					TwitchBot bot = event.getBot();
-					String setupUrl = "http://46.101.226.88:8080/heximg/?user=" + user
-							+ "&bg=33FF33&cooldown=10&in=&out=&ref=" + hashPassword(user);
-					bot.getGroupServer().sendWhisper(event.getUser().getNick(), setupUrl.replaceAll(" ", ""));
+					
+					 TwitchBot bot = event.getBot();
+					 bot.getGroupServer().sendWhisper(user, IMG_PLUGIN_URL.replace("USER", user));
+					 
 				}
 
 				else {
@@ -45,18 +53,18 @@ public class ImageCommand extends AbstractCommand {
 					// the
 					// for-loop
 					else if (result.size() == 1) {
-						sendUrlCall(result.get(0), event, true);
+						sendResponse(result.get(0), event);
 					}
 					// more than one found.
 					else {
 						for (Card card : result) {
 							if (card.getFormatedName().equalsIgnoreCase(name)) {
-								sendUrlCall(card, event, true);
+								sendResponse(card, event);
 								return;
 							}
 
 						}
-						sendUrlCall(result.get(0), event, true);
+						sendResponse(result.get(0), event);
 					}
 				}
 
@@ -67,44 +75,54 @@ public class ImageCommand extends AbstractCommand {
 
 	}
 
-	private void sendUrlCall(Card card, MessageEvent event, boolean aa) {
+	private void sendResponse(Card card, MessageEvent event) {
 
 		if (!event.getChannel().getName().endsWith(event.getUser().getNick())) {
 			String path = cardInfo(card);
-			MessageSender.sendMessage(event, LINK_TO_IMAGE_PATH + path.toLowerCase() + ".png");
+			MessageSender.sendMessage(event, LINK_TO_IMAGE_URL_HOST + path.toLowerCase());
 
 		} else {
 
-			URL url = null;
-			try {
-				url = new URL(getUrlString(card));
-
-				InputStream is = url.openStream();
-				is.close();
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-			}
+			sendURLCall(card, event);
 
 		}
 	}
 
-	private String getUrlString(Card card) {
-		String unformatedUrl = "http://46.101.226.88:8080/heximg/setimg?user=USERNAME&img=IMAGE";
-		return unformatedUrl.replace("USERNAME", user).replace("IMAGE", cardInfo(card).toLowerCase());
+	private void sendURLCall(Card card, MessageEvent event) {
+
+		String urlCall = IMG_PLUGIN_URL.replace("USER", user);
+		System.out.println(urlCall);
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost post = new HttpPost(urlCall);
+
+		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+		urlParameters.add(new BasicNameValuePair("password", IMG_PLUGIN_PASS));
+		urlParameters.add(new BasicNameValuePair("url", cardInfo(card)));
+		try {
+			post.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+			HttpResponse response;
+
+			response = client.execute(post);
+			if (!(response.getStatusLine().getStatusCode() == 201)){
+				TwitchBot bot = event.getBot();
+				 bot.getGroupServer().sendWhisper(user, "Could not connect to the image plugin. Try again later");
+			}
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private String cardInfo(Card card) {
 		String name = card.getName().replaceAll(" ", "-").replaceAll("'", "-").replaceAll(",", "");
 		String set = card.getSet().replaceAll(" ", "-");
-		return set + "/" + name;
-	}
-
-	private String hashPassword(String user) {
-		return ("" + user.hashCode()).substring(0, 4);
+		return ("/cards/" + set + "/" + name + ".png").toLowerCase();
 	}
 
 }
