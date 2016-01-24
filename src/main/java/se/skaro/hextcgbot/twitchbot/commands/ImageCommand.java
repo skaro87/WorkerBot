@@ -14,6 +14,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.pircbotx.hooks.events.MessageEvent;
 
+import se.skaro.hextcgbot.application.PropertyGetter;
 import se.skaro.hextcgbot.events.MessageSender;
 import se.skaro.hextcgbot.model.Card;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
@@ -24,7 +25,6 @@ public class ImageCommand extends AbstractCommand {
 	private String user = "";
 	private static String LINK_TO_IMAGE_URL_HOST = "http://hex.digital-poets.net";
 	private static String IMG_PLUGIN_URL = "http://hex.digital-poets.net/staticImage/USER";
-	private static String IMG_PLUGIN_PASS = "pass...";
 
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
@@ -36,10 +36,10 @@ public class ImageCommand extends AbstractCommand {
 			if (name.length() > 3) {
 
 				if (name.equalsIgnoreCase("setup")) {
-					
-					 TwitchBot bot = event.getBot();
-					 bot.getGroupServer().sendWhisper(user, IMG_PLUGIN_URL.replace("USER", user));
-					 
+
+					TwitchBot bot = event.getBot();
+					bot.getGroupServer().sendWhisper(user, IMG_PLUGIN_URL.replace("USER", user));
+
 				}
 
 				else {
@@ -48,10 +48,8 @@ public class ImageCommand extends AbstractCommand {
 					if (result.isEmpty()) {
 						MessageSender.sendMessage(event, "No card with name '" + name + "' found");
 					}
-					// one result found. No need to create a StringBuilder and
-					// start
-					// the
-					// for-loop
+					// one result found. No need to create a StringBuilder and start the for-loop
+
 					else if (result.size() == 1) {
 						sendResponse(result.get(0), event);
 					}
@@ -96,7 +94,7 @@ public class ImageCommand extends AbstractCommand {
 		HttpPost post = new HttpPost(urlCall);
 
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-		urlParameters.add(new BasicNameValuePair("password", IMG_PLUGIN_PASS));
+		urlParameters.add(new BasicNameValuePair("password", PropertyGetter.getIMG_PLUGIN_PASSWORD()));
 		urlParameters.add(new BasicNameValuePair("url", cardInfo(card)));
 		try {
 			post.setEntity(new UrlEncodedFormEntity(urlParameters));
@@ -104,9 +102,9 @@ public class ImageCommand extends AbstractCommand {
 			HttpResponse response;
 
 			response = client.execute(post);
-			if (!(response.getStatusLine().getStatusCode() == 201)){
+			if (!(response.getStatusLine().getStatusCode() == 201)) {
 				TwitchBot bot = event.getBot();
-				 bot.getGroupServer().sendWhisper(user, "Could not connect to the image plugin. Try again later");
+				bot.getGroupServer().sendWhisper(user, "Could not connect to the image plugin. Try again later");
 			}
 
 		} catch (ClientProtocolException e) {

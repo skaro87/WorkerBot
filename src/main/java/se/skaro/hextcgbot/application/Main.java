@@ -24,12 +24,11 @@ public class Main {
 	 *            the arguments
 	 */
 	
-	
-	private static final String OAUTH = "oauth...";
-	private static final String USERNAME = "username";
+	private static final String PROPERTY_FILE_NAME = "workerbotbeta";
 	
 	public static void main(String[] args) {
 
+		PropertyGetter.getProperties(PROPERTY_FILE_NAME);
 		Main workerbot = new Main();
 		JpaRepository.startup();
 		workerbot.startBot();
@@ -40,9 +39,9 @@ public class Main {
 		
 		Set<String> channels = new HashSet<>(); 
 
-		channels.add("#" + USERNAME);
+		channels.add("#" + PropertyGetter.getUSERNAME());
 
-		ChannelStats.getStats().put("#" + USERNAME, new UserChannel(0));
+		ChannelStats.getStats().put("#" + PropertyGetter.getUSERNAME(), new UserChannel(0));
 
 		for (User u : JpaRepository.findUsersToAutoJoin()) {
 			channels.add("#" + u.getName().toLowerCase());
@@ -59,7 +58,7 @@ public class Main {
 		
 		//"#celendine", "#dinotropia",
 		try {
-			TwitchBot bot = new TwitchBot(USERNAME, OAUTH, "#" +USERNAME, "#skaro87");
+			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH(), "#" +PropertyGetter.getUSERNAME(), "#skaro87");
 			bot.setUseTwitchCapabilities(true);
 			bot.addListener(new DefaultListener());
 			bot.addListener(new CommandListener());
