@@ -15,14 +15,18 @@ public class IGNCommand extends AbstractCommand {
 	public void call(String commandSyntax, MessageEvent event) {
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event))
+			String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event))
 					.replaceFirst("^@", "").replaceFirst(" ", "");
 
-			if (message.length() > 4) {
+			if (message.length() > 3) {
 				List<User> result = JpaRepository.findUserByNameWithWildcards(message);
+				
+				if (result.isEmpty()){
+					MessageSender.sendMessage(event, "IGN for user " + message + " not found");
+				}
 
-				for (User user : result) {
-					MessageSender.sendMessage(event, "IGN for user " + user.getName() + " is " + user.getIGN());
+				else {
+					MessageSender.sendMessage(event, "IGN for user " + result.get(0).getName() + " is " + result.get(0).getIGN());
 				}
 
 			}

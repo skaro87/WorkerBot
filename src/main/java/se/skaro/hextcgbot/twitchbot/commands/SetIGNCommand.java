@@ -15,8 +15,8 @@ public class SetIGNCommand extends AbstractCommand {
     public void call(String commandSyntax, MessageEvent event) {
         String userNick = getUserNick(event);
         if (userNick != null) {
-            String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
-            System.out.println(message);
+            String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+            
             if (!message.isEmpty()) {
             	
             	User updatedUser;
@@ -30,6 +30,7 @@ public class SetIGNCommand extends AbstractCommand {
              	else {
              		updatedUser = new User(result.get(0).getName(), result.get(0).isInChannel(), result.get(0).whisperSettings(), message);
              	}
+             	
             	JpaRepository.saveOrUpdateUser(updatedUser);
             	MessageSender.sendMessage(event, "IGN updated for user "+userNick);
             	

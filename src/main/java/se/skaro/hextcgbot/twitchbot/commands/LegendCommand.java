@@ -20,7 +20,7 @@ public class LegendCommand extends AbstractCommand {
 
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String name = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
+			String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
 			if (name.length() > 3) {
 				List<Champion> result = JpaRepository.findChampionByName(name);
 				if (result.isEmpty()) {

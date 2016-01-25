@@ -4,12 +4,12 @@ import org.pircbotx.hooks.events.MessageEvent;
 
 public class ShardShopperCommand extends AbstractCommand {
 	
-	private static String SHARDSHOPPER_MESSAGE = "Check out ShardShopper at http://preview.tinyurl.com/ShardShopper1-1";
+	private static String SHARDSHOPPER_MESSAGE = "Check out ShardShopper at http://fiveshards.com/shard-shopper/";
 
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
 		
-		String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
+		String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
 		
 		if (message.equals("")){
 			event.respondChannel(SHARDSHOPPER_MESSAGE);

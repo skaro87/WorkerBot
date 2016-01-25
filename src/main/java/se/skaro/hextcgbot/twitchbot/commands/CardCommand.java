@@ -13,9 +13,9 @@ import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 public class CardCommand extends AbstractCommand {
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
-		String name = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
+		String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
 		if (name.length() > 3) {
-			List<Card> result = JpaRepository.findCardByFormatedName(name);
+			List<Card> result = JpaRepository.findCardByFormatedName(name.replace("'", ""));
 			if (result.isEmpty()) {
 				MessageSender.sendMessage(event, "No card with name '" + name + "' found");
 			}

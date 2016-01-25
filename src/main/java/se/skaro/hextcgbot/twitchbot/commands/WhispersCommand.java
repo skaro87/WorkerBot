@@ -19,7 +19,7 @@ public class WhispersCommand extends AbstractCommand {
 
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event));
+			String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
 
 			List<User> users = JpaRepository.findUserByName(userNick);
 

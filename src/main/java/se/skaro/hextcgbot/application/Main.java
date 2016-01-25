@@ -22,9 +22,9 @@ public class Main {
 	 * @param args
 	 *            the arguments
 	 */
-	
+
 	private static final String PROPERTY_FILE_NAME = "workerbot";
-	
+
 	public static void main(String[] args) {
 
 		PropertyGetter.getProperties(PROPERTY_FILE_NAME);
@@ -33,10 +33,10 @@ public class Main {
 		workerbot.startBot();
 
 	}
-	
-	private void startBot(){
-		
-		Set<String> channels = new HashSet<>(); 
+
+	private void startBot() {
+
+		Set<String> channels = new HashSet<>();
 
 		channels.add("#" + PropertyGetter.getUSERNAME());
 
@@ -46,7 +46,7 @@ public class Main {
 			channels.add("#" + u.getName().toLowerCase());
 			ChannelStats.getStats().put("#" + u.getName().toLowerCase(), new UserChannel(u.whisperSettings()));
 		}
-		
+
 		String[] channelArray = new String[channels.size()];
 
 		int i = 0;
@@ -54,7 +54,8 @@ public class Main {
 			channelArray[i++] = s;
 		}
 		
-		
+		while (true){
+
 		try {
 			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH(), channelArray);
 			bot.setUseTwitchCapabilities(true);
@@ -63,7 +64,10 @@ public class Main {
 			bot.startBot();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
+		
+		} //restarts the bot
 	}
 
 }

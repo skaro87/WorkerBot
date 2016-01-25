@@ -13,7 +13,7 @@ public class GoldToPlatCommand extends AbstractCommand {
     @Override
     public void call(String commandSyntax, MessageEvent event) {
         try {
-            double gold = Double.parseDouble(fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event)));
+            double gold = Double.parseDouble(fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)));
             MessageSender.sendMessage(event, GOLD_DECIMAL_FORMAT.format(gold) + " gold is currently worth "
                     + PLATINUM_DECIMAL_FORMAT.format(gold / JpaRepository.getRatio()) + " platinum");
         } catch (NumberFormatException e) {
