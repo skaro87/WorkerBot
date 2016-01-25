@@ -46,18 +46,17 @@ public class Main {
 			channels.add("#" + u.getName().toLowerCase());
 			ChannelStats.getStats().put("#" + u.getName().toLowerCase(), new UserChannel(u.whisperSettings()));
 		}
-		/*
+		
 		String[] channelArray = new String[channels.size()];
 
 		int i = 0;
 		for (String s : channels) {
 			channelArray[i++] = s;
 		}
-		*/
 		
-		//"#celendine", "#dinotropia",
+		
 		try {
-			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH(), "#" +PropertyGetter.getUSERNAME(), "#skaro87");
+			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH(), channelArray);
 			bot.setUseTwitchCapabilities(true);
 			bot.addListener(new DefaultListener());
 			bot.addListener(new CommandListener());

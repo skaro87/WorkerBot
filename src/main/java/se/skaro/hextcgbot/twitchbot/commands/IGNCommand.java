@@ -15,12 +15,12 @@ public class IGNCommand extends AbstractCommand {
 	public void call(String commandSyntax, MessageEvent event) {
 		String userNick = getUserNick(event);
 		if (userNick != null) {
-			String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event)).replaceFirst("^@", "").replaceFirst(" ", "");
+			String message = fixWhiteSpacesAndSymbols(getMessageWithoutCommand(commandSyntax, event))
+					.replaceFirst("^@", "").replaceFirst(" ", "");
 
-			if (message.length() > 7) {
-				List<User> result = JpaRepository
-						.findUserByNameWithWildcards(message);
-				
+			if (message.length() > 4) {
+				List<User> result = JpaRepository.findUserByNameWithWildcards(message);
+
 				for (User user : result) {
 					MessageSender.sendMessage(event, "IGN for user " + user.getName() + " is " + user.getIGN());
 				}
@@ -33,8 +33,7 @@ public class IGNCommand extends AbstractCommand {
 					MessageSender.sendMessage(event,
 							userNick + ", you have not registerd your username. To register type !setign 'your IGN'");
 				} else {
-					MessageSender.sendMessage(event,
-							"IGN for user " + result.get(0).getName() + " is " + result.get(0).getIGN());
+					event.respondChannel("IGN for user " + result.get(0).getName() + " is " + result.get(0).getIGN());
 				}
 			}
 
