@@ -50,6 +50,7 @@ public class EventListener extends ListenerAdapter {
 		
 		channels.forEach(s -> {
 			   event.getBot().sendIRC().joinChannel(s);
+			   System.out.println(s);
 			   try {
 			    Thread.sleep(500);
 			   } catch (Exception e) {

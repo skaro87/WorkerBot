@@ -57,7 +57,7 @@ public class Main {
 		while (true){
 
 		try {
-			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH(), channelArray);
+			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH());
 			bot.setUseTwitchCapabilities(true);
 			bot.addListener(new DefaultListener());
 			bot.addListener(new EventListener(channels));
