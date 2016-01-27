@@ -4,7 +4,7 @@ import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.statistics.UserChannel;
-import se.skaro.hextcgbot.twitchbot.CommandListener;
+import se.skaro.hextcgbot.twitchbot.EventListener;
 import se.skaro.hextcgbot.twitchbot.DefaultListener;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
 
@@ -60,7 +60,7 @@ public class Main {
 			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH(), channelArray);
 			bot.setUseTwitchCapabilities(true);
 			bot.addListener(new DefaultListener());
-			bot.addListener(new CommandListener());
+			bot.addListener(new EventListener(channels));
 			bot.startBot();
 		} catch (Exception e) {
 			e.printStackTrace();

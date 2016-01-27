@@ -17,7 +17,7 @@ public class JoinCommand extends AbstractCommand {
 	@Override
 	public void call(String commandSyntax, MessageEvent event) {
 		String userNick = getUserNick(event);
-		if (userNick != null) {
+		if (userNick != null && event.getMessage().equalsIgnoreCase("!join")) {
 			String channelName = getChannelName(userNick);
 			if (!event.getBot().getUserChannelDao().containsChannel(channelName)) {
 				List<User> result = JpaRepository.findUserByName(userNick);

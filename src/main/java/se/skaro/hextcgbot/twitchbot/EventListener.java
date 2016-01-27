@@ -1,6 +1,9 @@
 package se.skaro.hextcgbot.twitchbot;
 
+import java.util.Set;
+
 import org.pircbotx.hooks.ListenerAdapter;
+import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 import se.skaro.hextcgbot.twitchbot.commands.BotCommands;
 
@@ -11,7 +14,15 @@ import se.skaro.hextcgbot.twitchbot.commands.BotCommands;
  * component's <code>addCommandListener<code> method. When the command event
  * occurs, that object's appropriate method is invoked.
  */
-public class CommandListener extends ListenerAdapter {
+public class EventListener extends ListenerAdapter {
+	
+	private Set <String> channels;
+	
+	
+	public EventListener(Set<String> channels) {
+		super();
+		this.channels = channels;
+	}
 
 	@Override
 	public void onMessage(final MessageEvent event) throws Exception {
@@ -32,6 +43,21 @@ public class CommandListener extends ListenerAdapter {
 			event.respondChannel(">>Initiate synergistic subrout##%---->>!!ERROR!! NO SYNERGY DETECTED");
 		}
 
+	}
+	
+	@Override
+	public void onConnect(ConnectEvent event) throws Exception {
+		
+		channels.forEach(s -> {
+			   event.getBot().sendIRC().joinChannel(s);
+			   try {
+			    Thread.sleep(500);
+			   } catch (Exception e) {
+			    e.printStackTrace();
+			   }
+			  });
+		
+		super.onConnect(event);
 	}
 
 }
