@@ -15,10 +15,9 @@ import se.skaro.hextcgbot.twitchbot.commands.BotCommands;
  * occurs, that object's appropriate method is invoked.
  */
 public class EventListener extends ListenerAdapter {
-	
-	private Set <String> channels;
-	
-	
+
+	private Set<String> channels;
+
 	public EventListener(Set<String> channels) {
 		super();
 		this.channels = channels;
@@ -30,13 +29,16 @@ public class EventListener extends ListenerAdapter {
 			String message = event.getMessage();
 			String lowercaseMessage = message.toLowerCase();
 
-			for (BotCommands botCommand : BotCommands.values()) {
-				if (botCommand.getSyntax().startsWith(message) || (!botCommand.isCommandCaseSensitive()
-						&& lowercaseMessage.startsWith(botCommand.getSyntax().toLowerCase()))) {
-					botCommand.getCommand().call(botCommand.getSyntax(), event);
-					// TODO: Think about if we need this.
-					return;
+			if (message.startsWith("!")) {
+
+				for (BotCommands botCommand : BotCommands.values()) {
+					if (botCommand.getSyntax().startsWith(message) || (!botCommand.isCommandCaseSensitive()
+							&& lowercaseMessage.startsWith(botCommand.getSyntax().toLowerCase()))) {
+						botCommand.getCommand().call(botCommand.getSyntax(), event);
+						return;
+					}
 				}
+
 			}
 		} catch (Exception e) {
 			// TODO: Add logging error here.
@@ -44,20 +46,20 @@ public class EventListener extends ListenerAdapter {
 		}
 
 	}
-	
+
 	@Override
 	public void onConnect(ConnectEvent event) throws Exception {
-		
+
 		channels.forEach(s -> {
-			   event.getBot().sendIRC().joinChannel(s);
-			   System.out.println(s);
-			   try {
-			    Thread.sleep(500);
-			   } catch (Exception e) {
-			    e.printStackTrace();
-			   }
-			  });
-		
+			event.getBot().sendIRC().joinChannel(s);
+			System.out.println(s);
+			try {
+				Thread.sleep(500);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
 		super.onConnect(event);
 	}
 

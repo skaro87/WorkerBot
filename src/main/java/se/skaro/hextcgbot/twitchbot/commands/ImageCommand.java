@@ -120,6 +120,7 @@ public class ImageCommand extends AbstractCommand {
 		String name = card.getName().replaceAll(" ", "-").replaceAll("'", "-").replaceAll(",", "");
 		String set = card.getSet().replaceAll(" ", "-");
 		return ("/cards/" + set + "/" + name + ".png").toLowerCase();
+	//	return ("/cards/" + set + "/" + name + aa + ".png").toLowerCase();
 	}
 
 }
