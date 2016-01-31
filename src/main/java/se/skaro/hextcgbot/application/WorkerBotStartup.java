@@ -14,7 +14,6 @@ import se.skaro.hextcgbot.twitchbot.EventListener;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
 import se.skaro.hextcgbot.util.PropertyGetter;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -79,7 +78,11 @@ public class WorkerBotStartup {
             ChannelStats.getStats().put( usernameChannel, new UserChannel(user.whisperSettings()));
         }
 
-        channels.addAll(Arrays.asList(propertyGetter.getProperty(DEFAULT_JOIN_CHANNELS).split(DELIMITER)));
+        for (String channelName : propertyGetter.getProperty(DEFAULT_JOIN_CHANNELS).split(DELIMITER)) {
+            if (!channelName.isEmpty()) {
+                channels.add(channelName);
+            }
+        }
         return channels;
     }
 }
