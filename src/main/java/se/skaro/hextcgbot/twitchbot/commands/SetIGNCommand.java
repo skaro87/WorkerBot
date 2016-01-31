@@ -1,41 +1,45 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
-import java.util.List;
-
 import org.pircbotx.hooks.events.MessageEvent;
-import se.skaro.hextcgbot.events.MessageSender;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.util.MessageSender;
+
+import java.util.List;
 
 /**
  * Sets user in-game-name.
  */
+@Component
 public class SetIGNCommand extends AbstractCommand {
+
+    @Autowired
+    private MessageSender messageSender;
+
+    public SetIGNCommand(String syntax, boolean isCommandCaseSensitive, String description) {
+        super(syntax, isCommandCaseSensitive, description);
+    }
+
     @Override
     public void call(String commandSyntax, MessageEvent event) {
         String userNick = getUserNick(event);
         if (userNick != null) {
             String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
-            
             if (!message.isEmpty()) {
-            	
-            	User updatedUser;
-            	
-             	List <User> result = JpaRepository.findUserByName(userNick);
-             	
-             	if (result.isEmpty()){
-             		updatedUser = new User(userNick, 0, 1, message);
-             	}
-             	
-             	else {
-             		updatedUser = new User(result.get(0).getName(), result.get(0).isInChannel(), result.get(0).whisperSettings(), message);
-             	}
-             	
-            	JpaRepository.saveOrUpdateUser(updatedUser);
-            	MessageSender.sendMessage(event, "IGN updated for user "+userNick);
-            	
+                List<User> result = JpaRepository.findUserByName(userNick);
+                User updatedUser;
+                if (result.isEmpty()) {
+                    updatedUser = new User(userNick, 0, 1, message);
+                } else {
+                    updatedUser = new User(result.get(0).getName(), result.get(0).isInChannel(), result.get(0).whisperSettings(), message);
+                }
+
+                JpaRepository.saveOrUpdateUser(updatedUser);
+                messageSender.sendMessage(event, "IGN updated for user " + userNick);
             } else {
-                MessageSender.sendMessage(event, "You have to type in your IGN.");
+                messageSender.sendMessage(event, "You have to type in your IGN.");
             }
         }
     }

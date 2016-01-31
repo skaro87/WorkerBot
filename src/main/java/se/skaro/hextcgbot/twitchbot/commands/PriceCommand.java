@@ -1,42 +1,48 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
-import java.util.List;
-
 import org.pircbotx.hooks.events.MessageEvent;
-import se.skaro.hextcgbot.events.MessageSender;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.ItemPrice;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.MessageSender;
+
+import java.util.List;
 
 /**
  * Sends back the price of an item.
  */
+@Component
 public class PriceCommand extends AbstractCommand {
-	@Override
-	public void call(String commandSyntax, MessageEvent event) {
-		String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
 
-		if (name.length() > 3) {
+    @Autowired
+    private MessageSender messageSender;
 
-			List<ItemPrice> result = JpaRepository.findPriceByName(name);
-			Double ratio = JpaRepository.getRatio();
+    public PriceCommand(String syntax, boolean isCommandCaseSensitive, String description) {
+        super(syntax, isCommandCaseSensitive, description);
+    }
 
-			StringBuilder sb = new StringBuilder();
-			String seperator = "";
-			for (ItemPrice item : result) {
-				sb.append(seperator);
-				sb.append(item.getListedPrice(ratio));
-				seperator = ", ";
-			}
+    @Override
+    public void call(String commandSyntax, MessageEvent event) {
+        String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+        if (name.length() < SearchMessageToShortException.DEFAULT_MINIMUM_LENGTH) {
+            throw new SearchMessageToShortException();
+        }
 
-			if (sb.length() < 1) {
-				sb.append("No price found for '" + name + "'");
-			}
-			MessageSender.sendMessage(event, sb.toString());
-
-		}
-		
-		else {
-			 MessageSender.sendMessage(event, "You need at least 4 characters to do a search");
-		}
-	} 
+        List<ItemPrice> result = JpaRepository.findPriceByName(name);
+        if (result.isEmpty()) {
+            messageSender.sendMessage(event, "No price found for '" + name + "'");
+        } else {
+            Double ratio = JpaRepository.getRatio();
+            StringBuilder sb = new StringBuilder();
+            String separator = "";
+            for (ItemPrice item : result) {
+                sb.append(separator);
+                sb.append(item.getListedPrice(ratio));
+                separator = ", ";
+            }
+            messageSender.sendMessage(event, sb.toString());
+        }
+    }
 }

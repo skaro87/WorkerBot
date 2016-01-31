@@ -3,27 +3,26 @@ package se.skaro.hextcgbot.twitchbot.commands;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.skaro.hextcgbot.application.StreamGetter;
 import se.skaro.hextcgbot.util.MessageSender;
 
 /**
- * Sends back the top streamers online streaming HEX
+ * Sends back a query for the bug report tool.
  */
-//FIXME: Sends rapid messages, fix this.
 @Component
-public class StreamsCommand extends AbstractCommand {
+public class GenericTextCommand extends AbstractCommand {
 
     @Autowired
     private MessageSender messageSender;
 
-    public StreamsCommand(String syntax, boolean isCommandCaseSensitive, String description) {
+    private final String outputText;
+
+    public GenericTextCommand(String syntax, boolean isCommandCaseSensitive, String description, String outputText) {
         super(syntax, isCommandCaseSensitive, description);
+        this.outputText = outputText;
     }
 
     @Override
     public void call(String commandSyntax, MessageEvent event) {
-        for (String s : new StreamGetter().getAllStreams()) {
-            messageSender.sendMessage(event, s);
-        }
+        messageSender.respondChannel(event, outputText);
     }
 }

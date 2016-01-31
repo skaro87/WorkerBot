@@ -1,73 +1,32 @@
 package se.skaro.hextcgbot.application;
 
-import se.skaro.hextcgbot.model.User;
-import se.skaro.hextcgbot.repository.jpa.JpaRepository;
-import se.skaro.hextcgbot.statistics.ChannelStats;
-import se.skaro.hextcgbot.statistics.UserChannel;
-import se.skaro.hextcgbot.twitchbot.EventListener;
-import se.skaro.hextcgbot.twitchbot.DefaultListener;
-import se.skaro.hextcgbot.twitchbot.TwitchBot;
+import org.apache.commons.cli.*;
+import org.apache.log4j.PropertyConfigurator;
 
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * The Class Main.
- */
 public class Main {
 
-	/**
-	 * The main method.
-	 *
-	 * @param args
-	 *            the arguments
-	 */
+    private static final String LOG4J_PATH_OPT = "log4jPath";
+    private static final String APP_CONTEXT_PATH_OPT = "appContextPath";
+    private static final String PROPERTIES_PATH_OPT = "propertiesPath";
 
-	private static final String PROPERTY_FILE_NAME = "workerbot";
+    public static void main(String[] args) {
+        try {
+            Options options = new Options();
+            Option log4jPathOption = new Option(LOG4J_PATH_OPT, true, "log4j configuration file path");
+            Option applicationContextPathOption = new Option(APP_CONTEXT_PATH_OPT, true, "Application context file path");
+            Option propertiesPathOption = new Option(PROPERTIES_PATH_OPT, true, "Properties file path");
+            log4jPathOption.setRequired(true);
+            applicationContextPathOption.setRequired(true);
+            propertiesPathOption.setRequired(true);
+            options.addOption(log4jPathOption).addOption(applicationContextPathOption).addOption(propertiesPathOption);
 
-	public static void main(String[] args) {
+            CommandLineParser parser = new DefaultParser();
+            CommandLine cmd = parser.parse(options, args);
 
-		PropertyGetter.getProperties(PROPERTY_FILE_NAME);
-		Main workerbot = new Main();
-		JpaRepository.startup();
-		workerbot.startBot();
-
-	}
-
-	private void startBot() {
-
-		Set<String> channels = new HashSet<>();
-
-		channels.add("#" + PropertyGetter.getUSERNAME());
-
-		ChannelStats.getStats().put("#" + PropertyGetter.getUSERNAME(), new UserChannel(0));
-
-		for (User u : JpaRepository.findUsersToAutoJoin()) {
-			channels.add("#" + u.getName().toLowerCase());
-			ChannelStats.getStats().put("#" + u.getName().toLowerCase(), new UserChannel(u.whisperSettings()));
-		}
-
-		String[] channelArray = new String[channels.size()];
-
-		int i = 0;
-		for (String s : channels) {
-			channelArray[i++] = s;
-		}
-		
-		while (true){
-
-		try {
-			TwitchBot bot = new TwitchBot(PropertyGetter.getUSERNAME(), PropertyGetter.getOAUTH());
-			bot.setUseTwitchCapabilities(true);
-			bot.addListener(new DefaultListener());
-			bot.addListener(new EventListener(channels));
-			bot.startBot();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		
-		} //restarts the bot
-	}
-
+            PropertyConfigurator.configure(cmd.getOptionValue(LOG4J_PATH_OPT));
+            new WorkerBotStartup(cmd.getOptionValue(APP_CONTEXT_PATH_OPT), cmd.getOptionValue(PROPERTIES_PATH_OPT)).startBot();
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

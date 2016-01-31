@@ -1,55 +1,61 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
-import java.util.List;
-
 import org.pircbotx.hooks.events.MessageEvent;
-import se.skaro.hextcgbot.events.MessageSender;
-import se.skaro.hextcgbot.model.Card;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.Keyword;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.MessageSender;
+
+import java.util.List;
 
 /**
  * Sends back the info about a card.
  */
+@Component
 public class KeywordCommand extends AbstractCommand {
-	@Override
-	public void call(String commandSyntax, MessageEvent event) {
-		String userNick = getUserNick(event);
-		if (userNick != null) {
-			String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
-			if (name.length() > 3) {
-				List<Keyword> result = JpaRepository.findKeywordByName(name);
-				if (result.isEmpty()) {
-					MessageSender.sendMessage(event, "Keyword '" + name + "' not found");
-				}
-				// one result found. No need to create a StringBuilder and start
-				// the
-				// for-loop
-				else if (result.size() == 1) {
-					MessageSender.sendMessage(event, result.get(0).toString());
-				}
-				// more than one found.
-				else {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Found multiple cards: ");
-					String separator = "";
-					for (Keyword k : result) {
-						if (k.getName().equalsIgnoreCase(name)) {
-							sb.delete(0, sb.length());
-							sb.append(k.toString());
-							break;
-						}
 
-						sb.append(separator);
-						sb.append(k.getName());
-						separator = ", ";
-					}
-					MessageSender.sendMessage(event, sb.toString());
-				}
+    @Autowired
+    private MessageSender messageSender;
 
-			} else {
-				MessageSender.sendMessage(event, "You need at least 4 characters to do a search");
-			}
-		}
-	}
+    public KeywordCommand(String syntax, boolean isCommandCaseSensitive, String description) {
+        super(syntax, isCommandCaseSensitive, description);
+    }
+
+    @Override
+    public void call(String commandSyntax, MessageEvent event) {
+        String userNick = getUserNick(event);
+        if (userNick != null) {
+            String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+            if (name.length() < SearchMessageToShortException.DEFAULT_MINIMUM_LENGTH) {
+                throw new SearchMessageToShortException();
+            }
+
+            List<Keyword> result = JpaRepository.findKeywordByName(name);
+            if (result.isEmpty()) {
+                messageSender.sendMessage(event, "Keyword '" + name + "' not found");
+                return;
+            }
+            if (result.size() == 1) {
+                messageSender.sendMessage(event, result.get(0).toString());
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("Found multiple cards: ");
+            String separator = "";
+            for (Keyword k : result) {
+                if (k.getName().equalsIgnoreCase(name)) {
+                    sb.delete(0, sb.length());
+                    sb.append(k.toString());
+                    break;
+                }
+
+                sb.append(separator);
+                sb.append(k.getName());
+                separator = ", ";
+            }
+            messageSender.sendMessage(event, sb.toString());
+        }
+    }
 }

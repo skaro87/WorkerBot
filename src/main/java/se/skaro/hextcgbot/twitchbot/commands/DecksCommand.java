@@ -1,25 +1,32 @@
 package se.skaro.hextcgbot.twitchbot.commands;
 
 import org.pircbotx.hooks.events.MessageEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.application.DeckGetter;
-import se.skaro.hextcgbot.events.MessageSender;
+import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.MessageSender;
 
 /**
  * Gets the deck data for a user.
  */
+@Component
 public class DecksCommand extends AbstractCommand {
-	@Override
-	public void call(String commandSyntax, MessageEvent event) {
 
-		String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+    @Autowired
+    private MessageSender messageSender;
 
-		if (name.length() > 3) {
+    public DecksCommand(String syntax, boolean isCommandCaseSensitive, String description) {
+        super(syntax, isCommandCaseSensitive, description);
+    }
 
-			MessageSender.sendMessage(event, new DeckGetter().getDecks(name));
+    @Override
+    public void call(String commandSyntax, MessageEvent event) {
+        String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
+        if (name.length() < SearchMessageToShortException.DEFAULT_MINIMUM_LENGTH) {
+            throw new SearchMessageToShortException();
+        }
 
-		}
-		else {
-			MessageSender.sendMessage(event, "You need at least 4 characters to do a search");
-		}
-	}
+        messageSender.sendMessage(event, new DeckGetter().getDecks(name));
+    }
 }
