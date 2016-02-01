@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: 2016-01-31: Refactor this class.
 @Component
 public class ImageCommand extends AbstractCommand {
 
@@ -36,8 +35,6 @@ public class ImageCommand extends AbstractCommand {
     @Autowired
     private PropertyGetter propertyGetter;
 
-    private String user = "";
-
     public ImageCommand(String syntax, boolean isCommandCaseSensitive, String description) {
         super(syntax, isCommandCaseSensitive, description);
     }
@@ -45,7 +42,7 @@ public class ImageCommand extends AbstractCommand {
     @Override
     public void call(String commandSyntax, MessageEvent event) {
 
-        user = event.getUser().getNick();
+        String user = getUserNick(event);
         if (user != null) {
             String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)).replace("'", "");
 
@@ -101,7 +98,7 @@ public class ImageCommand extends AbstractCommand {
     }
 
     private void sendURLCall(Card card, MessageEvent event) {
-        String urlCall = IMG_PLUGIN_URL.replace("USER", user);
+        String urlCall = IMG_PLUGIN_URL.replace("USER", getUserNick(event));
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(urlCall);
 
@@ -116,7 +113,7 @@ public class ImageCommand extends AbstractCommand {
             response = client.execute(post);
             if (!(response.getStatusLine().getStatusCode() == 201)) {
                 TwitchBot bot = event.getBot();
-                bot.getGroupServer().sendWhisper(user, "Could not connect to the image plugin. Try again later");
+                bot.getGroupServer().sendWhisper(getUserNick(event), "Could not connect to the image plugin. Try again later");
             }
 
         } catch (IOException e) {
