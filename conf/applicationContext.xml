@@ -39,9 +39,9 @@
 			<constructor-arg index="2" value="Find the text of a card by typing !card 'cardname'."/>
 		</bean>
 		<bean class="se.skaro.hextcgbot.twitchbot.commands.EquipmentCommand">
-			<constructor-arg index="0" value="!equipment"/>
+			<constructor-arg index="0" value="!equip"/>
 			<constructor-arg index="1" value="false"/>
-			<constructor-arg index="2" value="Find the text for Equipments by typing !equipment 'cardname'."/>
+			<constructor-arg index="2" value="Find the text for Equipments by typing !equip 'cardname'."/>
 		</bean>
 		<bean class="se.skaro.hextcgbot.twitchbot.commands.RatioCommand">
 			<constructor-arg index="0" value="!ratio"/>
@@ -67,8 +67,8 @@
 		<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
 			<constructor-arg index="0" value="!info"/>
 			<constructor-arg index="1" value="false"/>
-			<constructor-arg index="2" value="Information about WorkerBot."/>
-			<constructor-arg index="3" value="Version 1.1 | For more information go to twitch.tv/workerbot | Thanks Celendine, Dinotopia, Veetorp and Doc-X for the data | Images hosted by Thepsis | Coded in Java by Skaro and Risterral"/>
+			<constructor-arg index="2" value="Information about how to use WorkerBot."/>
+			<constructor-arg index="3" value="Hi, I am WorkerBot. I can find card/equipment text and auction house value by using !card/!equip/!price 'name'. I am keep track of HEX: Shards of Fate in game names. Type !setign 'ign' to link your twitch username to your IGN."/>
 		</bean>
 		<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
 			<constructor-arg index="0" value="!donate"/>
@@ -143,6 +143,24 @@
             <constructor-arg index="1" value="false"/>
             <constructor-arg index="2" value="Find the text of a keyword by typing !keyword 'keyword'."/>
         </bean>
+        		<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
+			<constructor-arg index="0" value="!pveloot"/>
+			<constructor-arg index="1" value="false"/>
+			<constructor-arg index="2" value="Loot table for PvE adventure zone 1"/>
+			<constructor-arg index="3" value="Check out the loot table for AZ1 at https://goo.gl/ph8RJZ"/>
+		</bean>
+				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
+			<constructor-arg index="0" value="!download"/>
+			<constructor-arg index="1" value="false"/>
+			<constructor-arg index="2" value="Link to HEX: Shards of Fate download page"/>
+			<constructor-arg index="3" value="Download HEX: Shards of Fate at http://www.hextcg.com/client-download/"/>
+		</bean>
+				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
+			<constructor-arg index="0" value="!register"/>
+			<constructor-arg index="1" value="false"/>
+			<constructor-arg index="2" value="Link to HEX: Shards of Fate register account page"/>
+			<constructor-arg index="3" value="Register your HEX: Shards of Fate account at http://us.hex.gameforge.com/account.html#/#registration"/>
+		</bean>
 	</util:list>
 
 </beans>
