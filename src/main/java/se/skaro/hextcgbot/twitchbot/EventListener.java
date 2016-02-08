@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import se.skaro.hextcgbot.twitchbot.commands.AbstractCommand;
+import se.skaro.hextcgbot.twitchbot.commands.BotCommands;
+import se.skaro.hextcgbot.twitchbot.excpetions.InvalidNumberException;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
 import se.skaro.hextcgbot.util.MessageSender;
 
-import javax.annotation.Resource;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,31 +30,30 @@ public class EventListener extends ListenerAdapter {
     @Autowired
     private MessageSender messageSender;
 
-    @Resource
-    private List<AbstractCommand> botCommands;
+    @Autowired
+    private BotCommands botCommands;
 
     private Set<String> channels;
 
     @Override
     public void onMessage(final MessageEvent event) throws Exception {
         try {
-            String message = event.getMessage();
-            String lowercaseMessage = message.toLowerCase();
-
-            if (message.startsWith("!")) {
-                for (AbstractCommand botCommand : botCommands) {
-                    if (message.startsWith(botCommand.getSyntax()) || (!botCommand.isCommandCaseSensitive()
-                            && lowercaseMessage.startsWith(botCommand.getSyntax().toLowerCase()))) {
-                        botCommand.call(botCommand.getSyntax(), event);
+            String message = event.getMessage().trim();
+            if (message.startsWith(botCommands.getCommandsPrefix())) {
+                for (AbstractCommand botCommand : botCommands.getCommands()) {
+                    if (message.matches(botCommand.getSyntaxPattern(botCommands.getCommandsPrefix()))) {
+                        botCommand.call(botCommands.getCommandsPrefix() + botCommand.getSyntax(), event);
                         return;
                     }
                 }
             }
         } catch (SearchMessageToShortException e) {
             messageSender.sendMessage(event, e.getMessage());
+        } catch (InvalidNumberException e) {
+            messageSender.respondChannel(event, ">>Hostile input detected. Only positive numbers are allowed!");
         } catch (Exception e) {
             LOGGER.error("Unexpected error while receiving message", e);
-            event.respondChannel(">>Initiate synergistic subrout##%---->>!!ERROR!! NO SYNERGY DETECTED");
+            messageSender.respondChannel(event, ">>Initiate synergistic subrout##%---->>!!ERROR!! NO SYNERGY DETECTED");
         }
 
     }

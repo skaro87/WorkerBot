@@ -33,7 +33,7 @@ public class CardCommand extends AbstractCommand {
             throw new SearchMessageToShortException();
         }
 
-        List<Card> result = JpaRepository.findCardByFormatedName(name.replace("'", ""));
+        List<Card> result = JpaRepository.findCardByFormatedName(name);
         if (result.isEmpty()) {
             messageSender.sendMessage(event, "No card with name '" + name + "' found");
             return;

@@ -9,6 +9,7 @@ import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Sends back equipments.
@@ -47,8 +48,9 @@ public class EquipmentCommand extends AbstractCommand {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("Found equipments for multiple cards: ");
-        equipments.stream().filter(e -> !sb.toString().contains(e.getAffectedCardName()))
-                .forEach(e -> sb.append("[").append(e.getAffectedCardName()).append("] "));
-        messageSender.sendMessage(event, sb.toString());
+        for (String affectedCard : equipments.stream().map(Equipment::getAffectedCardName).collect(Collectors.toSet())) {
+            sb.append("[").append(affectedCard).append("] ");
+        }
+        messageSender.sendMessage(event, sb.toString().trim());
     }
 }

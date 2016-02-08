@@ -28,6 +28,10 @@ public abstract class AbstractCommand implements ICommand {
 
     public abstract void call(String commandSyntax, MessageEvent event);
 
+    public String getSyntaxPattern(String commandPrefix) {
+        return (isCommandCaseSensitive ? "" : "(?i)^") + Pattern.quote(commandPrefix + syntax) + "(\\s+.+)?";
+    }
+
     public String getSyntax() {
         return syntax;
     }

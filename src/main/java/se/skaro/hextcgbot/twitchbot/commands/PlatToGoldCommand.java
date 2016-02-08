@@ -4,6 +4,7 @@ import org.pircbotx.hooks.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.twitchbot.excpetions.InvalidNumberException;
 import se.skaro.hextcgbot.util.MessageSender;
 
 /**
@@ -24,10 +25,13 @@ public class PlatToGoldCommand extends AbstractCommand {
     public void call(String commandSyntax, MessageEvent event) {
         try {
             double plat = Double.parseDouble(fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)));
+            if (plat <= 0) {
+                throw new InvalidNumberException();
+            }
             messageSender.sendMessage(event, PLATINUM_DECIMAL_FORMAT.format(plat) + " platinum is currently worth "
                     + GOLD_DECIMAL_FORMAT.format(plat * JpaRepository.getRatio()) + " gold");
         } catch (NumberFormatException e) {
-            //TODO: Send message with info about not parsable value.
+            throw new InvalidNumberException();
         }
     }
 }
