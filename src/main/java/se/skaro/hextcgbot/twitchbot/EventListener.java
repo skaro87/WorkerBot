@@ -37,8 +37,8 @@ public class EventListener extends ListenerAdapter {
 
     @Override
     public void onMessage(final MessageEvent event) throws Exception {
+        String message = event.getMessage().trim();
         try {
-            String message = event.getMessage().trim();
             if (message.startsWith(botCommands.getCommandsPrefix())) {
                 for (AbstractCommand botCommand : botCommands.getCommands()) {
                     if (message.matches(botCommand.getSyntaxPattern(botCommands.getCommandsPrefix()))) {
@@ -52,7 +52,7 @@ public class EventListener extends ListenerAdapter {
         } catch (InvalidNumberException e) {
             messageSender.respondChannel(event, ">>Hostile input detected. Only positive numbers are allowed!");
         } catch (Exception e) {
-            LOGGER.error("Unexpected error while receiving message", e);
+            LOGGER.error("Unexpected error while receiving message: \"" + message + "\"", e);
             messageSender.respondChannel(event, ">>Initiate synergistic subrout##%---->>!!ERROR!! NO SYNERGY DETECTED");
         }
 
