@@ -42,16 +42,17 @@ public class CardCommand extends AbstractCommand {
             messageSender.sendMessage(event, result.get(0).toString());
             return;
         }
+        for (Card card : result) {
+            if (card.getFormatedName().equalsIgnoreCase(name)) {
+                messageSender.sendMessage(event, card.toString());
+                return;
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("Found multiple cards: ");
         String separator = "";
         for (Card card : result) {
-            if (card.getFormatedName().equalsIgnoreCase(name)) {
-                sb.delete(0, sb.length());
-                sb.append(card.toString());
-                break;
-            }
-
             sb.append(separator);
             sb.append(card.getName());
             separator = ", ";

@@ -32,7 +32,11 @@ public class EquipmentCommand extends AbstractCommand {
             throw new SearchMessageToShortException();
         }
 
-        List<Equipment> equipments = JpaRepository.findEquipmentByAffectedCardName(equipmentName);
+        List<Equipment> equipments = JpaRepository.findEquipmentByAffectedCardName(equipmentName, true);
+        if (equipments.isEmpty()) {
+            equipments = JpaRepository.findEquipmentByAffectedCardName(equipmentName, false);
+        }
+
         if (equipments.isEmpty()) {
             messageSender.sendMessage(event, "No equipment found for card " + equipmentName);
             return;

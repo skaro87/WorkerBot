@@ -1,7 +1,9 @@
 package se.skaro.hextcgbot.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The persistent class for the CARD database table.
@@ -81,8 +83,7 @@ public final class Equipment extends AbstractEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "["+name+" ("+equipmentSlot+") "+text + ". Found in: "+equipmentLocation+"]".replaceAll("\n", "");
+		return "[" + name + " (" + equipmentSlot + ", " + rarity + ") " + text + ". Found in: " + equipmentLocation + "]".replaceAll("\n", "");
 	}
-
 	
 }

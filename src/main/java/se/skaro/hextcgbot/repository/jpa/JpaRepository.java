@@ -1,20 +1,9 @@
 package se.skaro.hextcgbot.repository.jpa;
 
+import se.skaro.hextcgbot.model.*;
+
+import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
-import se.skaro.hextcgbot.model.Card;
-import se.skaro.hextcgbot.model.Champion;
-import se.skaro.hextcgbot.model.Equipment;
-import se.skaro.hextcgbot.model.Gem;
-import se.skaro.hextcgbot.model.ItemPrice;
-import se.skaro.hextcgbot.model.Keyword;
-import se.skaro.hextcgbot.model.User;
 
 public final class JpaRepository {
 
@@ -41,11 +30,15 @@ public final class JpaRepository {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Equipment> findEquipmentByAffectedCardName(String name) {
+	public static List<Equipment> findEquipmentByAffectedCardName(String name, boolean searchExactly) {
 		try {
 			em = factory.createEntityManager();
 			Query q = em.createQuery("SELECT e FROM Equipment e WHERE UPPER(e.formatedAffectedCardName) LIKE (:name)");
-			q.setParameter("name", "%" + name.toUpperCase() + "%");
+			if (searchExactly) {
+				q.setParameter("name", name.toUpperCase());
+			} else {
+				q.setParameter("name", "%" + name.toUpperCase() + "%");
+			}
 			return q.getResultList();
 		} finally {
 			em.close();
