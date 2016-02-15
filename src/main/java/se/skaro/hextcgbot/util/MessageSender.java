@@ -16,8 +16,9 @@ public class MessageSender {
 	 */
 	public void sendMessage(MessageEvent event, String message) {
 		TwitchBot bot = event.getBot();
+		String channelName = event.getChannel().getName();
 
-		if (ChannelStats.getStats().get(event.getChannel().getName()).getWhispers() == 1) { // on
+		if (ChannelStats.getStats().containsKey(channelName) && ChannelStats.getStats().get(channelName).getWhispers() == 1) { // on
 			if (event.getTags().get("user-type").equals("mod")
 					|| (event.getUser() != null && event.getChannel().getName().endsWith(event.getUser().getNick()))) {
 				event.respondChannel(message);
