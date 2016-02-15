@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.util.MessageSender;
 
-import javax.annotation.Resource;
-import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Sends information about commands.
@@ -17,8 +16,8 @@ public class HelpCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    @Resource
-    private List<AbstractCommand> botCommands;
+    @Autowired
+    private BotCommands botCommands;
 
     public HelpCommand(String syntax, boolean isCommandCaseSensitive, String description) {
         super(syntax, isCommandCaseSensitive, description);
@@ -31,14 +30,15 @@ public class HelpCommand extends AbstractCommand {
             StringBuilder helpMessage = new StringBuilder();
             helpMessage.append("Current commands are: ");
             String separator = "";
-            for (AbstractCommand botCommand : botCommands) {
-                helpMessage.append(separator).append(botCommand.getSyntax());
+            for (AbstractCommand botCommand : botCommands.getCommands()) {
+                helpMessage.append(separator).append(botCommands.getCommandsPrefix()).append(botCommand.getSyntax());
                 separator = ", ";
             }
             messageSender.respondChannel(event, helpMessage.toString());
         } else {
-            for (AbstractCommand botCommand : botCommands) {
-                if (botCommand.getSyntax().equalsIgnoreCase("!" + message) || botCommand.getSyntax().equalsIgnoreCase(message)) {
+            String messageWithoutPrefix = message.replaceAll("^" + Pattern.quote(botCommands.getCommandsPrefix()), "");
+            for (AbstractCommand botCommand : botCommands.getCommands()) {
+                if (botCommand.getSyntax().equalsIgnoreCase(messageWithoutPrefix)) {
                     messageSender.respondChannel(event, botCommand.getDescription());
                     return;
                 }
