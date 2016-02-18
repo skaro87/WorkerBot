@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.Gem;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class GemCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    public GemCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public GemCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class GemCommand extends AbstractCommand {
             if (result.isEmpty()) {
                 result = JpaRepository.findGemByText(input);
                 if (result.isEmpty()) {
-                    messageSender.sendMessage(event, "No gem with name/text '" + input + "' found");
+                    messageSender.sendMessage(event, "No gem with name/text '" + input + "' found", botMessageType);
                 } else {
                     sendOutput(result, input, event);
                 }
@@ -48,7 +49,7 @@ public class GemCommand extends AbstractCommand {
 
     private void sendOutput(List<Gem> result, String name, MessageEvent event) {
         if (result.size() == 1) {
-            messageSender.sendMessage(event, result.get(0).toString());
+            messageSender.sendMessage(event, result.get(0).toString(), botMessageType);
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("Found multiple gems: ");
@@ -64,7 +65,7 @@ public class GemCommand extends AbstractCommand {
                 sb.append(gem.getName());
                 separator = ", ";
             }
-            messageSender.sendMessage(event, sb.toString());
+            messageSender.sendMessage(event, sb.toString(), botMessageType);
         }
     }
 }

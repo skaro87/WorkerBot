@@ -6,6 +6,7 @@ import org.pircbotx.Channel;
 import org.pircbotx.Configuration;
 import org.pircbotx.UserHostmask;
 import org.pircbotx.hooks.events.MessageEvent;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import static org.mockito.Matchers.any;
@@ -25,7 +26,7 @@ public class AbstractCommandTest {
             outContent = (String) invocation.getArguments()[1];
             System.out.println(outContent);
             return null;
-        }).when(messageSender).sendMessage(any(MessageEvent.class), anyString());
+        }).when(messageSender).sendMessage(any(MessageEvent.class), anyString(), any(BotMessageType.class));
     }
 
     protected MessageEvent mockMessageEvent(String message) {

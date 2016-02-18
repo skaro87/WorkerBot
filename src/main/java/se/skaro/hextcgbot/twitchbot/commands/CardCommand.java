@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.Card;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -22,8 +23,8 @@ public class CardCommand extends AbstractCommand {
     public CardCommand() {
     }
 
-    public CardCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public CardCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -35,16 +36,16 @@ public class CardCommand extends AbstractCommand {
 
         List<Card> result = JpaRepository.findCardByFormatedName(name);
         if (result.isEmpty()) {
-            messageSender.sendMessage(event, "No card with name '" + name + "' found");
+            messageSender.sendMessage(event, "No card with name '" + name + "' found", botMessageType);
             return;
         }
         if (result.size() == 1) {
-            messageSender.sendMessage(event, result.get(0).toString());
+            messageSender.sendMessage(event, result.get(0).toString(), botMessageType);
             return;
         }
         for (Card card : result) {
             if (card.getFormatedName().equalsIgnoreCase(name)) {
-                messageSender.sendMessage(event, card.toString());
+                messageSender.sendMessage(event, card.toString(), botMessageType);
                 return;
             }
         }
@@ -57,6 +58,6 @@ public class CardCommand extends AbstractCommand {
             sb.append(card.getName());
             separator = ", ";
         }
-        messageSender.sendMessage(event, sb.toString());
+        messageSender.sendMessage(event, sb.toString(), botMessageType);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.Champion;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class LegendCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    public LegendCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public LegendCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -34,11 +35,11 @@ public class LegendCommand extends AbstractCommand {
 
             List<Champion> result = JpaRepository.findChampionByName(name);
             if (result.isEmpty()) {
-                messageSender.sendMessage(event, "No champion with name '" + name + "' found");
+                messageSender.sendMessage(event, "No champion with name '" + name + "' found", botMessageType);
                 return;
             }
             if (result.size() == 1) {
-                messageSender.sendMessage(event, result.get(0).toString());
+                messageSender.sendMessage(event, result.get(0).toString(), botMessageType);
                 return;
             }
             StringBuilder sb = new StringBuilder();
@@ -55,7 +56,7 @@ public class LegendCommand extends AbstractCommand {
                 sb.append(c.getName());
                 separator = ", ";
             }
-            messageSender.sendMessage(event, sb.toString());
+            messageSender.sendMessage(event, sb.toString(), botMessageType);
         }
     }
 }

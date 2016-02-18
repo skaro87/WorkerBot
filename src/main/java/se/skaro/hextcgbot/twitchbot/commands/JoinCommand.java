@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -20,8 +21,8 @@ public class JoinCommand extends AbstractCommand {
 
     private static final String WELCOME_TEXT_MESSAGE = "Hello! Thank you for using me. For more information about me visit my twitch page";
 
-    public JoinCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public JoinCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -39,15 +40,15 @@ public class JoinCommand extends AbstractCommand {
                 }
                 joinChannel(event, channelName, user);
             } else {
-                messageSender.respondChannel(event, userNick + ", I am already in your channel!");
+                messageSender.respondChannel(event, userNick + ", I am already in your channel!", botMessageType);
             }
         }
     }
 
     private void joinChannel(MessageEvent event, String channelName, User user) {
         JpaRepository.saveOrUpdateUser(user);
-        messageSender.respondChannel(event, "Joining channel " + channelName);
+        messageSender.respondChannel(event, "Joining channel " + channelName, botMessageType);
         event.getBot().sendIRC().joinChannel(channelName);
-        messageSender.sendChannelMessage(event, channelName, WELCOME_TEXT_MESSAGE);
+        messageSender.sendChannelMessage(event, channelName, WELCOME_TEXT_MESSAGE, botMessageType);
     }
 }

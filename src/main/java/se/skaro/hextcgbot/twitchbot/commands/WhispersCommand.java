@@ -7,6 +7,7 @@ import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.statistics.UserChannel;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -20,8 +21,8 @@ public class WhispersCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    public WhispersCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public WhispersCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -35,17 +36,17 @@ public class WhispersCommand extends AbstractCommand {
                 if ("on".equalsIgnoreCase(message)) {
                     JpaRepository.saveOrUpdateUser(new User(user.getName(), user.isInChannel(), 1, user.getIGN()));
                     ChannelStats.getStats().put("#" + user.getName(), new UserChannel(1));
-                    messageSender.respondChannel(event, "Whisper mode ON for channel " + userNick);
+                    messageSender.respondChannel(event, "Whisper mode ON for channel " + userNick, botMessageType);
                 } else if ("off".equalsIgnoreCase(message)) {
                     JpaRepository.saveOrUpdateUser(new User(user.getName(), user.isInChannel(), 0, user.getIGN()));
                     ChannelStats.getStats().put("#" + user.getName(), new UserChannel(0));
-                    messageSender.respondChannel(event, "Whisper mode OFF for channel " + userNick);
+                    messageSender.respondChannel(event, "Whisper mode OFF for channel " + userNick, botMessageType);
                 } else {
                     messageSender.respondChannel(event, "Invalid command " + event.getMessage()
-                            + ". Use !whispers 'on/off' to change whisper settings");
+                            + ". Use !whispers 'on/off' to change whisper settings", botMessageType);
                 }
             } else {
-                messageSender.sendMessage(event, userNick + ": You have to have WorkerBot join your channel before you can change whisper settings.");
+                messageSender.sendMessage(event, userNick + ": You have to have WorkerBot join your channel before you can change whisper settings.", botMessageType);
             }
         }
     }

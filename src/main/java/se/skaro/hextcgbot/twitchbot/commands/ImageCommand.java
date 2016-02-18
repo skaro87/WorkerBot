@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.Card;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 import se.skaro.hextcgbot.util.PropertyGetter;
 
@@ -35,8 +36,8 @@ public class ImageCommand extends AbstractCommand {
     @Autowired
     private PropertyGetter propertyGetter;
 
-    public ImageCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public ImageCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ImageCommand extends AbstractCommand {
 
                     List<Card> result = JpaRepository.findCardByFormatedName(name);
                     if (result.isEmpty()) {
-                        messageSender.sendMessage(event, "No card with name '" + name + "' found");
+                        messageSender.sendMessage(event, "No card with name '" + name + "' found", botMessageType);
                     }
                     // one result found. No need to create a StringBuilder and start the for-loop
 
@@ -78,7 +79,7 @@ public class ImageCommand extends AbstractCommand {
                 }
 
             } else {
-                messageSender.sendMessage(event, "You need at least 4 characters to do a search");
+                messageSender.sendMessage(event, "You need at least 4 characters to do a search", botMessageType);
             }
         }
 
@@ -88,7 +89,7 @@ public class ImageCommand extends AbstractCommand {
 
         if (!event.getChannel().getName().endsWith(event.getUser().getNick())) {
             String path = cardInfo(card);
-            messageSender.sendMessage(event, LINK_TO_IMAGE_URL_HOST + path.toLowerCase());
+            messageSender.sendMessage(event, LINK_TO_IMAGE_URL_HOST + path.toLowerCase(), botMessageType);
 
         } else {
 
