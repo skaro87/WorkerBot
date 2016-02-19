@@ -87,6 +87,18 @@ public final class Card extends AbstractEntity implements Serializable {
 
 	/** The minor. */
 	private int minor;
+	
+	@Column(length = 10)
+	private String aa;
+	
+	@Column(length = 255)
+	private String location;
+	
+	@Column(length = 1024)
+	private String flavor;
+	
+	@Column(length = 1024)
+	private String flavoraa;
 
 	/**
 	 * Instantiates a new card.
@@ -371,6 +383,24 @@ public final class Card extends AbstractEntity implements Serializable {
 	 */
 	public int getMajor() {
 		return major;
+	}
+	
+	
+
+	public String getAa() {
+		return aa;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public String getFlavor() {
+		return flavor;
+	}
+
+	public String getFlavoraa() {
+		return flavoraa;
 	}
 
 	/*

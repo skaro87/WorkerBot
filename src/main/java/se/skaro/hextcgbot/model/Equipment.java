@@ -30,20 +30,6 @@ public final class Equipment extends AbstractEntity implements Serializable {
 
 	}
 
-	public Equipment(String name, String affectedCardName, String shard, String equipmentSlot, String rarity,
-			String equipmentLocation, String text) {
-		super();
-		this.name = name;
-		this.affectedCardName = affectedCardName;
-		this.shard = shard;
-		this.equipmentSlot = equipmentSlot;
-		this.rarity = rarity;
-		this.equipmentLocation = equipmentLocation;
-		this.text = text;
-		formatedAffectedCardName = affectedCardName.replaceAll("'", "");
-		formatedName = name.replaceAll("'", "");
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

@@ -25,106 +25,121 @@ import java.util.List;
 @Component
 public class ImageCommand extends AbstractCommand {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImageCommand.class);
-    private static final String LINK_TO_IMAGE_URL_HOST = "http://hex.digital-poets.net";
-    private static final String IMG_PLUGIN_URL = "http://hex.digital-poets.net/staticImage/USER?cooldown=&in=&out=";
+	private static final Logger LOGGER = LoggerFactory.getLogger(ImageCommand.class);
+	private static final String LINK_TO_IMAGE_URL_HOST = "http://hex.digital-poets.net";
+	private static final String IMG_PLUGIN_URL = "http://hex.digital-poets.net/staticImage/USER?cooldown=&in=&out=";
 
-    @Autowired
-    private MessageSender messageSender;
+	@Autowired
+	private MessageSender messageSender;
 
-    @Autowired
-    private PropertyGetter propertyGetter;
+	@Autowired
+	private PropertyGetter propertyGetter;
 
-    public ImageCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
-    }
+	public ImageCommand(String syntax, boolean isCommandCaseSensitive, String description) {
+		super(syntax, isCommandCaseSensitive, description);
+	}
 
-    @Override
-    public void call(String commandSyntax, MessageEvent event) {
+	@Override
+	public void call(String commandSyntax, MessageEvent event) {
 
-        String user = getUserNick(event);
-        if (user != null) {
-            String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)).replace("'", "");
+		boolean searchForAA = false;
+		String user = getUserNick(event);
+		if (user != null) {
+			String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)).replace("'", "");
 
-            if (name.length() > 3) {
+			if (name.length() > 3) {
 
-                if (name.equalsIgnoreCase("setup")) {
+				if (name.toLowerCase().startsWith("aa") || name.toLowerCase().endsWith("aa")) {
+					name = fixWhiteSpaces(name.toLowerCase().replace("aa", ""));
+					searchForAA = true;
+				}
 
-                    TwitchBot bot = event.getBot();
-                    bot.getGroupServer().sendWhisper(user, IMG_PLUGIN_URL.replace("USER", user));
+				if (name.equalsIgnoreCase("setup")) {
 
-                } else {
+					TwitchBot bot = event.getBot();
+					bot.getGroupServer().sendWhisper(user, IMG_PLUGIN_URL.replace("USER", user));
 
-                    List<Card> result = JpaRepository.findCardByFormatedName(name);
-                    if (result.isEmpty()) {
-                        messageSender.sendMessage(event, "No card with name '" + name + "' found");
-                    }
-                    // one result found. No need to create a StringBuilder and start the for-loop
+				} else {
 
-                    else if (result.size() == 1) {
-                        sendResponse(result.get(0), event);
-                    }
-                    // more than one found.
-                    else {
-                        for (Card card : result) {
-                            if (card.getFormatedName().equalsIgnoreCase(name)) {
-                                sendResponse(card, event);
-                                return;
-                            }
+					List<Card> result = JpaRepository.findCardByFormatedName(name);
+					if (result.isEmpty()) {
+						messageSender.sendMessage(event, "No card with name '" + name + "' found");
+					}
+					// one result found. No need to create a StringBuilder and
+					// start the for-loop
 
-                        }
-                        sendResponse(result.get(0), event);
-                    }
-                }
+					else if (result.size() == 1) {
+						sendResponse(result.get(0), event, searchForAA);
+					}
+					// more than one found.
+					else {
+						for (Card card : result) {
+							if (card.getFormatedName().equalsIgnoreCase(name)) {
+								sendResponse(card, event, searchForAA);
+								return;
+							}
 
-            } else {
-                messageSender.sendMessage(event, "You need at least 4 characters to do a search");
-            }
-        }
+						}
+						sendResponse(result.get(0), event, searchForAA);
+					}
+				}
 
-    }
+			} else {
+				messageSender.sendMessage(event, "You need at least 4 characters to do a search");
+			}
+		}
 
-    private void sendResponse(Card card, MessageEvent event) {
+	}
 
-        if (!event.getChannel().getName().endsWith(event.getUser().getNick())) {
-            String path = cardInfo(card);
-            messageSender.sendMessage(event, LINK_TO_IMAGE_URL_HOST + path.toLowerCase());
+	private void sendResponse(Card card, MessageEvent event, boolean aa) {
 
-        } else {
+		if (!event.getChannel().getName().endsWith(event.getUser().getNick())) {
+			String path = cardInfo(card, aa);
+			messageSender.sendMessage(event, LINK_TO_IMAGE_URL_HOST + path.toLowerCase());
 
-            sendURLCall(card, event);
+		} else {
 
-        }
-    }
+			sendURLCall(card, event, aa);
 
-    private void sendURLCall(Card card, MessageEvent event) {
-        String urlCall = IMG_PLUGIN_URL.replace("USER", getUserNick(event));
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(urlCall);
+		}
+	}
 
-        List<NameValuePair> urlParameters = new ArrayList<>();
-        urlParameters.add(new BasicNameValuePair("password", propertyGetter.getProperty(PropertyGetter.IMG_PLUGIN_PASSWORD)));
-        urlParameters.add(new BasicNameValuePair("url", cardInfo(card)));
-        try {
-            post.setEntity(new UrlEncodedFormEntity(urlParameters));
+	private void sendURLCall(Card card, MessageEvent event, boolean aa) {
+		String urlCall = IMG_PLUGIN_URL.replace("USER", getUserNick(event));
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost post = new HttpPost(urlCall);
 
-            HttpResponse response;
+		List<NameValuePair> urlParameters = new ArrayList<>();
+		urlParameters.add(
+				new BasicNameValuePair("password", propertyGetter.getProperty(PropertyGetter.IMG_PLUGIN_PASSWORD)));
+		urlParameters.add(new BasicNameValuePair("url", cardInfo(card, aa)));
+		try {
+			post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
-            response = client.execute(post);
-            if (!(response.getStatusLine().getStatusCode() == 201)) {
-                TwitchBot bot = event.getBot();
-                bot.getGroupServer().sendWhisper(getUserNick(event), "Could not connect to the image plugin. Try again later");
-            }
+			HttpResponse response;
 
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-    }
+			response = client.execute(post);
+			if (!(response.getStatusLine().getStatusCode() == 201)) {
+				TwitchBot bot = event.getBot();
+				bot.getGroupServer().sendWhisper(getUserNick(event),
+						"Could not connect to the image plugin. Try again later");
+			}
 
-    private String cardInfo(Card card) {
-        String name = card.getName().replaceAll(" ", "-").replaceAll("'", "-").replaceAll(",", "");
-        String set = card.getSet().replaceAll(" ", "-");
-        return ("/cards/" + set + "/" + name + ".png").toLowerCase();
-        //	return ("/cards/" + set + "/" + name + aa + ".png").toLowerCase();
-    }
+		} catch (IOException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	private String cardInfo(Card card, boolean aa) {
+
+		String name = card.getName().replaceAll(" ", "-").replaceAll("'", "-").replaceAll(",", "");
+
+		if (card.getAa().equalsIgnoreCase("yes") && aa) {
+			return ("/cards/aa/" + name + "-aa.png").toLowerCase();
+		}
+
+		String set = card.getSet().replaceAll(" ", "-");
+
+		return ("/cards/" + set + "/" + name + ".png").toLowerCase();
+	}
 }
