@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.statistics.ChannelStats;
+import se.skaro.hextcgbot.statistics.UserChannel;
 import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
@@ -49,6 +51,11 @@ public class JoinCommand extends AbstractCommand {
         JpaRepository.saveOrUpdateUser(user);
         messageSender.respondChannel(event, "Joining channel " + channelName, botMessageType);
         event.getBot().sendIRC().joinChannel(channelName);
+        String userChannel = "#" + user.getName();
+        if (ChannelStats.getStats().get(userChannel) == null) {
+            JpaRepository.saveOrUpdateUser(new User(user.getName(), user.isInChannel(), 0, user.getIGN()));
+            ChannelStats.getStats().put(userChannel, new UserChannel(0));
+        }
         messageSender.sendChannelMessage(event, channelName, WELCOME_TEXT_MESSAGE, botMessageType);
     }
 }
