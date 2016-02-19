@@ -3,6 +3,7 @@ package se.skaro.hextcgbot.twitchbot.commands;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.regex.Pattern;
@@ -19,8 +20,8 @@ public class HelpCommand extends AbstractCommand {
     @Autowired
     private BotCommands botCommands;
 
-    public HelpCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public HelpCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -34,16 +35,16 @@ public class HelpCommand extends AbstractCommand {
                 helpMessage.append(separator).append(botCommands.getCommandsPrefix()).append(botCommand.getSyntax());
                 separator = ", ";
             }
-            messageSender.respondChannel(event, helpMessage.toString());
+            messageSender.respondChannel(event, helpMessage.toString(), botMessageType);
         } else {
             String messageWithoutPrefix = message.replaceAll("^" + Pattern.quote(botCommands.getCommandsPrefix()), "");
             for (AbstractCommand botCommand : botCommands.getCommands()) {
                 if (botCommand.getSyntax().equalsIgnoreCase(messageWithoutPrefix)) {
-                    messageSender.respondChannel(event, botCommand.getDescription());
+                    messageSender.respondChannel(event, botCommand.getDescription(), botMessageType);
                     return;
                 }
             }
-            messageSender.respondChannel(event, "Unknown command: " + message);
+            messageSender.respondChannel(event, "Unknown command: " + message, botMessageType);
         }
     }
 }

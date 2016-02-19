@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class SetIGNCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    public SetIGNCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public SetIGNCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -37,9 +38,9 @@ public class SetIGNCommand extends AbstractCommand {
                 }
 
                 JpaRepository.saveOrUpdateUser(updatedUser);
-                messageSender.sendMessage(event, "IGN updated for user " + userNick);
+                messageSender.sendMessage(event, "IGN updated for user " + userNick, botMessageType);
             } else {
-                messageSender.sendMessage(event, "You have to type in your IGN.");
+                messageSender.sendMessage(event, "You have to type in your IGN.", botMessageType);
             }
         }
     }

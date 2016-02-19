@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.application.DeckGetter;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 /**
@@ -16,8 +17,8 @@ public class DecksCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    public DecksCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public DecksCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -27,6 +28,6 @@ public class DecksCommand extends AbstractCommand {
             throw new SearchMessageToShortException();
         }
 
-        messageSender.sendMessage(event, new DeckGetter().getDecks(name));
+        messageSender.sendMessage(event, new DeckGetter().getDecks(name), botMessageType);
     }
 }

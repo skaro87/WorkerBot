@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.Keyword;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class KeywordCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    public KeywordCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public KeywordCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -34,11 +35,11 @@ public class KeywordCommand extends AbstractCommand {
 
             List<Keyword> result = JpaRepository.findKeywordByName(name);
             if (result.isEmpty()) {
-                messageSender.sendMessage(event, "Keyword '" + name + "' not found");
+                messageSender.sendMessage(event, "Keyword '" + name + "' not found", botMessageType);
                 return;
             }
             if (result.size() == 1) {
-                messageSender.sendMessage(event, result.get(0).toString());
+                messageSender.sendMessage(event, result.get(0).toString(), botMessageType);
                 return;
             }
             StringBuilder sb = new StringBuilder();
@@ -55,7 +56,7 @@ public class KeywordCommand extends AbstractCommand {
                 sb.append(k.getName());
                 separator = ", ";
             }
-            messageSender.sendMessage(event, sb.toString());
+            messageSender.sendMessage(event, sb.toString(), botMessageType);
         }
     }
 }

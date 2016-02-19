@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.ItemPrice;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class PriceCommand extends AbstractCommand {
     @Autowired
     private MessageSender messageSender;
 
-    public PriceCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public PriceCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class PriceCommand extends AbstractCommand {
 
         List<ItemPrice> result = JpaRepository.findPriceByName(name);
         if (result.isEmpty()) {
-            messageSender.sendMessage(event, "No price found for '" + name + "'");
+            messageSender.sendMessage(event, "No price found for '" + name + "'", botMessageType);
         } else {
             Double ratio = JpaRepository.getRatio();
             StringBuilder sb = new StringBuilder();
@@ -42,7 +43,7 @@ public class PriceCommand extends AbstractCommand {
                 sb.append(item.getListedPrice(ratio));
                 separator = ", ";
             }
-            messageSender.sendMessage(event, sb.toString());
+            messageSender.sendMessage(event, sb.toString(), botMessageType);
         }
     }
 }

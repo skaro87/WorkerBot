@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 /**
@@ -18,8 +19,8 @@ public class LeaveCommand extends AbstractCommand {
 
     private static final String GOODBYE_TEXT_MESSAGE = "Goodbye. Feel free to add me to your chat again at any time!";
 
-    public LeaveCommand(String syntax, boolean isCommandCaseSensitive, String description) {
-        super(syntax, isCommandCaseSensitive, description);
+    public LeaveCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
+        super(syntax, isCommandCaseSensitive, description, botMessageType);
     }
 
     @Override
@@ -31,10 +32,10 @@ public class LeaveCommand extends AbstractCommand {
                 User user = JpaRepository.findUserByName(userNick).get(0);
                 User updatedUser = new User(user.getName(), 0, user.whisperSettings(), user.getIGN());
                 JpaRepository.saveOrUpdateUser(updatedUser);
-                messageSender.respondChannel(event, "Leaving channel " + channelName);
-                messageSender.sendChannelMessage(event, channelName, GOODBYE_TEXT_MESSAGE);
+                messageSender.respondChannel(event, "Leaving channel " + channelName, botMessageType);
+                messageSender.sendChannelMessage(event, channelName, GOODBYE_TEXT_MESSAGE, botMessageType);
             } else {
-                messageSender.respondChannel(event, userNick + ", I am currently not in your channel");
+                messageSender.respondChannel(event, userNick + ", I am currently not in your channel", botMessageType);
             }
         }
     }

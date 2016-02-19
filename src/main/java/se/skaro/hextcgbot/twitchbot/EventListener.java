@@ -11,6 +11,7 @@ import se.skaro.hextcgbot.twitchbot.commands.AbstractCommand;
 import se.skaro.hextcgbot.twitchbot.commands.BotCommands;
 import se.skaro.hextcgbot.twitchbot.excpetions.InvalidNumberException;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
+import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
 
 import java.util.Set;
@@ -48,12 +49,12 @@ public class EventListener extends ListenerAdapter {
                 }
             }
         } catch (SearchMessageToShortException e) {
-            messageSender.sendMessage(event, e.getMessage());
+            messageSender.sendMessage(event, e.getMessage(), BotMessageType.NORMAL);
         } catch (InvalidNumberException e) {
-            messageSender.respondChannel(event, ">>Hostile input detected. Only positive numbers are allowed!");
+            messageSender.respondChannel(event, ">>Hostile input detected. Only positive numbers are allowed!", BotMessageType.NORMAL);
         } catch (Exception e) {
             LOGGER.error("Unexpected error while receiving message: \"" + message + "\"", e);
-            messageSender.respondChannel(event, ">>Initiate synergistic subrout##%---->>!!ERROR!! NO SYNERGY DETECTED");
+            messageSender.respondChannel(event, ">>Initiate synergistic subrout##%---->>!!ERROR!! NO SYNERGY DETECTED", BotMessageType.NORMAL);
         }
 
     }

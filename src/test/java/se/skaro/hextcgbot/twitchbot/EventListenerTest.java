@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.pircbotx.hooks.events.MessageEvent;
 import se.skaro.hextcgbot.twitchbot.commands.AbstractCommand;
 import se.skaro.hextcgbot.twitchbot.commands.BotCommands;
+import se.skaro.hextcgbot.util.BotMessageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,10 +86,10 @@ public class EventListenerTest extends AbstractCommandTest {
         ArrayList<AbstractCommand> mock = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_BOT_COMMANDS; i++) {
             final String testName = createTestName(i);
-            mock.add(new AbstractCommand(testName, i % 2 == 0, testName) {
+            mock.add(new AbstractCommand(testName, i % 2 == 0, testName, BotMessageType.DEFAULT) {
                 @Override
                 public void call(String commandSyntax, MessageEvent event) {
-                    messageSender.sendMessage(event, testName);
+                    messageSender.sendMessage(event, testName, BotMessageType.DEFAULT);
                 }
             });
         }
