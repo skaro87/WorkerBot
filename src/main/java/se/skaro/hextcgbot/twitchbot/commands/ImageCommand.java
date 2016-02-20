@@ -48,12 +48,13 @@ public class ImageCommand extends AbstractCommand {
 		if (user != null) {
 			String name = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event)).replace("'", "");
 
+			if (name.toLowerCase().startsWith("aa") || name.toLowerCase().endsWith("aa")) {
+				name = fixWhiteSpaces(name.toLowerCase().replace("aa", ""));
+				searchForAA = true;
+			}
+			
 			if (name.length() > 3) {
 
-				if (name.toLowerCase().startsWith("aa") || name.toLowerCase().endsWith("aa")) {
-					name = fixWhiteSpaces(name.toLowerCase().replace("aa", ""));
-					searchForAA = true;
-				}
 
 				if (name.equalsIgnoreCase("setup")) {
 
