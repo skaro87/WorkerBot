@@ -1,169 +1,252 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:aop="http://www.springframework.org/schema/aop"
-	   xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:util="http://www.springframework.org/schema/util"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<aop:config proxy-target-class="true"/>
+	<aop:config proxy-target-class="true" />
 	<context:annotation-config />
-	<context:spring-configured/>
-	<context:component-scan base-package="se.skaro.hextcgbot.util"/>
+	<context:spring-configured />
+	<context:component-scan base-package="se.skaro.hextcgbot.util" />
 
-	<bean id="propertyGetter" class="se.skaro.hextcgbot.util.PropertyGetter" scope="prototype"/>
-	<bean id="eventListener" class="se.skaro.hextcgbot.twitchbot.EventListener" scope="prototype"/>
+	<bean id="propertyGetter" class="se.skaro.hextcgbot.util.PropertyGetter" />
+	<bean id="eventListener" class="se.skaro.hextcgbot.twitchbot.EventListener"
+		scope="prototype" />
 
 	<bean id="botCommands" class="se.skaro.hextcgbot.twitchbot.commands.BotCommands">
-		<property name="commandsPrefix" value="!"/>
+		<property name="commandsPrefix" value="!" />
 		<property name="commands">
 			<util:list value-type="se.skaro.hextcgbot.twitchbot.commands.AbstractCommand">
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.JoinCommand">
-					<constructor-arg index="0" value="join"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Use this command to make WorkerBot join your channel."/>
+					<constructor-arg index="0" value="join" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg
+						value="Use this command to make WorkerBot join your channel."
+						index="2" />
+					<constructor-arg index="3" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.LeaveCommand">
-					<constructor-arg index="0" value="leave"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Use this command to make WorkerBot leave your channel."/>
+					<constructor-arg index="0" value="leave" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg
+						value="Use this command to make WorkerBot leave your channel."
+						index="2" />
+					<constructor-arg index="3" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.PriceCommand">
-					<constructor-arg index="0" value="price"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Use command !price 'card' to check a card's price."/>
+					<constructor-arg index="0" value="price" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg
+						value="Use command !price 'card' to find a 14-day average on all sales of a card."
+						index="2" />
+					<constructor-arg index="3" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.CardCommand">
-					<constructor-arg index="0" value="card"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find the text of a card by typing !card 'cardname'."/>
+					<constructor-arg index="0" value="card" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg
+						value="Find the text of a card by typing !card 'cardname'." index="2" />
+					<constructor-arg index="3" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.EquipmentCommand">
-					<constructor-arg index="0" value="equip"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find the text for Equipments by typing !equip 'cardname'."/>
+					<constructor-arg index="0" value="equip" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg
+						value="Find all Equipment for a given card by typing !equip 'cardname'."
+						index="2" />
+					<constructor-arg index="3" value="NORMAL_GROUPED" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.RatioCommand">
-					<constructor-arg index="0" value="ratio"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Check the current Platinum to Gold ratio."/>
+					<constructor-arg index="0" value="ratio" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Check the current Platinum to Gold ratio."
+						index="2" />
+					<constructor-arg index="3" value="LOW" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GoldToPlatCommand">
-					<constructor-arg index="0" value="gtp"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Type !gtp 'amount' to get the amount of gold in platinum."/>
+					<constructor-arg index="0" value="gtp" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg
+						value="Type !gtp 'amount' to get the amount of gold in platinum."
+						index="2" />
+					<constructor-arg index="3" value="LOW" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.PlatToGoldCommand">
-					<constructor-arg index="0" value="ptg"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Type !ptg 'amount' to get the amount of platinum in gold."/>
+					<constructor-arg index="0" value="ptg" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg
+						value="Type !ptg 'amount' to get the amount of platinum in gold."
+						index="2" />
+					<constructor-arg index="3" value="LOW" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="about"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Information about WorkerBot."/>
-					<constructor-arg index="3" value="Version 1.1 | For more information go to twitch.tv/workerbot | Thanks Celendine, Dinotopia, Veetorp and Doc-X for the data | Images hosted by Thepsis | Coded in Java by Skaro and Risterral."/>
+					<constructor-arg index="0" value="about" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Information about WorkerBot."
+						index="2" />
+					<constructor-arg
+						value="Version 1.1 | For more information go to twitch.tv/workerbot | Thanks Celendine, Dinotropia, Veetorp and Doc-X for the data | Images hosted by Thepsis | Coded in Java by Skaro and Risterral."
+						index="3" />
+					<constructor-arg index="4" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="info"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Information about how to use WorkerBot."/>
-					<constructor-arg index="3" value="Hi, I am WorkerBot. I can find card/equipment text and auction house value by using !card/!equip/!price 'name'. I am keep track of HEX: Shards of Fate in game names. Type !setign 'ign' to link your twitch username to your IGN."/>
+					<constructor-arg index="0" value="info" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Information about how to use WorkerBot." index="2" />
+					<constructor-arg value="Hi, I am WorkerBot. I can find card/equipment text and auction house values by using !card/!equip/!price 'cardname'. I keep track of HEX: Shards of Fate in game names. Type !setign 'ign' to link your twitch username to your IGN." index="3" />
+					<constructor-arg index="4" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="donate"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Information about where to donate to help pay for server fees."/>
-					<constructor-arg index="3" value="Donate to WorkerBot at https://www.twitchalerts.com/donate/workerbot"/>
+					<constructor-arg index="0" value="donate" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Information about where to donate to help pay for server fees." />
+					<constructor-arg index="3"
+						value="Donate to WorkerBot at https://www.twitchalerts.com/donate/workerbot" />
+					<constructor-arg index="4" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.DecksCommand">
-					<constructor-arg index="0" value="decks"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find the latest 3 decks from a user from HEX:meta by typing !decks 'username'."/>
+					<constructor-arg index="0" value="decks" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Find the latest 3 constructed decks from a player on HEX:meta by typing !decks 'IGN'." index="2"/>
+					<constructor-arg index="3" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.StreamsCommand">
-					<constructor-arg index="0" value="streams"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Finds the top 5 current HEX: Shards of Fate streams."/>
+					<constructor-arg index="0" value="streams" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Finds the top 5 current HEX: Shards of Fate streams." />
+					<constructor-arg index="3" value="NORMAL_GROUPED" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.ChannelsCommand">
-					<constructor-arg index="0" value="channels"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Returns how many channels WorkerBot is currently active in."/>
+					<constructor-arg index="0" value="channels" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Returns how many channels WorkerBot is currently active in." />
+					<constructor-arg index="3" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.WhispersCommand">
-					<constructor-arg index="0" value="whispers"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Use this to turn whisper mode on and off by typing !whispers 'on/off'."/>
+					<constructor-arg index="0" value="whispers" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Use this to turn whisper mode on and off by typing !whispers 'on/off'." />
+					<constructor-arg index="3" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.HelpCommand">
-					<constructor-arg index="0" value="help"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find usefull information about a command by typing !help 'commandname'."/>
+					<constructor-arg index="0" value="help" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Find usefull information about a command by typing !help 'commandname'." />
+					<constructor-arg index="3" value="HIGH" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="bug"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Want to post a bug report. Type !bug to get a link to the bug report form."/>
-					<constructor-arg index="3" value="If you have encountered a bug, please fill in a bug report at http://goo.gl/forms/hI3s8x2LEb"/>
+					<constructor-arg index="0" value="bug" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Want to post a bug report? Type !bug to get a link to the bug report form." index="2"/>
+					<constructor-arg index="3"
+						value="If you have encountered a bug, please fill in a bug report at http://goo.gl/forms/hI3s8x2LEb" />
+					<constructor-arg index="4" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.IGNCommand">
-					<constructor-arg index="0" value="ign"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find the IGN for a user by typing !ign 'username' (accepts @ before username) or get your username with just !ign."/>
+					<constructor-arg index="0" value="ign" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Find the IGN for a user by typing !ign 'username' (accepts @ before username) or display your username with just !ign." index="2"/>
+					<constructor-arg index="3" value="HIGHEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.SetIGNCommand">
-					<constructor-arg index="0" value="setIGN"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Set your IGN by typing !setign 'your IGN'. Min 3 and max 100 characters, usernames containing inappropriate and/or long names will be shortened."/>
+					<constructor-arg index="0" value="setIGN" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Set your IGN by typing !setign 'your IGN'. Min 3 and max 100 characters, usernames containing inappropriate and/or long names will be shortened." />
+					<constructor-arg index="3" value="LOW" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.ImageCommand">
-					<constructor-arg index="0" value="img"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Used with the image browser plugin to show images of cards."/>
+					<constructor-arg index="0" value="img" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Used with the image browser plugin to show images of cards. Can be used by viewers to display a link to a card in chat by typing !img 'cardname'." index="2"/>
+					<constructor-arg index="3" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="shardshopper"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Information about ShardShopper."/>
-					<constructor-arg index="3" value="Check out ShardShopper at http://fiveshards.com/shard-shopper/"/>
+					<constructor-arg index="0" value="shardshopper" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Information about ShardShopper." />
+					<constructor-arg index="3"
+						value="Check out ShardShopper at http://fiveshards.com/shard-shopper/" />
+					<constructor-arg index="4" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.LegendCommand">
-					<constructor-arg index="0" value="legend"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find the text of a legend by typing !legend 'name'."/>
+					<constructor-arg index="0" value="legend" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg value="Find the text of a Legend (a named PvP Champion) by typing !legend 'name'." index="2"/>
+					<constructor-arg index="3" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GemCommand">
-					<constructor-arg index="0" value="gem"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find the text of a gem by typing !gem 'name/part of text'."/>
+					<constructor-arg index="0" value="gem" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Find the text of a gem by typing !gem 'name/part of text'." />
+					<constructor-arg index="3" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.KeywordCommand">
-					<constructor-arg index="0" value="keyword"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Find the text of a keyword by typing !keyword 'keyword'."/>
+					<constructor-arg index="0" value="keyword" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Find the text of a keyword by typing !keyword 'keyword'." />
+					<constructor-arg index="3" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="pveloot"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Loot table for PvE adventure zone 1"/>
-					<constructor-arg index="3" value="Check out the loot table for AZ1 at https://goo.gl/ph8RJZ"/>
+					<constructor-arg index="0" value="pveloot" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Loot table for PvE adventure zone 1" />
+					<constructor-arg index="3"
+						value="Check out the loot table for AZ1 at https://goo.gl/ph8RJZ" />
+					<constructor-arg index="4" value="NORMAL" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="download"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Link to HEX: Shards of Fate download page"/>
-					<constructor-arg index="3" value="Download HEX: Shards of Fate at http://www.hextcg.com/client-download/"/>
+					<constructor-arg index="0" value="download" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Link to HEX: Shards of Fate download page" />
+					<constructor-arg index="3"
+						value="Download HEX: Shards of Fate at http://www.hextcg.com/client-download/" />
+					<constructor-arg index="4" value="LOWEST" />
 				</bean>
 				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
-					<constructor-arg index="0" value="register"/>
-					<constructor-arg index="1" value="false"/>
-					<constructor-arg index="2" value="Link to HEX: Shards of Fate register account page"/>
-					<constructor-arg index="3" value="Register your HEX: Shards of Fate account at http://us.hex.gameforge.com/account.html#/#registration"/>
+					<constructor-arg index="0" value="register" />
+					<constructor-arg index="1" value="false" />
+					<constructor-arg index="2"
+						value="Link to HEX: Shards of Fate register account page" />
+					<constructor-arg index="3"
+						value="Register your HEX: Shards of Fate account at http://us.hex.gameforge.com/account.html#/#registration" />
+					<constructor-arg index="4" value="LOWEST" />
 				</bean>
+				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
+					<constructor-arg value="!shoutout" index="0" />
+					<constructor-arg value="false" index="1" />
+					<constructor-arg value="Shows different events hosted by HEX streamers"
+						index="2" />
+					<constructor-arg
+						value="Casting practice starting on Friday and Sunday's till the 100k tourney. Come by, give us feedback, and win prizes! Check out this link for more info: http://forums.cryptozoic.com/showthread.php?t=47192"
+						index="3" />
+					<constructor-arg index="4" value="LOW" />
+				</bean>
+				<bean class="se.skaro.hextcgbot.twitchbot.commands.GenericTextCommand">
+					<constructor-arg value="!holiday" index="0" />
+					<constructor-arg value="false" index="1" />
+					<constructor-arg
+						value="Shows information on current in-game holiday/event" index="2" />
+					<constructor-arg value="No Holiday Event currently running."
+						index="3" />
+					<constructor-arg index="4" value="LOW" />
+				</bean>
+
+
 			</util:list>
 		</property>
 	</bean>
