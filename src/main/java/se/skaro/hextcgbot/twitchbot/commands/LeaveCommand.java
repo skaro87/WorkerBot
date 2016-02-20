@@ -34,6 +34,7 @@ public class LeaveCommand extends AbstractCommand {
                 JpaRepository.saveOrUpdateUser(updatedUser);
                 messageSender.respondChannel(event, "Leaving channel " + channelName, botMessageType);
                 messageSender.sendChannelMessage(event, channelName, GOODBYE_TEXT_MESSAGE, botMessageType);
+                event.getBot().getUserChannelDao().getChannel(channelName).send().part();      
             } else {
                 messageSender.respondChannel(event, userNick + ", I am currently not in your channel", botMessageType);
             }
