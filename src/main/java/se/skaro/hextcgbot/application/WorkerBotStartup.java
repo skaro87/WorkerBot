@@ -7,12 +7,11 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.PathResource;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
-import se.skaro.hextcgbot.statistics.ChannelStats;
-import se.skaro.hextcgbot.statistics.UserChannel;
 import se.skaro.hextcgbot.twitchbot.DefaultListener;
 import se.skaro.hextcgbot.twitchbot.EventListener;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
 import se.skaro.hextcgbot.util.PropertyGetter;
+import se.skaro.hextcgbot.util.WhispersSettings;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,10 +23,12 @@ public class WorkerBotStartup {
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkerBotStartup.class);
 
     private static final String PROPERTY_GETTER_BEAN_ID = "propertyGetter";
+    private static final String WHISPERS_SETTINGS_BEAN_ID = "whispersSettings";
     private static final String COMMAND_LISTENER_BEAN_ID = "eventListener";
     private static final Integer MAXIMUM_NUMBER_OF_CONNECT_ATTEMPTS = 10;
 
     private PropertyGetter propertyGetter;
+    private WhispersSettings whispersSettings;
     private EventListener eventListener;
 
     public WorkerBotStartup(String applicationContextPath, String propertiesPath) {
@@ -61,21 +62,23 @@ public class WorkerBotStartup {
         xmlReader.loadBeanDefinitions(new PathResource(applicationContextPath));
         ctx.refresh();
         propertyGetter = (PropertyGetter) ctx.getBean(PROPERTY_GETTER_BEAN_ID);
+        whispersSettings = (WhispersSettings) ctx.getBean(WHISPERS_SETTINGS_BEAN_ID);
         eventListener = (EventListener) ctx.getBean(COMMAND_LISTENER_BEAN_ID);
     }
 
     private Set<String> loadUsersChannels(String botUsername) {
         boolean joinDBChannels = Boolean.valueOf(propertyGetter.getProperty(JOIN_DB_CHANNELS));
         Set<String> channels = new HashSet<>();
-        channels.add("#" + botUsername);
-        ChannelStats.getStats().put("#" + botUsername, new UserChannel(0));
+        String botChannel = "#" + botUsername;
+        channels.add(botChannel);
+        whispersSettings.putUserWhisperSetting(botChannel, false);
 
         for (User user : JpaRepository.findUsersToAutoJoin()) {
             String usernameChannel = "#" + user.getName().toLowerCase();
             if (joinDBChannels) {
                 channels.add(usernameChannel);
             }
-            ChannelStats.getStats().put( usernameChannel, new UserChannel(user.whisperSettings()));
+            whispersSettings.putUserWhisperSetting( usernameChannel, user.whisperSettings() == 1);
         }
 
         for (String channelName : propertyGetter.getProperty(DEFAULT_JOIN_CHANNELS).split(DELIMITER)) {

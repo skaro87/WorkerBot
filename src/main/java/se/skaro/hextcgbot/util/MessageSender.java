@@ -1,8 +1,8 @@
 package se.skaro.hextcgbot.util;
 
 import org.pircbotx.hooks.events.MessageEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
 
 import java.util.*;
@@ -13,6 +13,9 @@ public class MessageSender {
     private static final int MESSAGE_SEND_TIME_LIMIT = 1510;
     private static final int GROUPED_MESSAGE_DELAY = 50;
     private static final int SINGLE_MESSAGE_LIMIT = 490;
+
+    @Autowired
+    private WhispersSettings whispersSettings;
 
     private Long lastMessageSendTime = new Date().getTime();
 	private volatile boolean isTimerRunning = false;
@@ -25,8 +28,7 @@ public class MessageSender {
 	 * @param message the message
 	 */
 	public void sendMessage(MessageEvent event, String message, BotMessageType botMessageType) {
-		String channelName = event.getChannel().getName();
-		if (ChannelStats.getStats().containsKey(channelName) && ChannelStats.getStats().get(channelName).getWhispers() == 1) { // on
+		if (whispersSettings.getUserWhisperSetting(event.getChannel().getName())) {
 			if (event.getTags().get("user-type").equals("mod")
 					|| (event.getUser() != null && event.getChannel().getName().endsWith(event.getUser().getNick()))) {
                 prepareMessageToSend(event, message, null, null, botMessageType, null);
@@ -38,6 +40,10 @@ public class MessageSender {
 		}
 	}
 
+    public void sendWhisper(MessageEvent event, String message, String user, BotMessageType botMessageType) {
+        prepareMessageToSend(event, message, user, null, botMessageType, null);
+    }
+
 	public void sendChannelMessage(MessageEvent event, String channelName, String message, BotMessageType botMessageType) {
         prepareMessageToSend(event, message, null, channelName, botMessageType, null);
 	}
@@ -46,7 +52,7 @@ public class MessageSender {
         prepareMessageToSend(event, message, null, null, botMessageType, null);
 	}
 
-    public void prepareMessageToSend(final MessageEvent event, final String message, final String whisperNick,
+    private void prepareMessageToSend(final MessageEvent event, final String message, final String whisperNick,
                             final String channelName, final BotMessageType messageType, final Integer innerPriority) {
         Long currentTime = new Date().getTime();
         if (messageType.isTryToGroup() && messagesToSend.isEmpty() && currentTime - lastMessageSendTime > MESSAGE_SEND_TIME_LIMIT) {

@@ -14,8 +14,8 @@
 	<context:component-scan base-package="se.skaro.hextcgbot.util" />
 
 	<bean id="propertyGetter" class="se.skaro.hextcgbot.util.PropertyGetter" />
-	<bean id="eventListener" class="se.skaro.hextcgbot.twitchbot.EventListener"
-		scope="prototype" />
+	<bean id="whispersSettings" class="se.skaro.hextcgbot.util.WhispersSettings" />
+	<bean id="eventListener" class="se.skaro.hextcgbot.twitchbot.EventListener"	scope="prototype" />
 
 	<bean id="botCommands" class="se.skaro.hextcgbot.twitchbot.commands.BotCommands">
 		<property name="commandsPrefix" value="!" />

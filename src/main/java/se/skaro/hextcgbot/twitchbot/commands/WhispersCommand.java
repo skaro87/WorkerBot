@@ -5,10 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.skaro.hextcgbot.model.User;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
-import se.skaro.hextcgbot.statistics.ChannelStats;
-import se.skaro.hextcgbot.statistics.UserChannel;
 import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
+import se.skaro.hextcgbot.util.WhispersSettings;
 
 import java.util.List;
 
@@ -20,6 +19,9 @@ public class WhispersCommand extends AbstractCommand {
 
     @Autowired
     private MessageSender messageSender;
+
+    @Autowired
+    private WhispersSettings whispersSettings;
 
     public WhispersCommand(String syntax, boolean isCommandCaseSensitive, String description, BotMessageType botMessageType) {
         super(syntax, isCommandCaseSensitive, description, botMessageType);
@@ -35,11 +37,11 @@ public class WhispersCommand extends AbstractCommand {
                 User user = users.get(0);
                 if ("on".equalsIgnoreCase(message)) {
                     JpaRepository.saveOrUpdateUser(new User(user.getName(), user.isInChannel(), 1, user.getIGN()));
-                    ChannelStats.getStats().put("#" + user.getName(), new UserChannel(1));
+                    whispersSettings.putUserWhisperSetting("#" + user.getName(), true);
                     messageSender.respondChannel(event, "Whisper mode ON for channel " + userNick, botMessageType);
                 } else if ("off".equalsIgnoreCase(message)) {
                     JpaRepository.saveOrUpdateUser(new User(user.getName(), user.isInChannel(), 0, user.getIGN()));
-                    ChannelStats.getStats().put("#" + user.getName(), new UserChannel(0));
+                    whispersSettings.putUserWhisperSetting("#" + user.getName(), false);
                     messageSender.respondChannel(event, "Whisper mode OFF for channel " + userNick, botMessageType);
                 } else {
                     messageSender.respondChannel(event, "Invalid command " + event.getMessage()
