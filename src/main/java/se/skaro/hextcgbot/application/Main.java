@@ -10,7 +10,9 @@ public class Main {
     private static final String PROPERTIES_PATH_OPT = "propertiesPath";
 
     public static void main(String[] args) {
+    	
         try {
+        	
             Options options = new Options();
             Option log4jPathOption = new Option(LOG4J_PATH_OPT, true, "log4j configuration file path");
             Option applicationContextPathOption = new Option(APP_CONTEXT_PATH_OPT, true, "Application context file path");

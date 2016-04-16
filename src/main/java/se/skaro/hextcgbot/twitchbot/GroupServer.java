@@ -17,7 +17,7 @@ import org.pircbotx.hooks.events.PrivateMessageEvent;
 public class GroupServer extends ListenerAdapter implements Runnable
 {
 
-	private static final String IP = "199.9.253.119";
+	private static final String IP = "irc.twitch.tv";
 
 	private static final int PORT = 6667;
 
