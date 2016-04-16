@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
     	
-        try {
+        try { 
         	
             Options options = new Options();
             Option log4jPathOption = new Option(LOG4J_PATH_OPT, true, "log4j configuration file path");
