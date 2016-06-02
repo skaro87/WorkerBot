@@ -68,16 +68,14 @@ public class WorkerBotStartup {
         boolean joinDBChannels = Boolean.valueOf(propertyGetter.getProperty(JOIN_DB_CHANNELS));
         Set<String> channels = new HashSet<>();
         channels.add("#" + botUsername);
-        //TODO: Change "!" to (botCommands.getCommandsPrefix()
-        ChannelStats.getStats().put("#" + botUsername, new UserChannel(0, "!"));
+        ChannelStats.getStats().put("#" + botUsername, new UserChannel(0));
 
         for (User user : JpaRepository.findUsersToAutoJoin()) {
             String usernameChannel = "#" + user.getName().toLowerCase();
             if (joinDBChannels) {
                 channels.add(usernameChannel);
             }
-            //TODO: Change "!" to (botCommands.getCommandsPrefix()
-            ChannelStats.getStats().put( usernameChannel, new UserChannel(user.whisperSettings(), "!"));
+            ChannelStats.getStats().put( usernameChannel, new UserChannel(user.whisperSettings()));
         }
 
         for (String channelName : propertyGetter.getProperty(DEFAULT_JOIN_CHANNELS).split(DELIMITER)) {

@@ -10,22 +10,12 @@ public class UserChannel {
 	 *
 	 * @param whispers the whispers
 	 */
-	public UserChannel(int whispers, String prefix){
-		this.whispers = whispers;
-		this.commandsCard = 0;
-		this.commandsEquipment = 0;
-		this.commandsOther = 0;
-		this.incommingMessages = 0;
-		this.prefix = prefix;
-	}
-	
 	public UserChannel(int whispers){
 		this.whispers = whispers;
 		this.commandsCard = 0;
 		this.commandsEquipment = 0;
 		this.commandsOther = 0;
 		this.incommingMessages = 0;
-		this.prefix = "!";
 	}
 
 	/** The commands other. */
@@ -45,8 +35,6 @@ public class UserChannel {
 	
 	/** The whispers. */
 	private int whispers;
-	
-	private String prefix;
 	
 	/**
 	 * Reset.
@@ -193,14 +181,6 @@ public class UserChannel {
 	 */
 	public  void setWhispers(int whispers) {
 		this.whispers = whispers;
-	}
-
-	public String getPrefix() {
-		return prefix;
-	}
-
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
 	}
 	
 	

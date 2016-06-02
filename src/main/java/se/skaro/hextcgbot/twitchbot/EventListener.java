@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-
-import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.twitchbot.commands.AbstractCommand;
 import se.skaro.hextcgbot.twitchbot.commands.BotCommands;
 import se.skaro.hextcgbot.twitchbot.excpetions.InvalidNumberException;
@@ -42,11 +40,10 @@ public class EventListener extends ListenerAdapter {
     public void onMessage(final MessageEvent event) throws Exception {
         String message = event.getMessage().trim();
         try {
-        	String channelCommandsPrefix = ChannelStats.getStats().get(event.getChannel().getName()).getPrefix();
-            if (message.startsWith(channelCommandsPrefix)) {
+            if (message.startsWith(botCommands.getCommandsPrefix())) {
                 for (AbstractCommand botCommand : botCommands.getCommands()) {
-                    if (message.matches(botCommand.getSyntaxPattern(channelCommandsPrefix))) {
-                        botCommand.call(channelCommandsPrefix + botCommand.getSyntax(), event);
+                    if (message.matches(botCommand.getSyntaxPattern(botCommands.getCommandsPrefix()))) {
+                        botCommand.call(botCommands.getCommandsPrefix() + botCommand.getSyntax(), event);
                         return;
                     }
                 }
