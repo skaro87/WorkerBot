@@ -8,7 +8,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table (name="USER")
-public final class User extends AbstractEntity implements Serializable {
+public final class UserOLD extends AbstractEntity implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -25,7 +25,7 @@ public final class User extends AbstractEntity implements Serializable {
 	/**
 	 * Instantiates a new user.
 	 */
-	public User() {
+	public UserOLD() {
 	}
 
 	/**
@@ -40,7 +40,7 @@ public final class User extends AbstractEntity implements Serializable {
 	 * @param ign
 	 *            the ign
 	 */
-	public User(String name, int inChannel, int whispers, String ign) {
+	public UserOLD(String name, int inChannel, int whispers, String ign) {
 		super();
 		this.name = name;
 		this.inChannel = inChannel;

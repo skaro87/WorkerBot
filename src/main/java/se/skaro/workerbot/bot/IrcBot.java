@@ -1,26 +1,25 @@
 package se.skaro.workerbot.bot;
 
 import org.kitteh.irc.client.library.Client;
-import org.kitteh.irc.client.library.event.channel.ChannelMessageEvent;
-import org.kitteh.irc.lib.net.engio.mbassy.listener.Handler;
 
 import se.skaro.workerbot.bot.messages.MessageHandler;
+import se.skaro.workerbot.bot.util.PropertyGetter;
 
 public class IrcBot {
 
 	private Client client;
-	private String server;	
-	private int port;
+	private String server;
 	private String username;
 	private String oauth;
+	private boolean joinDBchannels;
 	private String prefixes;
 
-	public IrcBot(String server, int port, String username, String oauth, String prefixes) {
-		this.server = server;
-		this.port = port;
-		this.username = username;
-		this.oauth = oauth;
-		this.prefixes = prefixes;
+	public IrcBot(PropertyGetter propertyGetter) {
+		server = propertyGetter.getProperty(PropertyGetter.SERVER);
+		username = propertyGetter.getProperty(PropertyGetter.USERNAME);
+		oauth = propertyGetter.getProperty(PropertyGetter.OAUTH);
+		prefixes = propertyGetter.getProperty(PropertyGetter.PREFIXES);
+		joinDBchannels = Boolean.valueOf(propertyGetter.getProperty(PropertyGetter.JOIN_DB_CHANNELS));
 	}
 
 	public void connect() {
@@ -28,14 +27,20 @@ public class IrcBot {
 		client = Client.builder().nick(username).serverPassword(oauth).serverHost(server).build();
 
 		addChannels();
-		
-		this.client.getEventManager().registerEventListener(new MessageHandler(prefixes));
+
+		//TODO: Make MessageHandler a bean
+		client.getEventManager().registerEventListener(new MessageHandler(prefixes));
 	}
 
 	private void addChannels() {
-		client.addChannel("#skaro87");
-		
+
+		// Join channels in database
+		if (joinDBchannels) {
+			// Join channels here
+			
+		} else {
+			client.addChannel("#skaro87");
+		}
+
 	}
-	
-	
 }

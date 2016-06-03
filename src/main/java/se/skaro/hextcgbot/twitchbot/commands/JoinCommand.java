@@ -3,7 +3,7 @@ package se.skaro.hextcgbot.twitchbot.commands;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.skaro.hextcgbot.model.User;
+import se.skaro.hextcgbot.model.UserOLD;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
@@ -31,12 +31,12 @@ public class JoinCommand extends AbstractCommand {
         if (userNick != null) {
             String channelName = getChannelName(userNick);
             if (!event.getBot().getUserChannelDao().containsChannel(channelName)) {
-                List<User> result = JpaRepository.findUserByName(userNick);
-                User user;
+                List<UserOLD> result = JpaRepository.findUserByName(userNick);
+                UserOLD user;
                 if (!result.isEmpty()) {
-                    user = new User(result.get(0).getName(), 1, result.get(0).whisperSettings(), result.get(0).getIGN());
+                    user = new UserOLD(result.get(0).getName(), 1, result.get(0).whisperSettings(), result.get(0).getIGN());
                 } else {
-                    user = new User(userNick, 1, 1, "");
+                    user = new UserOLD(userNick, 1, 1, "");
                 }
                 joinChannel(event, channelName, user);
             } else {
@@ -45,7 +45,7 @@ public class JoinCommand extends AbstractCommand {
         }
     }
 
-    private void joinChannel(MessageEvent event, String channelName, User user) {
+    private void joinChannel(MessageEvent event, String channelName, UserOLD user) {
         JpaRepository.saveOrUpdateUser(user);
         messageSender.respondChannel(event, "Joining channel " + channelName, botMessageType);
         event.getBot().sendIRC().joinChannel(channelName);

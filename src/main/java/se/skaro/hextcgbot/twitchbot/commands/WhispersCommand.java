@@ -3,7 +3,7 @@ package se.skaro.hextcgbot.twitchbot.commands;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.skaro.hextcgbot.model.User;
+import se.skaro.hextcgbot.model.UserOLD;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.statistics.UserChannel;
@@ -30,15 +30,15 @@ public class WhispersCommand extends AbstractCommand {
         String userNick = getUserNick(event);
         if (userNick != null) {
             String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
-            List<User> users = JpaRepository.findUserByName(userNick);
+            List<UserOLD> users = JpaRepository.findUserByName(userNick);
             if (!users.isEmpty()) {
-                User user = users.get(0);
+                UserOLD user = users.get(0);
                 if ("on".equalsIgnoreCase(message)) {
-                    JpaRepository.saveOrUpdateUser(new User(user.getName(), user.isInChannel(), 1, user.getIGN()));
+                    JpaRepository.saveOrUpdateUser(new UserOLD(user.getName(), user.isInChannel(), 1, user.getIGN()));
                     ChannelStats.getStats().put("#" + user.getName(), new UserChannel(1));
                     messageSender.respondChannel(event, "Whisper mode ON for channel " + userNick, botMessageType);
                 } else if ("off".equalsIgnoreCase(message)) {
-                    JpaRepository.saveOrUpdateUser(new User(user.getName(), user.isInChannel(), 0, user.getIGN()));
+                    JpaRepository.saveOrUpdateUser(new UserOLD(user.getName(), user.isInChannel(), 0, user.getIGN()));
                     ChannelStats.getStats().put("#" + user.getName(), new UserChannel(0));
                     messageSender.respondChannel(event, "Whisper mode OFF for channel " + userNick, botMessageType);
                 } else {

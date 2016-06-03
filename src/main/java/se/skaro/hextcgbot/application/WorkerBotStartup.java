@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.PathResource;
-import se.skaro.hextcgbot.model.User;
+import se.skaro.hextcgbot.model.UserOLD;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.statistics.ChannelStats;
 import se.skaro.hextcgbot.statistics.UserChannel;
@@ -70,7 +70,7 @@ public class WorkerBotStartup {
         channels.add("#" + botUsername);
         ChannelStats.getStats().put("#" + botUsername, new UserChannel(0));
 
-        for (User user : JpaRepository.findUsersToAutoJoin()) {
+        for (UserOLD user : JpaRepository.findUsersToAutoJoin()) {
             String usernameChannel = "#" + user.getName().toLowerCase();
             if (joinDBChannels) {
                 channels.add(usernameChannel);

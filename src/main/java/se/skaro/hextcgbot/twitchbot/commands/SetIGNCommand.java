@@ -3,7 +3,7 @@ package se.skaro.hextcgbot.twitchbot.commands;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.skaro.hextcgbot.model.User;
+import se.skaro.hextcgbot.model.UserOLD;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.util.BotMessageType;
 import se.skaro.hextcgbot.util.MessageSender;
@@ -29,12 +29,12 @@ public class SetIGNCommand extends AbstractCommand {
         if (userNick != null) {
             String message = fixWhiteSpaces(getMessageWithoutCommand(commandSyntax, event));
             if (!message.isEmpty()) {
-                List<User> result = JpaRepository.findUserByName(userNick);
-                User updatedUser;
+                List<UserOLD> result = JpaRepository.findUserByName(userNick);
+                UserOLD updatedUser;
                 if (result.isEmpty()) {
-                    updatedUser = new User(userNick, 0, 1, message);
+                    updatedUser = new UserOLD(userNick, 0, 1, message);
                 } else {
-                    updatedUser = new User(result.get(0).getName(), result.get(0).isInChannel(), result.get(0).whisperSettings(), message);
+                    updatedUser = new UserOLD(result.get(0).getName(), result.get(0).isInChannel(), result.get(0).whisperSettings(), message);
                 }
 
                 JpaRepository.saveOrUpdateUser(updatedUser);

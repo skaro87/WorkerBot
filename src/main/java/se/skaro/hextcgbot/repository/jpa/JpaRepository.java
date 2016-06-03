@@ -58,7 +58,7 @@ public final class JpaRepository {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<User> findUserByName(String name) {
+	public static List<UserOLD> findUserByName(String name) {
 		try {
 			em = factory.createEntityManager();
 			Query q = em.createQuery("SELECT u FROM User u WHERE UPPER(u.name) LIKE (:name)");
@@ -69,13 +69,13 @@ public final class JpaRepository {
 		}
 	}
 	
-	public static List<User> findUserByNameWithWildcards(String name) {
+	public static List<UserOLD> findUserByNameWithWildcards(String name) {
 		return findUserByName("%"+name+"%");
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<User> findUsersToAutoJoin() {
+	public static List<UserOLD> findUsersToAutoJoin() {
 		try {
 			em = factory.createEntityManager();
 			Query q = em.createQuery("SELECT u FROM User u WHERE u.inChannel = 1");
@@ -85,7 +85,7 @@ public final class JpaRepository {
 		}
 	}
 
-	public static boolean saveOrUpdateUser(User user) {
+	public static boolean saveOrUpdateUser(UserOLD user) {
 		try {
 			em = factory.createEntityManager();
 			EntityTransaction t = null;
@@ -100,7 +100,7 @@ public final class JpaRepository {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<User> findUsersToJoinChannel() {
+	public static List<UserOLD> findUsersToJoinChannel() {
 		try {
 			em = factory.createEntityManager();
 			Query q = em.createQuery("SELECT u FROM User u WHERE u.inChannel = 1");
