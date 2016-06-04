@@ -1,7 +1,7 @@
 package se.skaro.workerbot.bot.commands;
 
-import org.pircbotx.hooks.events.MessageEvent;
+import org.kitteh.irc.client.library.event.channel.ChannelMessageEvent;
 
 public interface ICommand {
-    void call(String commandSyntax, MessageEvent event);
+    void call(ChannelMessageEvent event);
 }

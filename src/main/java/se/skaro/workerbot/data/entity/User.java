@@ -1,14 +1,24 @@
 package se.skaro.workerbot.data.entity;
 
+import java.util.Map;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.Type;
 
 @Entity
+@NamedQueries({
+@NamedQuery(name = "User.findAutoJoinChannels", query = "SELECT u.name from User u WHERE u.inChannel = 1"),
+//@NamedQuery(name = "User.getPrefixForUser", query = "SELECT u.prefix from User u WHERE u.name LIKE ?1")
+@NamedQuery (name ="User.findByIgnContains", query = "Select u from User u WHERE UPPER(u.ign) LIKE CONCAT('%', ?1, '%')")
+})
 public class User {
 	
 	@Id
@@ -32,6 +42,10 @@ public class User {
 	
 	@Column (name = "prefix", length = 1)
 	private String prefix;
+	
+	@Column (name = "commands")
+	@ElementCollection
+	private Map<String, Boolean> commands;
 
 	public long getId() {
 		return id;
