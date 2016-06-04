@@ -8,13 +8,13 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 
 import se.skaro.workerbot.bot.WorkerBotStartup;
 
 @SpringBootApplication
+@EnableCaching
 public class Application {
 
 	private static final String LOG4J_PATH_OPT = "log4jPath";
