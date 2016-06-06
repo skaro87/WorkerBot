@@ -18,7 +18,7 @@ public final class JpaRepository {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Card> findCardByFormatedName(String name) {
+	public static List<CardOLD> findCardByFormatedName(String name) {
 		try {
 			em = factory.createEntityManager();
 			Query q = em.createQuery("SELECT c FROM Card c WHERE UPPER(c.formatedName) LIKE (:name)");

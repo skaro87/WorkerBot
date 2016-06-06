@@ -3,7 +3,7 @@ package se.skaro.hextcgbot.twitchbot.commands;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.skaro.hextcgbot.model.Card;
+import se.skaro.hextcgbot.model.CardOLD;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.excpetions.SearchMessageToShortException;
 import se.skaro.hextcgbot.util.BotMessageType;
@@ -34,7 +34,7 @@ public class CardCommand extends AbstractCommand {
             throw new SearchMessageToShortException();
         }
 
-        List<Card> result = JpaRepository.findCardByFormatedName(name);
+        List<CardOLD> result = JpaRepository.findCardByFormatedName(name);
         if (result.isEmpty()) {
             messageSender.sendMessage(event, "No card with name '" + name + "' found", botMessageType);
             return;
@@ -43,7 +43,7 @@ public class CardCommand extends AbstractCommand {
             messageSender.sendMessage(event, result.get(0).toString(), botMessageType);
             return;
         }
-        for (Card card : result) {
+        for (CardOLD card : result) {
             if (card.getFormatedName().equalsIgnoreCase(name)) {
                 messageSender.sendMessage(event, card.toString(), botMessageType);
                 return;
@@ -53,7 +53,7 @@ public class CardCommand extends AbstractCommand {
         StringBuilder sb = new StringBuilder();
         sb.append("Found multiple cards: ");
         String separator = "";
-        for (Card card : result) {
+        for (CardOLD card : result) {
             sb.append(separator);
             sb.append(card.getName());
             separator = ", ";

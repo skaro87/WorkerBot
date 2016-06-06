@@ -45,7 +45,7 @@ public class User {
 	
 	@Column (name = "commands")
 	@ElementCollection
-	private Map<String, Boolean> commands;
+	private Map<String, String> commands;
 
 	public long getId() {
 		return id;

@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.skaro.hextcgbot.model.Card;
+import se.skaro.hextcgbot.model.CardOLD;
 import se.skaro.hextcgbot.repository.jpa.JpaRepository;
 import se.skaro.hextcgbot.twitchbot.TwitchBot;
 import se.skaro.hextcgbot.util.BotMessageType;
@@ -63,7 +63,7 @@ public class ImageCommand extends AbstractCommand {
 
 				} else {
 
-					List<Card> result = JpaRepository.findCardByFormatedName(name);
+					List<CardOLD> result = JpaRepository.findCardByFormatedName(name);
 					if (result.isEmpty()) {
 						messageSender.sendMessage(event, "No card with name '" + name + "' found", botMessageType);
 					}
@@ -75,7 +75,7 @@ public class ImageCommand extends AbstractCommand {
 					}
 					// more than one found.
 					else {
-						for (Card card : result) {
+						for (CardOLD card : result) {
 							if (card.getFormatedName().equalsIgnoreCase(name)) {
 								sendResponse(card, event, searchForAA);
 								return;
@@ -93,7 +93,7 @@ public class ImageCommand extends AbstractCommand {
 
 	}
 
-	private void sendResponse(Card card, MessageEvent event, boolean aa) {
+	private void sendResponse(CardOLD card, MessageEvent event, boolean aa) {
 
 		if (!event.getChannel().getName().endsWith(event.getUser().getNick())) {
 			String path = cardInfo(card, aa);
@@ -106,7 +106,7 @@ public class ImageCommand extends AbstractCommand {
 		}
 	}
 
-	private void sendURLCall(Card card, MessageEvent event, boolean aa) {
+	private void sendURLCall(CardOLD card, MessageEvent event, boolean aa) {
 		String urlCall = IMG_PLUGIN_URL.replace("USER", getUserNick(event));
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost post = new HttpPost(urlCall);
@@ -132,7 +132,7 @@ public class ImageCommand extends AbstractCommand {
 		}
 	}
 
-	private String cardInfo(Card card, boolean aa) {
+	private String cardInfo(CardOLD card, boolean aa) {
 
 		String name = card.getName().replaceAll(" ", "-").replaceAll("'", "-").replaceAll(",", "");
 

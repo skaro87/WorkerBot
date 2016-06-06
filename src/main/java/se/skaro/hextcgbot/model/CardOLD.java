@@ -13,8 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table (name="CARD")
-@NamedQuery(name = "Card.findAll", query = "SELECT c FROM Card c")
-public final class Card extends AbstractEntity implements Serializable {
+public final class CardOLD extends AbstractEntity implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -103,7 +102,7 @@ public final class Card extends AbstractEntity implements Serializable {
 	/**
 	 * Instantiates a new card.
 	 */
-	public Card() {
+	public CardOLD() {
 	}
 
 	/**

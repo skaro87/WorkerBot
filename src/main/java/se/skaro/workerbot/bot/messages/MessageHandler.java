@@ -26,8 +26,7 @@ public class MessageHandler {
 
 	@Handler
 	public void onMessage(ChannelMessageEvent event) {
-		System.out.println("message: " + event.getMessage() + ", channel: " + event.getChannel().getName());
-
+				
 		if (event.getMessage() != null && event.getChannel() != null && event.getActor() != null) {
 			String firstChar = event.getMessage().substring(0, 1);
 
