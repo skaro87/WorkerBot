@@ -22,7 +22,7 @@ public class Card {
 	@Column(name = "formated_name", nullable = false)
 	private String formatedName;
 
-	@Column(name = "uuid", nullable = false)
+	@Column(name = "card_uuid", nullable = false)
 	private String uuid;
 
 	@Column(name = "type", nullable = false)

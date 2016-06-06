@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.skaro.workerbot.bot.messages.MessageSender;
+import se.skaro.workerbot.businesslogic.UserLogic;
 import se.skaro.workerbot.data.entity.User;
 import se.skaro.workerbot.data.repository.UserRepository;
 
@@ -14,7 +15,7 @@ import se.skaro.workerbot.data.repository.UserRepository;
 public class TwitchNameCommand extends AbstractCommand {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserLogic userLogic;
 
 	public TwitchNameCommand() {
 		this.syntax = "whois"; // TODO: Name?
@@ -25,21 +26,7 @@ public class TwitchNameCommand extends AbstractCommand {
 
 		if (event != null) {
 			String message = trimMessage(event.getMessage());
-
-			List<User> users = userRepository.findByIgnContains(message);
-
-			if (users.isEmpty()) {
-				MessageSender.sendMessage(event, "No user with name " + message + " found");
-			} else {
-				
-				if (users.size() == 1){
-					MessageSender.sendMessage(event, "User "+message+" is "+users.get(0).getName() + " on twitch");
-				}
-				
-				else {
-					MessageSender.sendMessage(event, "Multiple users found");
-				}
-			}
+			MessageSender.sendMessage(event, userLogic.getTwitchNameFromIGN(message));
 
 		}
 
