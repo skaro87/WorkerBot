@@ -8,21 +8,21 @@ import se.skaro.workerbot.bot.messages.MessageSender;
 import se.skaro.workerbot.businesslogic.UserLogic;
 
 @Component
-public class WhisperSettingsCommand extends AbstractCommand {
+public class PrefixCommand extends AbstractCommand {
 	
+	public PrefixCommand() {
+		this.syntax = "prefix";
+	}
+
 	@Autowired
 	private UserLogic userLogic;
-	
-	public WhisperSettingsCommand() {
-		this.syntax = "whispers";
-	}
 
 	@Override
 	public void call(ChannelMessageEvent event) {
-		
+
 		if (event != null) {
-			String message = trimMessage(event.getMessage());
-			String reply = userLogic.updateWhisperSettings(getUsername(event), message);
+			String message = trimMessageWithoutRemovingNonAlphanumericalChars(event.getMessage());
+			String reply = userLogic.updatePrefix(getUsername(event), message);
 			MessageSender.sendMessage(event, reply);
 		}
 

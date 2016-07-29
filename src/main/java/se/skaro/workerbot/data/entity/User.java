@@ -46,6 +46,15 @@ public class User {
 	@Column (name = "commands")
 	@ElementCollection
 	private Map<String, String> commands;
+	
+	public User(){}
+
+	public User(String name, String ign, boolean inChannel, boolean whisperOn) {
+		this.name = name;
+		this.ign = ign;
+		this.inChannel = inChannel;
+		this.whisperOn = whisperOn;
+	}
 
 	public long getId() {
 		return id;
@@ -71,7 +80,17 @@ public class User {
 		return prefix;
 	}
 	
-	// More settings?
+	public void setPrefix(String prefix){
+		this.prefix = prefix;
+	}
+	
+	public void setWhispers(boolean whispers){
+		this.whisperOn = whispers;
+	}
+
+	public void setIGN(String ign) {
+		this.ign = ign;
+	}
 	
 	
 	

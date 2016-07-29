@@ -1,5 +1,7 @@
 package se.skaro.workerbot.bot.commands;
 
+import org.kitteh.irc.client.library.event.channel.ChannelMessageEvent;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractCommand.
@@ -29,6 +31,14 @@ public abstract class AbstractCommand implements ICommand {
 	 */
 	protected String trimMessage(String message){
 		return message.substring(1).replace(syntax, "").replaceAll("[^A-Za-z0-9 ]", "").trim();
+	}
+	
+	protected String trimMessageWithoutRemovingNonAlphanumericalChars(String message){
+		return message.substring(1).replace(syntax, "").trim();
+	}
+	
+	protected String getUsername(ChannelMessageEvent event){
+		return event.getActor().getNick();
 	}
 
 }

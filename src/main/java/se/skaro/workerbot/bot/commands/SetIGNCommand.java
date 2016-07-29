@@ -8,22 +8,22 @@ import se.skaro.workerbot.bot.messages.MessageSender;
 import se.skaro.workerbot.businesslogic.UserLogic;
 
 @Component
-public class WhisperSettingsCommand extends AbstractCommand {
-	
+public class SetIGNCommand extends AbstractCommand {
+
 	@Autowired
 	private UserLogic userLogic;
-	
-	public WhisperSettingsCommand() {
-		this.syntax = "whispers";
+
+	public SetIGNCommand() {
+		this.syntax = "setign";
 	}
 
 	@Override
 	public void call(ChannelMessageEvent event) {
-		
+
 		if (event != null) {
 			String message = trimMessage(event.getMessage());
-			String reply = userLogic.updateWhisperSettings(getUsername(event), message);
-			MessageSender.sendMessage(event, reply);
+			MessageSender.sendMessage(event, userLogic.setIGNForUser(getUsername(event), message));
+
 		}
 
 	}

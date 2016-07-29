@@ -51,10 +51,16 @@ public class BotCommands {
 	private LegendCommand legendCommand;
 	
 	@Autowired
+	private PrefixCommand prefixCommand;
+	
+	@Autowired
 	private PriceCommand priceCommand;
 	
 	@Autowired
 	private RatioCommand ratioCommand;
+	
+	@Autowired
+	private SetIGNCommand setIGNCommand;
 	
 	@Autowired
 	private TwitchNameCommand twitchNameCommand;
@@ -84,7 +90,9 @@ public class BotCommands {
 		commands.add(leaveCommand);
 		commands.add(legendCommand);
 		commands.add(priceCommand);
+		commands.add(prefixCommand);
 		commands.add(ratioCommand);
+		commands.add(setIGNCommand);
 		commands.add(twitchNameCommand);
 		commands.add(whisperSettingsCommand);
 
